@@ -21,6 +21,8 @@ import ch.openech.dancer.model.DanceEvent;
 
 public class DancerApplication extends Application {
 	
+	
+
 	@Override
 	public List<Action> getNavigation() {
 		ActionGroup actions = new ActionGroup("");
