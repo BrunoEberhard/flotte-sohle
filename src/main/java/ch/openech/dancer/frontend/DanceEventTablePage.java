@@ -33,6 +33,7 @@ public class DanceEventTablePage extends SimpleTableEditorPage<DanceEvent> {
 	protected Form<DanceEvent> createForm(boolean editable, boolean newObject) {
 		Form<DanceEvent> form = new Form<>(editable, 2);
 		form.line(DanceEvent.$.start);
+		form.line(new DanceEventPeriodFormElement(DanceEvent.$.danceEventPeriod, editable));
 		form.line(DanceEvent.$.title);
 		form.line(DanceEvent.$.description);
 		form.line(editable ? new ReferenceFormElement<>(DanceEvent.$.location, Location.$.name) : new TextFormElement(DanceEvent.$.location));

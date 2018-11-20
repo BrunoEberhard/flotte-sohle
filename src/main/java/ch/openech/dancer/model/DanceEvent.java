@@ -23,5 +23,7 @@ public class DanceEvent {
 	public Location location;
 	
 	public Recur recur;
+	
+	public final DanceEventPeriod danceEventPeriod = new DanceEventPeriod();
 
 }
