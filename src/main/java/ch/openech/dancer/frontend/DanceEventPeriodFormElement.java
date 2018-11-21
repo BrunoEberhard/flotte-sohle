@@ -26,14 +26,12 @@ public class DanceEventPeriodFormElement extends FormatFormElement<DanceEventPer
 
 	@Override
 	protected String getAllowedCharacters(PropertyInterface property) {
-		// TODO Auto-generated method stub
-		return null;
+		return "01234567890:-";
 	}
 
 	@Override
 	protected int getAllowedSize(PropertyInterface property) {
-		// TODO Auto-generated method stub
-		return 0;
+		return 11;
 	}
 
 	@Override
@@ -47,12 +45,12 @@ public class DanceEventPeriodFormElement extends FormatFormElement<DanceEventPer
 				return danceEventPeriod;
 			}
 		}
-		return null;
+		return new DanceEventPeriod();
 	}
 
 	@Override
 	protected String render(DanceEventPeriod value) {
-		if (value != null) {
+		if (value != null && value.from != null && value.until != null) {
 			return formatter.format(value.from) + "-" + formatter.format(value.until);
 		}
 		return null;

@@ -33,7 +33,7 @@ public class DanceEventTablePage extends SimpleTableEditorPage<DanceEvent> {
 	protected Form<DanceEvent> createForm(boolean editable, boolean newObject) {
 		Form<DanceEvent> form = new Form<>(editable, 2);
 		form.line(DanceEvent.$.start);
-		form.line(new DanceEventPeriodFormElement(DanceEvent.$.danceEventPeriod, editable));
+		form.line(new DanceEventPeriodFormElement(Keys.getProperty(DanceEvent.$.danceEventPeriod), editable));
 		form.line(DanceEvent.$.title);
 		form.line(DanceEvent.$.description);
 		form.line(editable ? new ReferenceFormElement<>(DanceEvent.$.location, Location.$.name) : new TextFormElement(DanceEvent.$.location));
@@ -42,6 +42,12 @@ public class DanceEventTablePage extends SimpleTableEditorPage<DanceEvent> {
 		return form;
 	}
 	
+	@Override
+	protected DanceEvent save(DanceEvent object) {
+		// TODO Auto-generated method stub
+		return super.save(object);
+	}
+
 	@Override
 	protected DanceEvent createObject() {
 		DanceEvent danceEvent = super.createObject();

@@ -6,7 +6,15 @@ import org.minimalj.security.model.User;
 import org.minimalj.security.model.UserRole;
 import org.minimalj.transaction.Transaction;
 
+import ch.openech.dancer.crawler.PasadenaCrawler;
+import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Organizer;
+
 public class DancerInitTransaction implements Transaction<Void> {
+
+	private static final long serialVersionUID = 1L;
+	
+	private final PasadenaCrawler pasadenaCrawler = new PasadenaCrawler();
 
 	@Override
 	public Void execute() {
@@ -19,6 +27,19 @@ public class DancerInitTransaction implements Transaction<Void> {
 			admin.roles.add(role);
 			Backend.insert(admin);
 		}
+		
+		Organizer organizer =  PasadenaCrawler.createOrganizer();
+		Location location =  PasadenaCrawler.createLocation();
+		organizer.id = Backend.insert(organizer);
+		location.id = Backend.insert(location);
+		
+		pasadenaCrawler.crawlEvents().forEach(danceEvent -> {
+			
+			danceEvent.location = location;
+			danceEvent.organizer = organizer;
+			Backend.insert(danceEvent);
+			
+		});
 		
 		return null;
 	}

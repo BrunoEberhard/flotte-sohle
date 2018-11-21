@@ -24,6 +24,7 @@ public class DanceEvent {
 	
 	public Recur recur;
 	
+	@NotEmpty
 	public final DanceEventPeriod danceEventPeriod = new DanceEventPeriod();
 
 }
