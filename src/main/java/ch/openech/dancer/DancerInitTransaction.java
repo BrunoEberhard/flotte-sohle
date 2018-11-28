@@ -1,9 +1,11 @@
 package ch.openech.dancer;
 
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+
 import org.minimalj.backend.Backend;
-import org.minimalj.repository.query.By;
-import org.minimalj.security.model.User;
-import org.minimalj.security.model.UserRole;
+import org.minimalj.repository.query.FieldCriteria;
 import org.minimalj.transaction.Transaction;
 
 import ch.openech.dancer.crawler.PasadenaCrawler;
@@ -18,20 +20,9 @@ public class DancerInitTransaction implements Transaction<Void> {
 
 	@Override
 	public Void execute() {
-		long adminCount = Backend.count(User.class, By.field(User.$.name, "admin"));
-		if (adminCount == 0) {
-			User admin = new User();
-			admin.name = "admin";
-			admin.password.setPassword("123456".toCharArray());
-			UserRole role = new UserRole("admin");
-			admin.roles.add(role);
-			Backend.insert(admin);
-		}
 		
-		Organizer organizer =  PasadenaCrawler.createOrganizer();
-		Location location =  PasadenaCrawler.createLocation();
-		organizer.id = Backend.insert(organizer);
-		location.id = Backend.insert(location);
+		Organizer organizer = initialize(PasadenaCrawler::createOrganizer, Organizer.class, Organizer.$.name, "Pasadena",(Organizer o, Object id) -> o.id = id);
+		Location location = initialize(PasadenaCrawler::createLocation, Location.class, Location.$.name, "Pasadena",(Location o, Object id) -> o.id = id);
 		
 		pasadenaCrawler.crawlEvents().forEach(danceEvent -> {
 			
@@ -42,6 +33,17 @@ public class DancerInitTransaction implements Transaction<Void> {
 		});
 		
 		return null;
+	}
+	
+	
+	private <T> T initialize (Supplier<T> supplier, Class<T> clazz, Object searchKey, String searchValue, BiConsumer<T, Object> biConsumer) {
+		List<T> resultList = Backend.find(clazz, new FieldCriteria(searchKey, searchValue));
+		if (resultList.isEmpty()) {
+			T newObject = supplier.get();
+			biConsumer.accept(newObject, Backend.insert(newObject));
+			return newObject;
+		}
+		return resultList.get(0);
 	}
 
 }

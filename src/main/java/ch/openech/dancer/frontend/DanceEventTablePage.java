@@ -18,7 +18,7 @@ import ch.openech.dancer.model.Organizer;
 
 public class DanceEventTablePage extends SimpleTableEditorPage<DanceEvent> {
 
-	private static final Object[] keys = new Object[] { DanceEvent.$.start, DanceEvent.$.title, DanceEvent.$.location.name, DanceEvent.$.organizer.name };
+	private static final Object[] keys = new Object[] { DanceEvent.$.start, DanceEvent.$.danceEventPeriod.from, DanceEvent.$.danceEventPeriod.until, DanceEvent.$.title, DanceEvent.$.organizer.name };
 	
 	public DanceEventTablePage() {
 		super(keys);
