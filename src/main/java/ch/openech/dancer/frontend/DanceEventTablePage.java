@@ -18,7 +18,7 @@ import ch.openech.dancer.model.Organizer;
 
 public class DanceEventTablePage extends SimpleTableEditorPage<DanceEvent> {
 
-	private static final Object[] keys = new Object[] { DanceEvent.$.start, DanceEvent.$.danceEventPeriod.from, DanceEvent.$.danceEventPeriod.until, DanceEvent.$.title, DanceEvent.$.organizer.name };
+	private static final Object[] keys = new Object[] { DanceEvent.$.start, DanceEvent.$.from, DanceEvent.$.until, DanceEvent.$.title, DanceEvent.$.organizer.name };
 	
 	public DanceEventTablePage() {
 		super(keys);
@@ -33,7 +33,7 @@ public class DanceEventTablePage extends SimpleTableEditorPage<DanceEvent> {
 	protected Form<DanceEvent> createForm(boolean editable, boolean newObject) {
 		Form<DanceEvent> form = new Form<>(editable, 2);
 		form.line(DanceEvent.$.start);
-		form.line(new DanceEventPeriodFormElement(Keys.getProperty(DanceEvent.$.danceEventPeriod), editable));
+		form.line(DanceEvent.$.from, DanceEvent.$.until);	
 		form.line(DanceEvent.$.title);
 		form.line(DanceEvent.$.description);
 		form.line(editable ? new ReferenceFormElement<>(DanceEvent.$.location, Location.$.name) : new TextFormElement(DanceEvent.$.location));
@@ -49,18 +49,23 @@ public class DanceEventTablePage extends SimpleTableEditorPage<DanceEvent> {
 	}
 
 	@Override
-	protected DanceEvent createObject() {
-		DanceEvent danceEvent = super.createObject();
-		return danceEvent;
-	}
-	
-	@Override
 	protected void validate(DanceEvent event, boolean newObject, List<ValidationMessage> validationMessages) {
 		if (newObject) {
 			if (event.start != null && event.start.isBefore(LocalDate.now())) {
 				validationMessages.add(new ValidationMessage(DanceEvent.$.start, "Muss in Zukunft liegen"));
 			}
 		}
+		validateTime(event, validationMessages);
 	}
+	
+	private void validateTime(DanceEvent event, List<ValidationMessage> validationMessages) {
+		if (event.from != null && event.until != null) {
+			if (event.from.isAfter(event.until)) {
+				validationMessages.add(new ValidationMessage(DanceEvent.$.from, "Von muss zeitlich vor bis sein"));
+			}
+		}
+	}
+	
+	
 	
 }

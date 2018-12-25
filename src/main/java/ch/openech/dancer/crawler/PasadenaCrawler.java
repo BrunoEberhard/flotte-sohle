@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.javatuples.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +17,6 @@ import org.jsoup.select.Elements;
 import org.minimalj.util.DateUtils;
 
 import ch.openech.dancer.model.DanceEvent;
-import ch.openech.dancer.model.DanceEventPeriod;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Organizer;
 
@@ -29,14 +29,16 @@ public class PasadenaCrawler implements DanceEventCrawler {
 		List<DanceEvent> danceEvents = new ArrayList<>();
 		Document doc;
 		try {
-			doc = Jsoup.connect(PASADENA_AGENDA_URL).get();
+			doc = Jsoup.connect(PASADENA_AGENDA_URL).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0").get();
 			Elements elements = doc.select("p[style]");
-			elements.stream().forEach(element -> {
+			elements.forEach(element -> {
 				
 				DanceEvent danceEvent = new DanceEvent();
 				danceEvent.start = extractLocalDate(element);
 				danceEvent.title = extractDanceEventTitle(element);
-				extractPeriod(element, danceEvent.danceEventPeriod);
+				Pair<LocalTime, LocalTime> period =  extractPeriod(element);
+				danceEvent.from = period.getValue0();
+				danceEvent.until = period.getValue1();
 				danceEvent.description = element.nextElementSibling().text();
 				
 				danceEvents.add(danceEvent);
@@ -47,17 +49,17 @@ public class PasadenaCrawler implements DanceEventCrawler {
 		return danceEvents;
 	}
 	
-	private void extractPeriod(Element element, DanceEventPeriod danceEventPeriod) {
+	private Pair<LocalTime, LocalTime> extractPeriod(Element element) {
 		if (element.childNodeSize() == 3) {
 			String period = element.childNode(2).toString();
 			if (period != null) {
 				String[] moments = period.split("bis");
 				if (moments.length == 2) {
-					danceEventPeriod.from = LocalTime.parse(moments[0].trim(), DateUtils.TIME_FORMAT);
-					danceEventPeriod.until = LocalTime.parse(moments[1].trim(), DateUtils.TIME_FORMAT);
+					return new Pair<>(LocalTime.parse(moments[0].trim(), DateUtils.TIME_FORMAT), LocalTime.parse(moments[1].trim(), DateUtils.TIME_FORMAT));
 				}
 			}
 		}
+		return null;
 	}
 	
 	private LocalDate extractLocalDate(Element element) {

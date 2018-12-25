@@ -1,6 +1,7 @@
 package ch.openech.dancer.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.minimalj.model.Keys;
 import org.minimalj.model.annotation.NotEmpty;
@@ -13,6 +14,13 @@ public class DanceEvent {
 	
 	@NotEmpty
 	public LocalDate start;
+	
+	@NotEmpty
+	public LocalTime from;
+	
+	@NotEmpty
+	public LocalTime until;
+	
 	@Size(100) @NotEmpty
 	public String title;
 	@Size(1000)
@@ -24,7 +32,4 @@ public class DanceEvent {
 	
 	public Recur recur;
 	
-	@NotEmpty
-	public final DanceEventPeriod danceEventPeriod = new DanceEventPeriod();
-
 }
