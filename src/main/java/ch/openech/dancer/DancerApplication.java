@@ -6,9 +6,8 @@ import org.minimalj.application.Application;
 import org.minimalj.application.Configuration;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
-import org.minimalj.frontend.impl.swing.Swing;
+import org.minimalj.frontend.impl.lanterna.Lanterna;
 import org.minimalj.frontend.page.PageAction;
-import org.minimalj.rest.RestServer;
 import org.minimalj.security.RepositoryAuthentication;
 import org.minimalj.security.Subject;
 import org.minimalj.security.model.User;
@@ -16,6 +15,8 @@ import org.minimalj.security.model.User;
 import ch.openech.dancer.frontend.DanceEventTablePage;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.frontend.OrganizerTablePage;
+import ch.openech.dancer.frontend.PasadenaCrawlerAction;
+import ch.openech.dancer.frontend.Time2DanceCrawlerAction;
 import ch.openech.dancer.frontend.UserTablePage;
 import ch.openech.dancer.model.DanceEvent;
 
@@ -32,6 +33,8 @@ public class DancerApplication extends Application {
 		if (Subject.currentHasRole("admin")) {
 			actions.add(new PageAction(new UserTablePage()));
 		}
+		actions.add(new PasadenaCrawlerAction());
+		actions.add(new Time2DanceCrawlerAction());
 		return actions.getItems();
 	}
 	
@@ -45,8 +48,9 @@ public class DancerApplication extends Application {
 		Configuration.set("MjInit", DancerInitTransaction.class.getName());
 		// Application.main(args);
 		Application application = new DancerApplication();
-		Swing.start(application);
-		RestServer.start(application);
+		// Swing.start(application);
+		Lanterna.start(application);
+		// RestServer.start(application);
 	}
 
 }
