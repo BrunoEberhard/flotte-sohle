@@ -1,52 +1,61 @@
-package ch.openech.dancer.crawler;
+package ch.openech.dancer.backend;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.MonthDay;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.javatuples.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.minimalj.backend.Backend;
+import org.minimalj.repository.query.By;
 import org.minimalj.util.DateUtils;
 
 import ch.openech.dancer.model.DanceEvent;
+import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Organizer;
 
-public class PasadenaCrawler implements DanceEventCrawler {
+public class PasadenaCrawler extends DanceEventCrawler {
+	private static final long serialVersionUID = 1L;
 
-	private static final String PASADENA_AGENDA_URL = "http://www.pasadena.ch/m/agenda/";
+	private static final String AGENDA_URL = "http://www.pasadena.ch/m/agenda/";
 
 	@Override
-	public List<DanceEvent> crawlEvents() {
-		List<DanceEvent> danceEvents = new ArrayList<>();
-		Document doc;
+	public int crawlEvents() {
 		try {
-			doc = Jsoup.connect(PASADENA_AGENDA_URL).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0").get();
+			Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
 			Elements elements = doc.select("p[style]");
 			elements.forEach(element -> {
-				
-				DanceEvent danceEvent = new DanceEvent();
-				danceEvent.start = extractLocalDate(element);
+				LocalDate date = extractLocalDate(element);
+				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
+						By.field(DanceEvent.$.organizer, organizer).and(By.field(DanceEvent.$.date, date)));
+
+				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
+
+				danceEvent.status = EventStatus.published;
+				danceEvent.date = date;
 				danceEvent.title = extractDanceEventTitle(element);
-				Pair<LocalTime, LocalTime> period =  extractPeriod(element);
+				Pair<LocalTime, LocalTime> period = extractPeriod(element);
 				danceEvent.from = period.getValue0();
 				danceEvent.until = period.getValue1();
 				danceEvent.description = element.nextElementSibling().text();
-				
-				danceEvents.add(danceEvent);
+				danceEvent.organizer = organizer;
+				danceEvent.location = location;
+
+				Backend.save(danceEvent);
 			});
+			return elements.size();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return 0;
 		}
-		return danceEvents;
 	}
 	
 	private Pair<LocalTime, LocalTime> extractPeriod(Element element) {
@@ -80,7 +89,8 @@ public class PasadenaCrawler implements DanceEventCrawler {
 		return null;
 	}
 	
-	public static Organizer createOrganizer() {
+	@Override
+	public Organizer createOrganizer() {
 		Organizer organizer = new Organizer();
 		organizer.country = "Schweiz";
 		organizer.address = "Chriesbaumstrasse 2";
@@ -90,7 +100,8 @@ public class PasadenaCrawler implements DanceEventCrawler {
 		return organizer;
 	}
 	
-	public static Location createLocation() {
+	@Override
+	public Location createLocation() {
 		Location location = new Location();
 		location.country = "Schweiz";
 		location.address = "Chriesbaumstrasse 2";
@@ -100,5 +111,4 @@ public class PasadenaCrawler implements DanceEventCrawler {
 		return location;
 	}
 	
-
 }

@@ -1,6 +1,8 @@
 package ch.openech.dancer.model;
 
 import java.math.BigDecimal;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.minimalj.model.Keys;
 import org.minimalj.model.Rendering;
@@ -20,8 +22,14 @@ public class Location implements Rendering {
 	
 	public BigDecimal latitude, longitude;
 
+	public DanceFloorSize danceFloorSize;
+
+	public Boolean school;
+
 	@Size(255)
 	public String url;
+
+	public final Set<Region> region = new TreeSet<>();
 
 	@Override
 	public CharSequence render() {
