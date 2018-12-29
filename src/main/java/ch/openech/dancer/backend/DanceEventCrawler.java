@@ -25,16 +25,12 @@ abstract class DanceEventCrawler implements Transaction<Integer> {
 
 	protected void initData() {
 		location = createLocation();
-		Optional<Location> locations = findOne(Location.class, new FieldCriteria(Location.$.name, location.name));
-		if (!locations.isPresent()) {
-			location = Backend.save(createLocation());
-		}
+		Optional<Location> existingLocation = findOne(Location.class, new FieldCriteria(Location.$.name, location.name));
+		location = existingLocation.orElseGet(() -> Backend.save(location));
 
 		organizer = createOrganizer();
-		Optional<Organizer> organizers = findOne(Organizer.class, new FieldCriteria(Organizer.$.name, organizer.name));
-		if (!organizers.isPresent()) {
-			organizer = Backend.save(createOrganizer());
-		}
+		Optional<Organizer> existingOrganizer = findOne(Organizer.class, new FieldCriteria(Organizer.$.name, organizer.name));
+		organizer = existingOrganizer.orElseGet(() -> Backend.save(organizer));
 	}
 
 	@Override
