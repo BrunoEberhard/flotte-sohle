@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import org.minimalj.model.Keys;
 import org.minimalj.model.Rendering;
 import org.minimalj.model.annotation.NotEmpty;
+import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
 
 public class Location implements Rendering {
@@ -14,7 +15,9 @@ public class Location implements Rendering {
 	
 	public Object id;
 	
-	@Size(255) @NotEmpty
+	@Size(255)
+	@NotEmpty
+	@Searched
 	public String name;
 	
 	@Size(60)
