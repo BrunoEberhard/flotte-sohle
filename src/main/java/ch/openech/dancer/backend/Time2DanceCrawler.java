@@ -39,7 +39,7 @@ public class Time2DanceCrawler extends DanceEventCrawler {
 					LocalDate date = extractLocalDate(element, monthText);
 					if (date != null) {
 						Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-								By.field(DanceEvent.$.organizer, organizer).and(By.field(DanceEvent.$.date, date)));
+								By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 						DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
@@ -49,7 +49,7 @@ public class Time2DanceCrawler extends DanceEventCrawler {
 						danceEvent.from = LocalTime.of(20, 0);
 						danceEvent.until = LocalTime.of(23, 59);
 						danceEvent.description = "Einmal im Monat laden wir dich ein zu unserem Tanzabend.";
-						danceEvent.organizer = organizer;
+						// danceEvent.organizer = organizer;
 						danceEvent.location = location;
 
 						Backend.save(danceEvent);

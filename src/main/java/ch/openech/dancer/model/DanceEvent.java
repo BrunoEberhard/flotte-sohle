@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.minimalj.model.Keys;
+import org.minimalj.model.Rendering;
 import org.minimalj.model.annotation.NotEmpty;
 import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
@@ -24,8 +25,16 @@ public class DanceEvent {
 	public LocalDate date;
 	
 	@NotEmpty
+	@Size(Size.TIME_HH_MM)
 	public LocalTime from, until;
 	
+	public String getFromUntil() {
+		if (Keys.isKeyObject(this))
+			return Keys.methodOf(this, "fromUntil");
+
+		return Rendering.render(from) + " - " + Rendering.render(until);
+	}
+
 	@Size(100)
 	@NotEmpty
 	@Searched
@@ -34,12 +43,11 @@ public class DanceEvent {
 	@Searched
 	public String description;
 	
-	public Organizer organizer;
-	
+	public byte[] flyer;
+
 	public Location location;
 	
 	public final Set<EventTag> tags = new TreeSet<>();
-	public Recur recur;
 	
 	public final List<DanceFloor> floors = new ArrayList<>();
 }
