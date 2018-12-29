@@ -35,7 +35,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 			elements.forEach(element -> {
 				LocalDate date = extractLocalDate(element);
 				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-						By.field(DanceEvent.$.organizer, organizer).and(By.field(DanceEvent.$.date, date)));
+						By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
@@ -46,7 +46,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 				danceEvent.from = period.getValue0();
 				danceEvent.until = period.getValue1();
 				danceEvent.description = element.nextElementSibling().text();
-				danceEvent.organizer = organizer;
+				// danceEvent.organizer = organizer;
 				danceEvent.location = location;
 
 				Backend.save(danceEvent);
