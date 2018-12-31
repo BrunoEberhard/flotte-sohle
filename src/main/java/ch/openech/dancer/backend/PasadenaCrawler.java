@@ -91,7 +91,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 	private String extractDanceEventTitle(Element paragraphElement) {
 		Elements elements = paragraphElement.nextElementSibling().getElementsByTag("h3");
 		if (elements != null && !elements.isEmpty()) {
-			return elements.get(0).ownText();
+			return elements.get(0).childNode(0).attr("title");
 		}
 		return null;
 	}
