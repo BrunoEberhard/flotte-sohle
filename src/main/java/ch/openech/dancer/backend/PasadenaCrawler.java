@@ -25,7 +25,7 @@ import ch.openech.dancer.model.Organizer;
 public class PasadenaCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "http://www.pasadena.ch/m/agenda/";
+	private static final String AGENDA_URL = "http://www.pasadena.ch/agendanews/";
 
 	@Override
 	public int crawlEvents() {
@@ -33,23 +33,25 @@ public class PasadenaCrawler extends DanceEventCrawler {
 			Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
 			Elements elements = doc.select("p[style]");
 			elements.forEach(element -> {
-				LocalDate date = extractLocalDate(element);
-				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-						By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
+				if (!isSimpleElement(element)) {
+					LocalDate date = extractLocalDate(element);
+					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
+							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
+					DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-				danceEvent.status = EventStatus.published;
-				danceEvent.date = date;
-				danceEvent.title = extractDanceEventTitle(element);
-				Pair<LocalTime, LocalTime> period = extractPeriod(element);
-				danceEvent.from = period.getValue0();
-				danceEvent.until = period.getValue1();
-				danceEvent.description = element.nextElementSibling().text();
-				// danceEvent.organizer = organizer;
-				danceEvent.location = location;
+					danceEvent.status = EventStatus.published;
+					danceEvent.date = date;
+					danceEvent.title = extractDanceEventTitle(element);
+					Pair<LocalTime, LocalTime> period = extractPeriod(element);
+					danceEvent.from = period.getValue0();
+					danceEvent.until = period.getValue1();
+					danceEvent.description = element.nextElementSibling().text();
+					// danceEvent.organizer = organizer;
+					danceEvent.location = location;
 
-				Backend.save(danceEvent);
+					Backend.save(danceEvent);
+				}
 			});
 			return elements.size();
 		} catch (IOException e) {
@@ -57,20 +59,25 @@ public class PasadenaCrawler extends DanceEventCrawler {
 			return 0;
 		}
 	}
-	
+
+	private boolean isSimpleElement(Element element) {
+		return element.nextElementSibling() == null || element.childNodeSize() != 3;
+	}
+
 	private Pair<LocalTime, LocalTime> extractPeriod(Element element) {
 		if (element.childNodeSize() == 3) {
 			String period = element.childNode(2).toString();
 			if (period != null) {
 				String[] moments = period.split("bis");
 				if (moments.length == 2) {
-					return new Pair<>(LocalTime.parse(moments[0].trim(), DateUtils.TIME_FORMAT), LocalTime.parse(moments[1].trim(), DateUtils.TIME_FORMAT));
+					return new Pair<>(LocalTime.parse(moments[0].trim(), DateUtils.TIME_FORMAT),
+							LocalTime.parse(moments[1].trim(), DateUtils.TIME_FORMAT));
 				}
 			}
 		}
 		return null;
 	}
-	
+
 	private LocalDate extractLocalDate(Element element) {
 		Element dateTag = element.child(0);
 		if (dateTag != null) {
@@ -80,7 +87,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 		}
 		return null;
 	}
-	
+
 	private String extractDanceEventTitle(Element paragraphElement) {
 		Elements elements = paragraphElement.nextElementSibling().getElementsByTag("h3");
 		if (elements != null && !elements.isEmpty()) {
@@ -88,7 +95,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Organizer createOrganizer() {
 		Organizer organizer = new Organizer();
@@ -99,7 +106,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 		organizer.url = "http://www.pasadena.ch";
 		return organizer;
 	}
-	
+
 	@Override
 	public Location createLocation() {
 		Location location = new Location();
@@ -110,5 +117,5 @@ public class PasadenaCrawler extends DanceEventCrawler {
 		location.url = "http://www.pasadena.ch";
 		return location;
 	}
-	
+
 }
