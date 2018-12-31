@@ -6,7 +6,7 @@ import org.minimalj.application.Application;
 import org.minimalj.application.Configuration;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
-import org.minimalj.frontend.impl.lanterna.Lanterna;
+import org.minimalj.frontend.impl.swing.Swing;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.security.RepositoryAuthentication;
 import org.minimalj.security.Subject;
@@ -48,8 +48,8 @@ public class DancerApplication extends Application {
 		Configuration.set("MjInit", DancerInitTransaction.class.getName());
 		// Application.main(args);
 		Application application = new DancerApplication();
-		// Swing.start(application);
-		Lanterna.start(application);
+		 Swing.start(application);
+		//Lanterna.start(application);
 		// RestServer.start(application);
 	}
 

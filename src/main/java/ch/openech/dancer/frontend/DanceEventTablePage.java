@@ -87,7 +87,7 @@ public class DanceEventTablePage extends SimpleTableEditorPage<DanceEvent> {
 		form.line(DanceEvent.$.from, DanceEvent.$.until);
 		form.line(DanceEvent.$.title);
 		form.line(DanceEvent.$.description);
-		form.line(new ImageFormElement(DanceEvent.$.flyer, editable, 3));
+		form.line(new ImageFormElement(DanceEvent.$.flyer, 3));
 		form.line(editable ? new ReferenceFormElement<>(DanceEvent.$.location, Location.$.name) : new TextFormElement(DanceEvent.$.location));
 		// form.line(editable ? new ReferenceFormElement<>(DanceEvent.$.organizer,
 		// Organizer.$.name) : new TextFormElement(DanceEvent.$.organizer));
