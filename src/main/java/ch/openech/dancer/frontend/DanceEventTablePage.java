@@ -7,8 +7,7 @@ import org.minimalj.frontend.Frontend.FormContent;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.ImageFormElement;
 import org.minimalj.frontend.form.element.TextFormElement;
-import org.minimalj.frontend.page.Page;
-import org.minimalj.frontend.page.TableDetailPage;
+import org.minimalj.frontend.page.TableFormPage;
 import org.minimalj.model.Keys;
 import org.minimalj.model.annotation.Size;
 import org.minimalj.repository.query.By;
@@ -16,7 +15,7 @@ import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.model.DanceEvent;
 
-public class DanceEventTablePage extends TableDetailPage<DanceEvent> {
+public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 
 	private static final Object[] KEYS = new Object[] { DanceEvent.$.date, DanceEvent.$.getFromUntil(), DanceEvent.$.title, DanceEvent.$.location.name };
 
@@ -51,11 +50,6 @@ public class DanceEventTablePage extends TableDetailPage<DanceEvent> {
 		} else {
 			return Backend.find(DanceEvent.class, By.ALL);
 		}
-	}
-
-	@Override
-	protected Page getDetailPage(DanceEvent event) {
-		return new FormDetailPage(createForm(), event);
 	}
 
 	protected Form<DanceEvent> createForm() {
