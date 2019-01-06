@@ -12,6 +12,8 @@ import org.minimalj.security.RepositoryAuthentication;
 import org.minimalj.security.Subject;
 import org.minimalj.security.model.User;
 
+import ch.openech.dancer.frontend.DanceCubeAction;
+import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventTablePage;
 import ch.openech.dancer.frontend.ElSocialRuleAction;
 import ch.openech.dancer.frontend.LocationTablePage;
@@ -32,6 +34,8 @@ public class DancerApplication extends Application {
 		ActionGroup actions = new ActionGroup("");
 
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
+			actions.add(new PageAction(new DanceEventAdminTablePage()));
+
 			ActionGroup admin = actions.addGroup("Admin");
 			admin.add(new PageAction(new OrganizerTablePage()));
 			admin.add(new PageAction(new LocationTablePage()));
@@ -40,10 +44,10 @@ public class DancerApplication extends Application {
 			crawler.add(new PasadenaCrawlerAction());
 			crawler.add(new Time2DanceCrawlerAction());
 			crawler.add(new ElSocialRuleAction());
+			crawler.add(new DanceCubeAction());
 		} else if (Subject.currentHasRole(DancerRoles.organizer.name())) {
 
 		} else {
-			// Guest, show all events
 			actions.add(new PageAction(new DanceEventTablePage()));
 		}
 		return actions.getItems();
