@@ -61,6 +61,8 @@ public class DancerApplication extends Application {
 		Application application = new DancerApplication();
 		// Swing.start(application);
 		// Lanterna.start(application);
+		// Swing.start(application);
+		//Lanterna.start(application);
 		// RestServer.start(application);
 		WebServer.start(application);
 	}

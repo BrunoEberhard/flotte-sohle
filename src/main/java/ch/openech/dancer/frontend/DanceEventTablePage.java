@@ -60,6 +60,10 @@ public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 		form.line(DanceEvent.$.description);
 		form.line(new ImageFormElement(DanceEvent.$.flyer, Form.READ_ONLY, 3));
 		form.line(new TextFormElement(DanceEvent.$.location));
+		// form.line(editable ? new ReferenceFormElement<>(DanceEvent.$.organizer,
+		// Organizer.$.name) : new TextFormElement(DanceEvent.$.organizer));
+		// form.line(new RecurFormElement(Keys.getProperty(DanceEvent.$.recur),
+		// editable));
 		form.line(DanceEvent.$.tags);
 		form.line(DanceEvent.$.status);
 		return form;
