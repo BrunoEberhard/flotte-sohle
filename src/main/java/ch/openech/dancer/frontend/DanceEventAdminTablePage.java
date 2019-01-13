@@ -49,7 +49,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 	@Override
 	protected Form<DanceEvent> createForm(boolean editable, boolean newObject) {
 		Form<DanceEvent> form = new Form<>(editable, 2);
-		form.line(DanceEvent.$.date);
+		form.line(DanceEvent.$.date, new TextFormElement(DanceEvent.$.getDayOfWeek()));
 		form.line(DanceEvent.$.from, DanceEvent.$.until);
 		form.line(DanceEvent.$.title);
 		form.line(DanceEvent.$.description);

@@ -54,7 +54,7 @@ public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 
 	protected Form<DanceEvent> createForm() {
 		Form<DanceEvent> form = new Form<>(Form.READ_ONLY, 2);
-		form.line(DanceEvent.$.date);
+		form.line(DanceEvent.$.date, DanceEvent.$.getDayOfWeek());
 		form.line(DanceEvent.$.from, DanceEvent.$.until);
 		form.line(DanceEvent.$.title);
 		form.line(DanceEvent.$.description);
