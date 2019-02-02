@@ -68,15 +68,6 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 				validationMessages.add(new ValidationMessage(DanceEvent.$.date, "Muss in Zukunft liegen"));
 			}
 		}
-		validateTime(event, validationMessages);
-	}
-
-	private void validateTime(DanceEvent event, List<ValidationMessage> validationMessages) {
-		if (event.from != null && event.until != null) {
-			if (event.from.isAfter(event.until)) {
-				validationMessages.add(new ValidationMessage(DanceEvent.$.from, "Von muss zeitlich vor bis sein"));
-			}
-		}
 	}
 
 }

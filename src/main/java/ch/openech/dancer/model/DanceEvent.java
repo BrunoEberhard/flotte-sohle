@@ -11,6 +11,7 @@ import java.util.TreeSet;
 
 import org.minimalj.model.Keys;
 import org.minimalj.model.Rendering;
+import org.minimalj.model.annotation.Materialized;
 import org.minimalj.model.annotation.NotEmpty;
 import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
@@ -30,6 +31,18 @@ public class DanceEvent {
 	@NotEmpty
 	@Size(Size.TIME_HH_MM)
 	public LocalTime from, until;
+
+	@Materialized
+	public Boolean getDuringTheDay() {
+		if (Keys.isKeyObject(this))
+			return Keys.methodOf(this, "duringTheDay");
+
+		return isDuringTheDay(until);
+	}
+
+	public static boolean isDuringTheDay(LocalTime time) {
+		return time != null && time.isBefore(LocalTime.of(18, 0));
+	}
 	
 	public String getFromUntil() {
 		if (Keys.isKeyObject(this))

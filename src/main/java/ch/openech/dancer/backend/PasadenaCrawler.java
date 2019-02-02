@@ -35,15 +35,18 @@ public class PasadenaCrawler extends DanceEventCrawler {
 			elements.forEach(element -> {
 				if (!isSimpleElement(element)) {
 					LocalDate date = extractLocalDate(element);
+					Pair<LocalTime, LocalTime> period = extractPeriod(element);
+					boolean duringTheDay = DanceEvent.isDuringTheDay(period.getValue1());
+
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
+							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date))
+									.and(By.field(DanceEvent.$.getDuringTheDay(), duringTheDay)));
 
 					DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
 					danceEvent.status = EventStatus.published;
 					danceEvent.date = date;
 					danceEvent.title = extractDanceEventTitle(element);
-					Pair<LocalTime, LocalTime> period = extractPeriod(element);
 					danceEvent.from = period.getValue0();
 					danceEvent.until = period.getValue1();
 					danceEvent.description = element.nextElementSibling().text();

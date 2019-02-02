@@ -12,14 +12,11 @@ import org.minimalj.security.RepositoryAuthentication;
 import org.minimalj.security.Subject;
 import org.minimalj.security.model.User;
 
-import ch.openech.dancer.frontend.DanceCubeAction;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventTablePage;
-import ch.openech.dancer.frontend.ElSocialRuleAction;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.frontend.OrganizerTablePage;
-import ch.openech.dancer.frontend.PasadenaCrawlerAction;
-import ch.openech.dancer.frontend.Time2DanceCrawlerAction;
+import ch.openech.dancer.frontend.StartCrawlerAction;
 import ch.openech.dancer.frontend.UserTablePage;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.UserDeeJay;
@@ -40,11 +37,7 @@ public class DancerApplication extends Application {
 			admin.add(new PageAction(new OrganizerTablePage()));
 			admin.add(new PageAction(new LocationTablePage()));
 			admin.add(new PageAction(new UserTablePage()));
-			ActionGroup crawler = actions.addGroup("Crawler");
-			crawler.add(new PasadenaCrawlerAction());
-			crawler.add(new Time2DanceCrawlerAction());
-			crawler.add(new ElSocialRuleAction());
-			crawler.add(new DanceCubeAction());
+			admin.add(new StartCrawlerAction());
 		} else if (Subject.currentHasRole(DancerRoles.organizer.name())) {
 
 		} else {
