@@ -1,5 +1,6 @@
 package ch.openech.dancer.model;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,6 +12,7 @@ import java.util.TreeSet;
 
 import org.minimalj.model.Keys;
 import org.minimalj.model.Rendering;
+import org.minimalj.model.annotation.Decimal;
 import org.minimalj.model.annotation.Materialized;
 import org.minimalj.model.annotation.NotEmpty;
 import org.minimalj.model.annotation.Searched;
@@ -71,6 +73,10 @@ public class DanceEvent {
 	@Searched
 	public String description;
 	
+	@Size(5)
+	@Decimal(2)
+	public BigDecimal price, priceReduced, priceWithWorkshop;
+
 	public byte[] flyer;
 
 	public Location location;

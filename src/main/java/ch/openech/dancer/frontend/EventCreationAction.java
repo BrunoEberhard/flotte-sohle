@@ -1,14 +1,19 @@
 package ch.openech.dancer.frontend;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.minimalj.backend.Backend;
+import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.editor.Editor.NewObjectEditor;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.CheckBoxFormElement;
 import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElementProperty;
+import org.minimalj.util.resources.Resources;
 
+import ch.openech.dancer.backend.AnlikerTanzRule;
 import ch.openech.dancer.backend.DanceCubeImport;
 import ch.openech.dancer.backend.DanceEventCrawler;
 import ch.openech.dancer.backend.DanceInnCrawler;
@@ -19,7 +24,7 @@ import ch.openech.dancer.backend.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.Tanzwerk101Rule;
 import ch.openech.dancer.backend.Time2DanceCrawler;
 
-public class StartCrawlerAction extends NewObjectEditor<Set<DanceEventCrawler>> {
+public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>> {
 
 	public static final Set<DanceEventCrawler> crawlers = new HashSet<>();
 
@@ -32,6 +37,12 @@ public class StartCrawlerAction extends NewObjectEditor<Set<DanceEventCrawler>> 
 		crawlers.add(new TanzenMitHerzCrawler());
 		crawlers.add(new Tanzwerk101Rule());
 		crawlers.add(new Time2DanceCrawler());
+		crawlers.add(new AnlikerTanzRule());
+	}
+
+	@Override
+	protected List<Action> createAdditionalActions() {
+		return Collections.singletonList(new AllNoneAction());
 	}
 
 	@Override
@@ -45,11 +56,35 @@ public class StartCrawlerAction extends NewObjectEditor<Set<DanceEventCrawler>> 
 
 	@Override
 	public Form<Set<DanceEventCrawler>> createForm() {
-		Form<Set<DanceEventCrawler>> form = new Form<>(true);
+		Form<Set<DanceEventCrawler>> form = new Form<>(Form.EDITABLE, 2);
+		org.minimalj.frontend.form.element.FormElement<?> leftElement = null;
 		for (Object object : crawlers) {
-			form.lineWithoutCaption(new CheckBoxFormElement(new SetElementFormElementProperty(object), object.toString(), true));
+			String text = Resources.getString(object.getClass().getSimpleName(), Resources.OPTIONAL);
+			String caption = text != null ? text : object.toString();
+			if (leftElement != null) {
+				form.line(leftElement, new CheckBoxFormElement(new SetElementFormElementProperty(object), caption, true, false));
+				leftElement = null;
+			} else {
+				leftElement = new CheckBoxFormElement(new SetElementFormElementProperty(object), caption, true, false);
+			}
+		}
+		if (leftElement != null) {
+			form.line(leftElement);
 		}
 		return form;
+	}
+
+	private class AllNoneAction extends Action {
+		@Override
+		public void action() {
+			Set<DanceEventCrawler> set = getObject();
+			if (set.size() < crawlers.size() / 2) {
+				set.addAll(crawlers);
+			} else {
+				set.clear();
+			}
+			objectChanged();
+		}
 	}
 
 	@Override

@@ -45,9 +45,9 @@ public class UserTablePage extends SimpleTableEditorPage<User> {
 		} else {
 			form.line(new TextFormElement(User.$.name));
 		}
-		form.text("Rollen");
+		form.line("Rollen");
 		for (DancerRoles r : DancerRoles.values()) {
-			form.lineWithoutCaption(new CheckBoxFormElement(new EnumSetFormElementProperty(r), EnumUtils.getText(r), true));
+			form.line(new CheckBoxFormElement(new EnumSetFormElementProperty(r), EnumUtils.getText(r), true, false));
 		}
 		return form;
 	}
