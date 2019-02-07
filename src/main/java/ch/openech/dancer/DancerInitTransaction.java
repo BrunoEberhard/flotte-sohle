@@ -5,6 +5,9 @@ import org.minimalj.repository.query.By;
 import org.minimalj.security.model.User;
 import org.minimalj.security.model.UserRole;
 import org.minimalj.transaction.Transaction;
+import org.minimalj.util.CsvReader;
+
+import ch.openech.dancer.model.DeeJay;
 
 public class DancerInitTransaction implements Transaction<Void> {
 
@@ -19,6 +22,11 @@ public class DancerInitTransaction implements Transaction<Void> {
 			user.roles.add(new UserRole("admin"));
 			user.password.setPassword("admin".toCharArray());
 			Backend.insert(user);
+		}
+
+		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/dancer/data/deejays.csv"));
+		for (DeeJay deeJay : reader.readValues(DeeJay.class)) {
+			Backend.insert(deeJay);
 		}
 
 		return null;

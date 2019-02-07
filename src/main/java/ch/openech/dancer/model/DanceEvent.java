@@ -81,6 +81,8 @@ public class DanceEvent {
 
 	public Location location;
 	
+	public DeeJay deeJay, deeJay2;
+
 	public final Set<EventTag> tags = new TreeSet<>();
 	
 	public final List<DanceFloor> floors = new ArrayList<>();

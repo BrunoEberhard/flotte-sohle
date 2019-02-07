@@ -1,0 +1,33 @@
+package ch.openech.dancer.frontend;
+
+import java.util.List;
+
+import org.minimalj.backend.Backend;
+import org.minimalj.frontend.form.Form;
+import org.minimalj.frontend.page.SimpleTableEditorPage;
+import org.minimalj.repository.query.By;
+
+import ch.openech.dancer.model.DeeJay;
+
+public class DeeJayTablePage extends SimpleTableEditorPage<DeeJay> {
+
+	private static final Object[] keys = new Object[] { DeeJay.$.name, DeeJay.$.url };
+	
+	public DeeJayTablePage() {
+		super(keys);
+	}
+	
+	@Override
+	protected List<DeeJay> load() {
+		return Backend.find(DeeJay.class, By.ALL);
+	}
+
+	@Override
+	protected Form<DeeJay> createForm(boolean editable, boolean newObject) {
+		Form<DeeJay> form = new Form<>(editable, 2);
+		form.line(DeeJay.$.name);
+		form.line(DeeJay.$.url);
+		return form;
+	}
+	
+}

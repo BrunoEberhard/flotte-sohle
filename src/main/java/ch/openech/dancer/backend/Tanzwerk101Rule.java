@@ -9,6 +9,7 @@ import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
+import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Organizer;
@@ -22,6 +23,8 @@ public class Tanzwerk101Rule extends DanceEventCrawler {
 		while (start.getDayOfWeek() != DayOfWeek.TUESDAY) {
 			start = start.plusDays(1);
 		}
+
+		DeeJay deeJayJanosch = Backend.find(DeeJay.class, By.field(DeeJay.$.name, "DJ Janosch")).get(0);
 
 		int generated = 0;
 		for (int i = 0; i < 12; i++) {
@@ -41,6 +44,7 @@ public class Tanzwerk101Rule extends DanceEventCrawler {
 				danceEvent.until = LocalTime.of(23, 0);
 				danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";
 				danceEvent.location = location;
+				danceEvent.deeJay = deeJayJanosch;
 
 				Backend.save(danceEvent);
 				generated++;

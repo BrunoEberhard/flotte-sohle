@@ -14,9 +14,10 @@ import org.minimalj.security.model.User;
 
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventTablePage;
+import ch.openech.dancer.frontend.DeeJayTablePage;
+import ch.openech.dancer.frontend.EventCreationAction;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.frontend.OrganizerTablePage;
-import ch.openech.dancer.frontend.EventCreationAction;
 import ch.openech.dancer.frontend.UserTablePage;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.UserDeeJay;
@@ -34,9 +35,10 @@ public class DancerApplication extends Application {
 			actions.add(new PageAction(new DanceEventAdminTablePage()));
 
 			ActionGroup admin = actions.addGroup("Admin");
-			admin.add(new PageAction(new OrganizerTablePage()));
-			admin.add(new PageAction(new LocationTablePage()));
-			admin.add(new PageAction(new UserTablePage()));
+			admin.add(new OrganizerTablePage());
+			admin.add(new LocationTablePage());
+			admin.add(new DeeJayTablePage());
+			admin.add(new UserTablePage());
 			admin.add(new EventCreationAction());
 		} else if (Subject.currentHasRole(DancerRoles.organizer.name())) {
 
