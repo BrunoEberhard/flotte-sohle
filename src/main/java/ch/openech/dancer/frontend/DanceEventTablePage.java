@@ -17,8 +17,9 @@ import ch.openech.dancer.model.DanceEvent;
 
 public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 
-	private static final Object[] KEYS = new Object[] { DanceEvent.$.getDayOfWeek(), DanceEvent.$.date, DanceEvent.$.getFromUntil(), DanceEvent.$.title,
-			DanceEvent.$.location.name, DanceEvent.$.deeJay.name };
+	private static final Object[] KEYS = new Object[] { DanceEvent.$.getDayOfWeek(), DanceEvent.$.date, DanceEvent.$.title, DanceEvent.$.location.name,
+			DanceEvent.$.location.city, DanceEvent.$.getFromUntil(),
+			 DanceEvent.$.deeJay.name };
 
 	public DanceEventTablePage() {
 		super(KEYS);
@@ -47,9 +48,9 @@ public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 	@Override
 	protected List<DanceEvent> load() {
 		if (!StringUtils.isEmpty(filter.filter)) {
-			return Backend.find(DanceEvent.class, By.search(filter.filter));
+			return Backend.find(DanceEvent.class, By.search(filter.filter).order(DanceEvent.$.date));
 		} else {
-			return Backend.find(DanceEvent.class, By.ALL);
+			return Backend.find(DanceEvent.class, By.all().order(DanceEvent.$.date));
 		}
 	}
 

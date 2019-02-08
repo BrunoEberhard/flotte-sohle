@@ -35,7 +35,7 @@ public class DanceEventLocationTablePage extends SimpleTableEditorPage<DanceEven
 
 	@Override
 	protected List<DanceEvent> load() {
-		return Backend.find(DanceEvent.class, By.field(DanceEvent.$.location, location));
+		return Backend.find(DanceEvent.class, By.field(DanceEvent.$.location, location).order(DanceEvent.$.date));
 	}
 
 	@Override

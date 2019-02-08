@@ -34,7 +34,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 
 	@Override
 	protected List<DanceEvent> load() {
-		return Backend.find(DanceEvent.class, By.ALL);
+		return Backend.find(DanceEvent.class, By.all().order(DanceEvent.$.date));
 	}
 
 	@Override
