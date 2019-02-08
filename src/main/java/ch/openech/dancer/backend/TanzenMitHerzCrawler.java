@@ -19,7 +19,6 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
-import ch.openech.dancer.model.Organizer;
 
 public class TanzenMitHerzCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -78,17 +77,6 @@ public class TanzenMitHerzCrawler extends DanceEventCrawler {
 			e.printStackTrace();
 			return 0;
 		}
-	}
-
-	@Override
-	public Organizer createOrganizer() {
-		Organizer organizer = new Organizer();
-		organizer.country = "Schweiz";
-		organizer.address = "Zürichstrasse 38";
-		organizer.city = "8306 Brüttisellen";
-		organizer.name = "Tanzen mit Herz";
-		organizer.url = "https://www.tanzenmitherz.ch";
-		return organizer;
 	}
 
 	@Override

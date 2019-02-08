@@ -12,7 +12,6 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
-import ch.openech.dancer.model.Organizer;
 
 public class DanceCubeImport extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -43,17 +42,6 @@ public class DanceCubeImport extends DanceEventCrawler {
 			}
 		}
 		return count;
-	}
-
-	@Override
-	protected Organizer createOrganizer() {
-		Organizer organizer = new Organizer();
-		organizer.country = "Schweiz";
-		organizer.address = "Gewerbestrasse 4";
-		organizer.city = "9445 Rebstein";
-		organizer.name = "DanceCube";
-		organizer.url = "http://www.dancecube.ch";
-		return organizer;
 	}
 
 	@Override

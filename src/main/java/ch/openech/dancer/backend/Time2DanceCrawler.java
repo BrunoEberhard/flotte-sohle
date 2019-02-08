@@ -19,7 +19,6 @@ import org.minimalj.repository.query.By;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
-import ch.openech.dancer.model.Organizer;
 
 public class Time2DanceCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -75,17 +74,7 @@ public class Time2DanceCrawler extends DanceEventCrawler {
 		}
 		return null;
 	}
-	
-	@Override
-	public Organizer createOrganizer() {
-		Organizer organizer = new Organizer();
-		organizer.country = "Schweiz";
-		organizer.address = "Binzstrasse 9";
-		organizer.city = "8045 Zürich";
-		organizer.name = "time2dance";
-		organizer.url = "http://www.time2dance.ch";
-		return organizer;
-	}
+
 	
 	@Override
 	public Location createLocation() {

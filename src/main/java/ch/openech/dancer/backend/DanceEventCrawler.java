@@ -9,14 +9,12 @@ import org.minimalj.repository.query.Query;
 import org.minimalj.transaction.Transaction;
 
 import ch.openech.dancer.model.Location;
-import ch.openech.dancer.model.Organizer;
 
 public abstract class DanceEventCrawler implements Transaction<Integer> {
 	private static final long serialVersionUID = 1L;
 
 	protected static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0";
 
-	protected transient Organizer organizer;
 	protected transient Location location;
 
 	public static <T> Optional<T> findOne(Class<T> clazz, Query query) {
@@ -40,8 +38,6 @@ public abstract class DanceEventCrawler implements Transaction<Integer> {
 	}
 	
 	public abstract int crawlEvents();
-
-	protected abstract Organizer createOrganizer();
 
 	protected abstract Location createLocation();
 

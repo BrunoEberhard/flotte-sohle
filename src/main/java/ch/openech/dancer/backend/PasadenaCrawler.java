@@ -20,7 +20,6 @@ import org.minimalj.util.DateUtils;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
-import ch.openech.dancer.model.Organizer;
 
 public class PasadenaCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -97,17 +96,6 @@ public class PasadenaCrawler extends DanceEventCrawler {
 			return elements.get(0).childNode(0).attr("title");
 		}
 		return null;
-	}
-
-	@Override
-	public Organizer createOrganizer() {
-		Organizer organizer = new Organizer();
-		organizer.country = "Schweiz";
-		organizer.address = "Chriesbaumstrasse 2";
-		organizer.city = "8604 Volketswil";
-		organizer.name = "Pasadena";
-		organizer.url = "http://www.pasadena.ch";
-		return organizer;
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
-import ch.openech.dancer.model.Organizer;
 
 public class Tanzwerk101Rule extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -52,11 +51,6 @@ public class Tanzwerk101Rule extends DanceEventCrawler {
 		}
 
 		return generated;
-	}
-
-	@Override
-	public Organizer createOrganizer() {
-		return null;
 	}
 
 	@Override

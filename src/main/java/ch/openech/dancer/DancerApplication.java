@@ -17,11 +17,10 @@ import ch.openech.dancer.frontend.DanceEventTablePage;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventCreationAction;
 import ch.openech.dancer.frontend.LocationTablePage;
-import ch.openech.dancer.frontend.OrganizerTablePage;
 import ch.openech.dancer.frontend.UserTablePage;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.UserDeeJay;
-import ch.openech.dancer.model.UserOrganizer;
+import ch.openech.dancer.model.UserLocation;
 
 public class DancerApplication extends Application {
 	
@@ -35,7 +34,6 @@ public class DancerApplication extends Application {
 			actions.add(new PageAction(new DanceEventAdminTablePage()));
 
 			ActionGroup admin = actions.addGroup("Admin");
-			admin.add(new OrganizerTablePage());
 			admin.add(new LocationTablePage());
 			admin.add(new DeeJayTablePage());
 			admin.add(new UserTablePage());
@@ -50,7 +48,7 @@ public class DancerApplication extends Application {
 	
 	@Override
 	public Class<?>[] getEntityClasses() {
-		return new Class<?>[] { DanceEvent.class, User.class, UserDeeJay.class, UserOrganizer.class };
+		return new Class<?>[] { DanceEvent.class, User.class, UserDeeJay.class, UserLocation.class };
 	}
 
 	public static void main(String[] args) {
