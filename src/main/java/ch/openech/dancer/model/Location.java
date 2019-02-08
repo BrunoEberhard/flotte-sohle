@@ -9,6 +9,7 @@ import org.minimalj.model.Rendering;
 import org.minimalj.model.annotation.NotEmpty;
 import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
+import org.minimalj.security.model.Password;
 
 public class Location implements Rendering {
 	public static final Location $ = Keys.of(Location.class);
@@ -33,6 +34,8 @@ public class Location implements Rendering {
 	public String url;
 
 	public final Set<Region> region = new TreeSet<>();
+
+	public final Password password = new Password();
 
 	@Override
 	public CharSequence render() {

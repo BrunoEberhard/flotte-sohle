@@ -1,5 +1,5 @@
 package ch.openech.dancer;
 
 public enum DancerRoles {
-	admin, organizer, deejay
+	admin, location, deejay
 }
