@@ -14,6 +14,7 @@ import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElem
 import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.backend.AnlikerTanzRule;
+import ch.openech.dancer.backend.BanditsRule;
 import ch.openech.dancer.backend.DanceCubeImport;
 import ch.openech.dancer.backend.DanceEventCrawler;
 import ch.openech.dancer.backend.DanceInnCrawler;
@@ -23,6 +24,7 @@ import ch.openech.dancer.backend.PasadenaCrawler;
 import ch.openech.dancer.backend.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.Tanzwerk101Rule;
 import ch.openech.dancer.backend.Time2DanceCrawler;
+import ch.openech.dancer.backend.Werk1Rule;
 
 public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>> {
 
@@ -38,6 +40,8 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 		crawlers.add(new Tanzwerk101Rule());
 		crawlers.add(new Time2DanceCrawler());
 		crawlers.add(new AnlikerTanzRule());
+		crawlers.add(new BanditsRule());
+		crawlers.add(new Werk1Rule());
 	}
 
 	@Override
