@@ -18,6 +18,7 @@ import org.minimalj.repository.query.By;
 import org.minimalj.util.DateUtils;
 
 import ch.openech.dancer.model.DanceEvent;
+import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 
@@ -30,7 +31,8 @@ public class PasadenaCrawler extends DanceEventCrawler {
 	public int crawlEvents() {
 		try {
 			Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
-			Elements elements = doc.select("p[style]");
+			Element c31 = doc.selectFirst("#c31");
+			Elements elements = c31.select("p[style]");
 			elements.forEach(element -> {
 				if (!isSimpleElement(element)) {
 					LocalDate date = extractLocalDate(element);
@@ -49,9 +51,23 @@ public class PasadenaCrawler extends DanceEventCrawler {
 					danceEvent.from = period.getValue0();
 					danceEvent.until = period.getValue1();
 					danceEvent.description = element.nextElementSibling().text();
-					// danceEvent.organizer = organizer;
 					danceEvent.location = location;
 
+					Elements mitDj = element.nextElementSibling().getElementsContainingOwnText("Mit DJ");
+					if (!mitDj.isEmpty()) {
+						String djText = mitDj.get(0).ownText().substring(4);
+						Optional<DeeJay> deeJay = findOne(DeeJay.class, By.field(DeeJay.$.name, djText));
+						if (deeJay.isPresent()) {
+							danceEvent.deeJay = deeJay.get();
+						} else {
+							DeeJay newDeeJay = new DeeJay();
+							newDeeJay.name = djText;
+							danceEvent.deeJay = Backend.save(newDeeJay);
+						}
+					} else {
+						danceEvent.deeJay = null;
+					}
+					
 					Backend.save(danceEvent);
 				}
 			});
