@@ -1,56 +1,91 @@
 package ch.openech.dancer.frontend;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.minimalj.backend.Backend;
-import org.minimalj.frontend.Frontend.FormContent;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.ImageFormElement;
 import org.minimalj.frontend.form.element.TextFormElement;
 import org.minimalj.frontend.page.TableFormPage;
-import org.minimalj.model.Keys;
-import org.minimalj.model.annotation.Size;
 import org.minimalj.repository.query.By;
+import org.minimalj.repository.query.FieldOperator;
+import org.minimalj.util.DateUtils;
 import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.model.DanceEvent;
 
 public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 
-	private static final Object[] KEYS = new Object[] { DanceEvent.$.getDayOfWeek(), DanceEvent.$.date, DanceEvent.$.title, DanceEvent.$.location.name,
-			DanceEvent.$.location.city, DanceEvent.$.getFromUntil(),
-			 DanceEvent.$.deeJay.name };
+	private static final Object[] KEYS = new Object[] { DanceEvent.$.getDayOfWeek(), DanceEvent.$.date,
+			DanceEvent.$.title, DanceEvent.$.location.name, DanceEvent.$.location.city, DanceEvent.$.getFromUntil(),
+			DanceEvent.$.deeJay.name };
+
+	private final String query;
+	
+	public DanceEventTablePage(String query) {
+		super(KEYS);
+		this.query = query != null ? query.toLowerCase() : null;
+	}
 
 	public DanceEventTablePage() {
-		super(KEYS);
+		this(null);
 	}
-
-	private Form<DanceEventTableFilter> filterForm;
-	private DanceEventTableFilter filter = new DanceEventTableFilter();
-
-	public static class DanceEventTableFilter {
-		public static final DanceEventTableFilter $ = Keys.of(DanceEventTableFilter.class);
-		@Size(100)
-		public String filter;
-	}
-
-	@Override
-	protected FormContent getOverview() {
-		if (filterForm == null) {
-			filterForm = new Form<>();
-			filterForm.line(DanceEventTableFilter.$.filter);
-			filterForm.setChangeListener(form -> refresh());
-			filterForm.setObject(filter);
-		}
-		return filterForm.getContent();
-	}
-
+	
+	private static List<DanceEvent> events;
+	private static long lastLoad = Long.MIN_VALUE;
+	
 	@Override
 	protected List<DanceEvent> load() {
-		if (!StringUtils.isEmpty(filter.filter)) {
-			return Backend.find(DanceEvent.class, By.search(filter.filter).order(DanceEvent.$.date));
+		if (lastLoad < System.currentTimeMillis() - 10 * 1000) {
+			events = Backend.find(DanceEvent.class, By
+					.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now()).order(DanceEvent.$.date));
+			// load completely in one transaction
+			events = events.subList(0, events.size());
+			lastLoad = System.currentTimeMillis();
+		}
+
+		if (!StringUtils.isEmpty(query)) {
+			List<DanceEvent> filteredEvents = events.stream().filter(new DanceEventFilter())
+					.collect(Collectors.toList());
+			return filteredEvents;
 		} else {
-			return Backend.find(DanceEvent.class, By.all().order(DanceEvent.$.date));
+			return events;
+		}
+	}
+
+	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
+
+	private class DanceEventFilter implements Predicate<DanceEvent> {
+
+		@Override
+		public boolean test(DanceEvent event) {
+			if (containsQuery(event.title))
+				return true;
+			if (containsQuery(event.description))
+				return true;
+			if (event.location != null && containsQuery(event.location.name))
+				return true;
+			if (event.deeJay != null && containsQuery(event.deeJay.name))
+				return true;
+			if (event.deeJay2 != null && containsQuery(event.deeJay2.name))
+				return true;
+			String date = DateUtils.format(event.date);
+			if (date.contains(query))
+				return true;
+			date = shortFormat.format(event.date);
+			if (date.contains(query))
+				return true;
+			if (containsQuery(event.getDayOfWeek()))
+				return true;
+			return false;
+		}
+
+		private boolean containsQuery(String value) {
+			return value != null && value.toLowerCase().contains(query);
 		}
 	}
 
@@ -62,10 +97,6 @@ public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 		form.line(DanceEvent.$.description);
 		form.line(new ImageFormElement(DanceEvent.$.flyer, Form.READ_ONLY, 3));
 		form.line(new TextFormElement(DanceEvent.$.location));
-		// form.line(editable ? new ReferenceFormElement<>(DanceEvent.$.organizer,
-		// Organizer.$.name) : new TextFormElement(DanceEvent.$.organizer));
-		// form.line(new RecurFormElement(Keys.getProperty(DanceEvent.$.recur),
-		// editable));
 		form.line(DanceEvent.$.tags);
 		form.line(DanceEvent.$.status);
 		return form;

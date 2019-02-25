@@ -8,11 +8,13 @@ import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
 import org.minimalj.frontend.impl.web.WebServer;
+import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 import org.minimalj.security.model.User;
 
+import ch.openech.dancer.frontend.CheckUnpublishedEventsAction;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
 import ch.openech.dancer.frontend.DanceEventTablePage;
@@ -30,22 +32,26 @@ public class DancerApplication extends Application {
 	@Override
 	public List<Action> getNavigation() {
 		ActionGroup actions = new ActionGroup("");
-
+		actions.add(new PageAction(new DanceEventTablePage()));
+		
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
-			actions.add(new PageAction(new DanceEventAdminTablePage()));
-
 			ActionGroup admin = actions.addGroup("Admin");
+			admin.add(new PageAction(new DanceEventAdminTablePage()));
 			admin.add(new LocationTablePage());
 			admin.add(new DeeJayTablePage());
 			admin.add(new UserTablePage());
 			admin.add(new EventCreationAction());
+			admin.add(new CheckUnpublishedEventsAction());
 		} else if (Subject.currentHasRole(DancerRoles.location.name())) {
 			Location location = Backend.find(Location.class, By.field(Location.$.name, Subject.getCurrent().getName())).get(0);
 			actions.add(new PageAction(new DanceEventLocationTablePage(location)));
-		} else {
-			actions.add(new PageAction(new DanceEventTablePage()));
 		}
 		return actions.getItems();
+	}
+	
+	@Override
+	public Page createSearchPage(String query) {
+		return new DanceEventTablePage(query);
 	}
 	
 	@Override
@@ -56,10 +62,7 @@ public class DancerApplication extends Application {
 	public static void main(String[] args) {
 		Configuration.set("MjAuthentication", DancerAuthentication.class.getName());
 		Configuration.set("MjInit", DancerInitTransaction.class.getName());
-		// Application.main(args);
 		Application application = new DancerApplication();
-		// Swing.start(application);
-		// Lanterna.start(application);
 		// Swing.start(application);
 		//Lanterna.start(application);
 		// RestServer.start(application);
