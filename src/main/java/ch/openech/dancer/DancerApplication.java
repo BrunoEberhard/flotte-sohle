@@ -14,6 +14,7 @@ import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 import org.minimalj.security.model.User;
 
+import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.frontend.CheckUnpublishedEventsAction;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
@@ -60,6 +61,7 @@ public class DancerApplication extends Application {
 	}
 
 	public static void main(String[] args) {
+		Configuration.set("MjRepository", DancerRepository.class.getName());
 		Configuration.set("MjAuthentication", DancerAuthentication.class.getName());
 		Configuration.set("MjInit", DancerInitTransaction.class.getName());
 		Application application = new DancerApplication();

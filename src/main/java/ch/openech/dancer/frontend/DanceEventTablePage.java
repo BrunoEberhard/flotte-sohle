@@ -1,6 +1,5 @@
 package ch.openech.dancer.frontend;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Predicate;
@@ -11,11 +10,10 @@ import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.ImageFormElement;
 import org.minimalj.frontend.form.element.TextFormElement;
 import org.minimalj.frontend.page.TableFormPage;
-import org.minimalj.repository.query.By;
-import org.minimalj.repository.query.FieldOperator;
 import org.minimalj.util.DateUtils;
 import org.minimalj.util.StringUtils;
 
+import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.model.DanceEvent;
 
 public class DanceEventTablePage extends TableFormPage<DanceEvent> {
@@ -35,18 +33,9 @@ public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 		this(null);
 	}
 	
-	private static List<DanceEvent> events;
-	private static long lastLoad = Long.MIN_VALUE;
-	
 	@Override
 	protected List<DanceEvent> load() {
-		if (lastLoad < System.currentTimeMillis() - 10 * 1000) {
-			events = Backend.find(DanceEvent.class, By
-					.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now()).order(DanceEvent.$.date));
-			// load completely in one transaction
-			events = events.subList(0, events.size());
-			lastLoad = System.currentTimeMillis();
-		}
+		List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
 
 		if (!StringUtils.isEmpty(query)) {
 			List<DanceEvent> filteredEvents = events.stream().filter(new DanceEventFilter())
