@@ -28,7 +28,10 @@ import ch.openech.dancer.model.Location;
 
 public class DancerApplication extends Application {
 	
-	
+	@Override
+	public Page createDefaultPage() {
+		return new DanceEventTablePage();
+	}
 
 	@Override
 	public List<Action> getNavigation() {
