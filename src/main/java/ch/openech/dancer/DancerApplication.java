@@ -26,6 +26,7 @@ import ch.openech.dancer.frontend.UserTablePage;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
 
+/*Test*/
 public class DancerApplication extends Application {
 	
 	@Override
