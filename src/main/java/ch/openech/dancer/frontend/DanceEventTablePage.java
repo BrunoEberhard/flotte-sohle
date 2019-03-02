@@ -19,7 +19,7 @@ import ch.openech.dancer.model.DanceEvent;
 public class DanceEventTablePage extends TableFormPage<DanceEvent> {
 
 	private static final Object[] KEYS = new Object[] { DanceEvent.$.getDayOfWeek(), DanceEvent.$.date,
-			DanceEvent.$.title, DanceEvent.$.location.name, DanceEvent.$.location.city, DanceEvent.$.getFromUntil(),
+			DanceEvent.$.title, DanceEvent.$.location.name, DanceEvent.$.getFromUntil(),
 			DanceEvent.$.deeJay.name };
 
 	private final String query;
