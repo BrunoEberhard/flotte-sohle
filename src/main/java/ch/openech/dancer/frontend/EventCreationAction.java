@@ -21,6 +21,7 @@ import ch.openech.dancer.backend.DanceInnCrawler;
 import ch.openech.dancer.backend.DancersRule;
 import ch.openech.dancer.backend.ElSocialRule;
 import ch.openech.dancer.backend.PasadenaCrawler;
+import ch.openech.dancer.backend.TanzZentrumImport;
 import ch.openech.dancer.backend.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.Tanzwerk101Rule;
 import ch.openech.dancer.backend.Time2DanceCrawler;
@@ -42,6 +43,7 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 		crawlers.add(new AnlikerTanzRule());
 		crawlers.add(new BanditsRule());
 		crawlers.add(new Werk1Rule());
+		crawlers.add(new TanzZentrumImport());
 	}
 
 	@Override
