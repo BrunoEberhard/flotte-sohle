@@ -1,7 +1,6 @@
 package ch.openech.dancer.frontend;
 
 import org.minimalj.frontend.form.Form;
-import org.minimalj.frontend.form.element.ImageFormElement;
 import org.minimalj.frontend.form.element.ReferenceFormElement;
 import org.minimalj.frontend.form.element.TextFormElement;
 
@@ -21,7 +20,7 @@ public class DanceEventForm extends Form<DanceEvent> {
 		form.line($.from, $.until);
 		form.line($.title);
 		form.line($.description);
-		form.line(new ImageFormElement($.flyer, editable, 3));
+		form.line(new FlyerFormElement($.flyer, editable));
 		form.line(editable ? new ReferenceFormElement<>($.location, Location.$.name) : new TextFormElement($.location));
 		form.line($.tags);
 		form.line($.status);

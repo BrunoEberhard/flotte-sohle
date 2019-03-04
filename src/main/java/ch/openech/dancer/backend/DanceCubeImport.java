@@ -1,6 +1,5 @@
 package ch.openech.dancer.backend;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -11,19 +10,16 @@ import org.minimalj.util.CsvReader;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.EventTag;
+import ch.openech.dancer.model.Flyer;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class DanceCubeImport extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public int crawlEvents() {
-		byte[] flyer = new byte[34925];
-		try {
-			getClass().getResource("/ch/openech/dancer/data/dance_cube_2019.jpg").openStream().read(flyer);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Flyer flyer = Flyer.read("dance_cube_2019.jpg");
 		
 		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/dancer/data/dance_cube_2019.csv"));
 		int count = 0;
@@ -50,6 +46,7 @@ public class DanceCubeImport extends DanceEventCrawler {
 		location.country = "Schweiz";
 		location.address = "Gewerbestrasse 4";
 		location.city = "9445 Rebstein";
+		location.region.add(Region.SG);
 		location.name = "DanceCube";
 		location.url = "http://www.dancecube.ch";
 		return location;

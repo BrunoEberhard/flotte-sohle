@@ -39,7 +39,7 @@ public class DanceEvent {
 		if (Keys.isKeyObject(this))
 			return Keys.methodOf(this, "duringTheDay");
 
-		return isDuringTheDay(until);
+		return isDuringTheDay(from);
 	}
 
 	public static boolean isDuringTheDay(LocalTime time) {
@@ -77,7 +77,7 @@ public class DanceEvent {
 	@Decimal(2)
 	public BigDecimal price, priceReduced, priceWithWorkshop;
 
-	public byte[] flyer;
+	public Flyer flyer = new Flyer();
 
 	public Location location;
 	

@@ -7,7 +7,6 @@ import java.util.List;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.form.Form;
-import org.minimalj.frontend.form.element.ImageFormElement;
 import org.minimalj.frontend.form.element.TextFormElement;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
 import org.minimalj.model.validation.ValidationMessage;
@@ -53,7 +52,7 @@ public class DanceEventLocationTablePage extends SimpleTableEditorPage<DanceEven
 		form.line(DanceEvent.$.from, DanceEvent.$.until);
 		form.line(DanceEvent.$.title);
 		form.line(DanceEvent.$.description);
-		form.line(new ImageFormElement(DanceEvent.$.flyer, editable, 3));
+		form.line(new FlyerFormElement(DanceEvent.$.flyer, editable));
 		form.line(DanceEvent.$.tags);
 		form.line(DanceEvent.$.status);
 		return form;

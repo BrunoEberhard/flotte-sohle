@@ -17,7 +17,9 @@ import org.minimalj.repository.query.By;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.EventTag;
+import ch.openech.dancer.model.Flyer;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class DanceInnCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +28,8 @@ public class DanceInnCrawler extends DanceEventCrawler {
 
 	@Override
 	public int crawlEvents() {
+		Flyer flyer = Flyer.read("dance_inn.png");
+
 		try {
 			Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
 
@@ -53,6 +57,7 @@ public class DanceInnCrawler extends DanceEventCrawler {
 						Element text = element.select("h4").get(1);
 						danceEvent.title = "Dance Inn";
 						danceEvent.description = text.ownText().trim();
+						danceEvent.flyer = flyer;
 
 						danceEvent.from = LocalTime.of(21, 0);
 						danceEvent.until = LocalTime.of(1, 0);
@@ -80,6 +85,8 @@ public class DanceInnCrawler extends DanceEventCrawler {
 		location.country = "Schweiz";
 		location.address = "Murgtalstrasse 20";
 		location.city = "9542 Münchwilen TG";
+		location.region.add(Region.ZH);
+		location.region.add(Region.SG);
 		location.name = "Dance Inn";
 		location.url = "http://www.danceinn.ch/";
 		return location;

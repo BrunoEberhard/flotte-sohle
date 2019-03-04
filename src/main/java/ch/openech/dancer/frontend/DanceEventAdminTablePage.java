@@ -8,16 +8,12 @@ import java.util.List;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.form.Form;
-import org.minimalj.frontend.form.element.ImageFormElement;
-import org.minimalj.frontend.form.element.ReferenceFormElement;
-import org.minimalj.frontend.form.element.TextFormElement;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
 import org.minimalj.model.validation.ValidationMessage;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
-import ch.openech.dancer.model.Location;
 
 public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> {
 

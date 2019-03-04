@@ -21,6 +21,7 @@ import ch.openech.dancer.frontend.DanceEventLocationTablePage;
 import ch.openech.dancer.frontend.DanceEventTablePage;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventCreationAction;
+import ch.openech.dancer.frontend.FrontPage;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.frontend.UserTablePage;
 import ch.openech.dancer.model.DanceEvent;
@@ -30,7 +31,7 @@ public class DancerApplication extends Application {
 	
 	@Override
 	public Page createDefaultPage() {
-		return new DanceEventTablePage();
+		return new FrontPage();
 	}
 
 	@Override
