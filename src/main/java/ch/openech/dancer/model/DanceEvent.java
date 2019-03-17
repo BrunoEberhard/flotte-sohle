@@ -69,7 +69,7 @@ public class DanceEvent {
 	@NotEmpty
 	@Searched
 	public String title;
-	@Size(1000)
+	@Size(4000)
 	@Searched
 	public String description;
 	
