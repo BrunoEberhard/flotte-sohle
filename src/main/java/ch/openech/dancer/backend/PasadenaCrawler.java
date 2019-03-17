@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.javatuples.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -36,8 +35,8 @@ public class PasadenaCrawler extends DanceEventCrawler {
 			elements.forEach(element -> {
 				if (!isSimpleElement(element)) {
 					LocalDate date = extractLocalDate(element);
-					Pair<LocalTime, LocalTime> period = extractPeriod(element);
-					boolean duringTheDay = DanceEvent.isDuringTheDay(period.getValue1());
+					LocalTime[] period = extractPeriod(element);
+					boolean duringTheDay = DanceEvent.isDuringTheDay(period[1]);
 
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date))
@@ -48,8 +47,8 @@ public class PasadenaCrawler extends DanceEventCrawler {
 					danceEvent.status = EventStatus.published;
 					danceEvent.date = date;
 					danceEvent.title = extractDanceEventTitle(element);
-					danceEvent.from = period.getValue0();
-					danceEvent.until = period.getValue1();
+					danceEvent.from = period[0];
+					danceEvent.until = period[1];
 					danceEvent.description = element.nextElementSibling().text();
 					danceEvent.location = location;
 
@@ -82,14 +81,14 @@ public class PasadenaCrawler extends DanceEventCrawler {
 		return element.nextElementSibling() == null || element.childNodeSize() != 3;
 	}
 
-	private Pair<LocalTime, LocalTime> extractPeriod(Element element) {
+	private LocalTime[] extractPeriod(Element element) {
 		if (element.childNodeSize() == 3) {
 			String period = element.childNode(2).toString();
 			if (period != null) {
 				String[] moments = period.split("bis");
 				if (moments.length == 2) {
-					return new Pair<>(LocalTime.parse(moments[0].trim(), DateUtils.TIME_FORMAT),
-							LocalTime.parse(moments[1].trim(), DateUtils.TIME_FORMAT));
+					return new LocalTime[] { LocalTime.parse(moments[0].trim(), DateUtils.TIME_FORMAT),
+							LocalTime.parse(moments[1].trim(), DateUtils.TIME_FORMAT) };
 				}
 			}
 		}
