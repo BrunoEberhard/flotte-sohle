@@ -16,7 +16,7 @@ import ch.openech.dancer.model.DanceEvent;
 public class FrontPage extends HtmlPage {
 
 	private static String template;
-
+	
 	public FrontPage() {
 		super(createHtml(), "Flotte Sohle");
 	}
@@ -29,7 +29,7 @@ public class FrontPage extends HtmlPage {
 	private static String fillTemplate(String template) {
 		List<DanceEvent> events = Backend.find(DanceEvent.class, By //
 				.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now()) //
-				.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusDays(70)))
+				.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusDays(7)))
 				.order(DanceEvent.$.date));
 
 		String result = template.replace("$DieseWoche", createTable(events));
@@ -46,7 +46,7 @@ public class FrontPage extends HtmlPage {
 		StringBuilder s = new StringBuilder();
 		for (DanceEvent event : events) {
 			if (event.flyer != null && event.flyer.image != null) {
-				s.append("<td><img height=\"30%\" src=\"data:image;base64,");
+				s.append("<td><img class=\"flyer\" src=\"data:image;base64,");
 				s.append(Base64.getEncoder().encodeToString(event.flyer.image));
 				s.append("\"></td>");
 			}
@@ -57,10 +57,14 @@ public class FrontPage extends HtmlPage {
 	private static String createTable(List<DanceEvent> events) {
 		StringBuilder s = new StringBuilder();
 		for (DanceEvent event : events) {
-			s.append("<tr><td>").append(event.getDayOfWeek()).append("</td>");
+			s.append("<tr><td class=\"columnDayOfWeek\">").append(event.getDayOfWeek()).append("</td>");
 			s.append("<td>").append(DateUtils.format(event.date)).append("</td>");
-			s.append("<td>").append(event.location.name).append("</td>");
-			s.append("<td>").append(event.title).append("</td></tr>");
+			s.append("<td class=\"columnTime\">").append(event.getFromUntil()).append("</td>");
+			s.append("<td>").append("<a href=\"event/").append(event.id).append("\">").append(event.location.name)
+					.append("</a></td>");
+			s.append("<td class=\"columnDeejay\">").append(event.deeJay != null ? event.deeJay.name : "")
+					.append("</td>");
+			s.append("<td class=\"columnTitle\">").append(event.title).append("</td></tr>");
 		}
 		return s.toString();
 	}

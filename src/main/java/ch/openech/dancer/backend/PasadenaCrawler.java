@@ -32,15 +32,15 @@ public class PasadenaCrawler extends DanceEventCrawler {
 			Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
 			Element c31 = doc.selectFirst("#c31");
 			Elements elements = c31.select("p[style]");
-			elements.forEach(element -> {
+			for (Element element : elements) {
 				if (!isSimpleElement(element)) {
 					LocalDate date = extractLocalDate(element);
 					LocalTime[] period = extractPeriod(element);
-					boolean duringTheDay = DanceEvent.isDuringTheDay(period[1]);
+					if (DanceEvent.isDuringTheDay(period[1]))
+						continue;
 
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date))
-									.and(By.field(DanceEvent.$.getDuringTheDay(), duringTheDay)));
+							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 					DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
@@ -69,7 +69,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 					
 					Backend.save(danceEvent);
 				}
-			});
+			}
 			return elements.size();
 		} catch (IOException e) {
 			e.printStackTrace();
