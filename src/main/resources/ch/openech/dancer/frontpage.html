@@ -5,12 +5,17 @@
   border-bottom: 2px solid; 
 }
 
+table.flyers {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
 table {
   width: unset;
 }
 
 td {
-  padding: 0.2em 1em;
+  padding: 0.2em 2em;
 }
 
 table tr:nth-child(even) {
@@ -20,11 +25,50 @@ table tr:nth-child(even) {
 table tr:nth-child(odd) {
 	background: unset;
 }
+
+@media (min-height: 801px) .flyer {
+	height: 300px;
+}
+
+@media (max-height: 800px) and (min-height: 501px) .flyer {
+	height: 200px;
+}
+
+@media (max-height: 500px) {
+	.flyers {
+		display: none;
+	}
+}
+
+@media (max-width: 400px) {
+	.columnDayOfWeek {
+		display: none;
+	}
+}
+
+@media (max-width: 600px) {
+	.columnTitle {
+		display: none;
+	}
+}
+
+@media (max-width: 800px) {
+	.columnTime {
+		display: none;
+	}
+}
+
+@media (max-width: 1000px) {
+	.columnDeejay {
+		display: none;
+	}
+}
+
 </style>
 </head>
 <body>
 
-<table><tr>$Flyers</tr></table>
+<table class="flyers"><tr>$Flyers</tr></table>
 
 <h1 class="header">Diese Woche</h1>
 
