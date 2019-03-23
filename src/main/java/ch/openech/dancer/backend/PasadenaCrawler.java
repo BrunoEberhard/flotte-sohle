@@ -15,6 +15,7 @@ import org.jsoup.select.Elements;
 import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 import org.minimalj.util.DateUtils;
+import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.DeeJay;
@@ -25,6 +26,8 @@ public class PasadenaCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
 
 	private static final String AGENDA_URL = "http://www.pasadena.ch/agendanews/";
+
+	private static final String[] TITLES = { "Schlagerparty", "Schlagernacht", "Facebookparty" };
 
 	@Override
 	public int crawlEvents() {
@@ -67,6 +70,14 @@ public class PasadenaCrawler extends DanceEventCrawler {
 						danceEvent.deeJay = null;
 					}
 					
+					if (!StringUtils.isEmpty(danceEvent.title)) {
+						for (String title : TITLES) {
+							if (danceEvent.title.contains(title)) {
+								danceEvent.displayTitle = title;
+							}
+						}
+					}
+
 					Backend.save(danceEvent);
 				}
 			}

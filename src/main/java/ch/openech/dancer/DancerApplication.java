@@ -18,10 +18,11 @@ import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.frontend.CheckUnpublishedEventsAction;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
+import ch.openech.dancer.frontend.DanceEventPage;
 import ch.openech.dancer.frontend.DanceEventTablePage;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventCreationAction;
-import ch.openech.dancer.frontend.FrontPage;
+import ch.openech.dancer.frontend.EventsPage;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.frontend.UserTablePage;
 import ch.openech.dancer.model.DanceEvent;
@@ -31,13 +32,13 @@ public class DancerApplication extends Application {
 	
 	@Override
 	public Page createDefaultPage() {
-		return new FrontPage();
+		return new EventsPage();
 	}
 
 	@Override
 	public List<Action> getNavigation() {
 		ActionGroup actions = new ActionGroup("");
-		actions.add(new PageAction(new DanceEventTablePage()));
+		actions.add(new PageAction(new EventsPage()));
 		
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
 			ActionGroup admin = actions.addGroup("Admin");
@@ -59,6 +60,16 @@ public class DancerApplication extends Application {
 		return new DanceEventTablePage(query);
 	}
 	
+	@Override
+	public Page createPage(String route) {
+		if (route.startsWith("event/")) {
+			String id = route.substring("event/".length());
+			return new DanceEventPage(id);
+		} else {
+			return null;
+		}
+	}
+
 	@Override
 	public Class<?>[] getEntityClasses() {
 		return new Class<?>[] { DanceEvent.class, User.class };

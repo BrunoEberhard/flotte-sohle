@@ -17,7 +17,6 @@ import org.minimalj.repository.query.By;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.EventTag;
-import ch.openech.dancer.model.Flyer;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
@@ -28,8 +27,6 @@ public class DanceInnCrawler extends DanceEventCrawler {
 
 	@Override
 	public int crawlEvents() {
-		Flyer flyer = Flyer.read("dance_inn.png");
-
 		try {
 			Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
 
@@ -57,13 +54,11 @@ public class DanceInnCrawler extends DanceEventCrawler {
 						Element text = element.select("h4").get(1);
 						danceEvent.title = "Dance Inn";
 						danceEvent.description = text.ownText().trim();
-						danceEvent.flyer = flyer;
 
 						danceEvent.from = LocalTime.of(21, 0);
 						danceEvent.until = LocalTime.of(1, 0);
 						danceEvent.status = EventStatus.generated;
 						danceEvent.date = date;
-						// danceEvent.organizer = organizer;
 						danceEvent.location = location;
 						danceEvent.tags.add(EventTag.Workshop);
 

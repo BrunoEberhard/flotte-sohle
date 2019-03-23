@@ -10,7 +10,6 @@ import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
-import ch.openech.dancer.model.Flyer;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
@@ -19,8 +18,6 @@ public class DancersRule extends DanceEventCrawler {
 
 	@Override
 	public int crawlEvents() {
-		Flyer flyer = Flyer.read("dance_cube_2019.jpg");
-
 		LocalDate start = LocalDate.now();
 		while (!(start.getDayOfWeek() == DayOfWeek.SATURDAY)) {
 			start = start.plusDays(1);
@@ -36,9 +33,8 @@ public class DancersRule extends DanceEventCrawler {
 			if (!danceEventOptional.isPresent()) {
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-				danceEvent.status = EventStatus.generated;
+				danceEvent.status = EventStatus.published;
 				danceEvent.date = date;
-				danceEvent.flyer = flyer;
 
 				danceEvent.title = "Saturday-Dancers";
 				danceEvent.from = LocalTime.of(20, 0);

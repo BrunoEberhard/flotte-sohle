@@ -10,7 +10,6 @@ import org.minimalj.util.CsvReader;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.EventTag;
-import ch.openech.dancer.model.Flyer;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
@@ -19,8 +18,6 @@ public class DanceCubeImport extends DanceEventCrawler {
 
 	@Override
 	public int crawlEvents() {
-		Flyer flyer = Flyer.read("dance_cube_2019.jpg");
-		
 		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/dancer/data/dance_cube_2019.csv"));
 		int count = 0;
 		for (DanceEvent event : reader.readValues(DanceEvent.class)) {
@@ -30,7 +27,6 @@ public class DanceCubeImport extends DanceEventCrawler {
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
 				event.status = EventStatus.published;
-				event.flyer = flyer;
 				event.tags.add(EventTag.Workshop);
 
 				Backend.insert(event);

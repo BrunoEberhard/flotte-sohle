@@ -51,7 +51,7 @@ public class TanzenMitHerzCrawler extends DanceEventCrawler {
 
 							DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-							danceEvent.status = EventStatus.generated;
+							danceEvent.status = EventStatus.published;
 							danceEvent.date = date;
 							danceEvent.title = "Tanzabend";
 							if (date.getDayOfWeek().equals(DayOfWeek.FRIDAY)) {

@@ -42,7 +42,7 @@ public class AnlikerTanzRule extends DanceEventCrawler {
 			if (!danceEventOptional.isPresent()) {
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-				danceEvent.status = EventStatus.generated;
+				danceEvent.status = EventStatus.published;
 				danceEvent.date = date;
 
 				danceEvent.title = "Tanz Café";
