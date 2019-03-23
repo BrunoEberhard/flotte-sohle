@@ -19,7 +19,6 @@ import ch.openech.dancer.frontend.CheckUnpublishedEventsAction;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
 import ch.openech.dancer.frontend.DanceEventPage;
-import ch.openech.dancer.frontend.DanceEventTablePage;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventCreationAction;
 import ch.openech.dancer.frontend.EventsPage;
@@ -57,7 +56,7 @@ public class DancerApplication extends Application {
 	
 	@Override
 	public Page createSearchPage(String query) {
-		return new DanceEventTablePage(query);
+		return new EventsPage(query);
 	}
 	
 	@Override
