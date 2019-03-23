@@ -20,7 +20,7 @@ public class DanceEventForm extends Form<DanceEvent> {
 		form.line($.from, $.until);
 		form.line($.title);
 		form.line($.description);
-		form.line(new FlyerFormElement($.flyer, editable));
+		// form.line(new FlyerFormElement($.flyer, editable));
 		form.line(editable ? new ReferenceFormElement<>($.location, Location.$.name) : new TextFormElement($.location));
 		form.line($.tags);
 		form.line($.status);
