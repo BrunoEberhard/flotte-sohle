@@ -39,7 +39,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 				if (!isSimpleElement(element)) {
 					LocalDate date = extractLocalDate(element);
 					LocalTime[] period = extractPeriod(element);
-					if (DanceEvent.isDuringTheDay(period[1]))
+					if (DanceEvent.isDuringTheDay(period[0]))
 						continue;
 
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
