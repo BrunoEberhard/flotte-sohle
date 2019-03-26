@@ -41,9 +41,7 @@ public class EventsPage extends HtmlPage {
 				.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1)))
 				.order(DanceEvent.$.date));
 
-		// TODO fix this in minimal-j
-		// wenn eine geordnete Liste Stückweise zurückgegeben wird ändert sich manchmal
-		// die Reihenfolge und dann erscheinen Elemente doppelt
+		// TODO minimal-j: implement fetch to load list completely
 		events = events.subList(0, events.size());
 
 		if (!StringUtils.isEmpty(query)) {
