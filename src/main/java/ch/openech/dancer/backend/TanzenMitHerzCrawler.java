@@ -19,6 +19,7 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class TanzenMitHerzCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -87,6 +88,7 @@ public class TanzenMitHerzCrawler extends DanceEventCrawler {
 		location.city = "8306 Brüttisellen";
 		location.name = "Tanzen mit Herz";
 		location.url = "https://www.tanzenmitherz.ch";
+		location.region.add(Region.ZH);
 		return location;
 	}
 

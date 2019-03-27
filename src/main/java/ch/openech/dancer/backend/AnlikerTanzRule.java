@@ -16,6 +16,7 @@ import org.minimalj.repository.query.By;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class AnlikerTanzRule extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -76,6 +77,7 @@ public class AnlikerTanzRule extends DanceEventCrawler {
 		location.city = "9006 St. Gallen";
 		location.name = "Tanzschule Anliker";
 		location.url = "https://www.anliker-tanz.ch";
+		location.region.add(Region.SG);
 		return location;
 	}
 

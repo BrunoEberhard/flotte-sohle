@@ -13,6 +13,7 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class Werk1Rule extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -64,6 +65,7 @@ public class Werk1Rule extends DanceEventCrawler {
 		location.city = "9200 Gossau SG";
 		location.name = "Werk 1";
 		location.url = "http://www.werk-1.ch/";
+		location.region.add(Region.SG);
 		return location;
 	}
 

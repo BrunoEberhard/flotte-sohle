@@ -14,6 +14,7 @@ import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class BanditsRule extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -65,6 +66,7 @@ public class BanditsRule extends DanceEventCrawler {
 		location.city = "8856 Tuggen";
 		location.name = "The Bandits";
 		location.url = "http://www.thebandits.ch/";
+		location.region.add(Region.ZH);
 		return location;
 	}
 

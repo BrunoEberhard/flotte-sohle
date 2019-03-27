@@ -12,6 +12,7 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class Tanzwerk101Rule extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -61,6 +62,7 @@ public class Tanzwerk101Rule extends DanceEventCrawler {
 		location.city = "8005 Zürich";
 		location.name = "Tanzwerk 101";
 		location.url = "http://www.elsocial.ch";
+		location.region.add(Region.ZH);
 		return location;
 	}
 

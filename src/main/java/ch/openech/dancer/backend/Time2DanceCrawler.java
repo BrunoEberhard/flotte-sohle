@@ -19,6 +19,7 @@ import org.minimalj.repository.query.By;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class Time2DanceCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -84,6 +85,7 @@ public class Time2DanceCrawler extends DanceEventCrawler {
 		location.city = "8045 Zürich";
 		location.name = "time2dance";
 		location.url = "http://www.time2dance.ch";
+		location.region.add(Region.ZH);
 		return location;
 	}
 	

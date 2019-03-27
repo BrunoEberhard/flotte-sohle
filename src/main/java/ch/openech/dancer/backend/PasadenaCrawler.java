@@ -21,6 +21,7 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class PasadenaCrawler extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -132,6 +133,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 		location.city = "8604 Volketswil";
 		location.name = "Pasadena";
 		location.url = "http://www.pasadena.ch";
+		location.region.add(Region.ZH);
 		return location;
 	}
 

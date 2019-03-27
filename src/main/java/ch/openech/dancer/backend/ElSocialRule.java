@@ -12,6 +12,7 @@ import org.minimalj.repository.query.By;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Region;
 
 public class ElSocialRule extends DanceEventCrawler {
 	private static final long serialVersionUID = 1L;
@@ -59,6 +60,7 @@ public class ElSocialRule extends DanceEventCrawler {
 		location.city = "8005 Zürich";
 		location.name = "el social";
 		location.url = "http://www.elsocial.ch";
+		location.region.add(Region.ZH);
 		return location;
 	}
 
