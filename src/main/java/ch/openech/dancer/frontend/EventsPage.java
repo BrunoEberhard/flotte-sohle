@@ -88,9 +88,10 @@ public class EventsPage extends HtmlPage {
 	}
 
 	private static void createBlock(DanceEvent event, StringBuilder s) {
-		s.append("<a href=\"event/").append(event.id).append("\">");
 		s.append("<div class=\"DanceEvent\">");
-		s.append("<h2 class=\"LocationName\">").append(event.location.name).append("</h2>");
+		s.append("<div class=\"EventLocation\">");
+		appendLink(event, s);
+		s.append(event.location.name).append("</a></div>");
 		/*
 		 * if (event.flyer != null && event.flyer.image != null) {
 		 * s.append("<img class=\"EventPic\" src=\"data:image;base64,");
@@ -98,7 +99,7 @@ public class EventsPage extends HtmlPage {
 		 * s.append("\">"); }
 		 */
 		if (!StringUtils.isEmpty(event.displayTitle)) {
-			s.append("<div class=\"Title\">").append(event.displayTitle).append("</div>");
+			s.append("<div class=\"EventTitle\">").append(event.displayTitle).append("</div>");
 		}
 		if (event.deeJay != null) {
 			s.append("<div class=\"DeeJay\">").append(event.deeJay.name).append("</div>");
@@ -107,7 +108,11 @@ public class EventsPage extends HtmlPage {
 		if (event.location != null && !StringUtils.isEmpty(event.location.city)) {
 			s.append("<div class=\"Location\">").append(event.location.city).append("</div>");
 		}
-		s.append("</div></a>");
+		s.append("</div>");
+	}
+
+	private static void appendLink(DanceEvent event, StringBuilder s) {
+		s.append("<a href=\"event/").append(event.id).append("\">");
 	}
 
 	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
