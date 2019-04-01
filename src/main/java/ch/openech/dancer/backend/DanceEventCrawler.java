@@ -39,4 +39,27 @@ public abstract class DanceEventCrawler implements Transaction<Integer> {
 
 	protected abstract Location createLocation();
 
+	public String getName() {
+		String className = getClass().getSimpleName();
+		if (className.endsWith("Crawler")) {
+			return addSpaces(className.substring(0, className.length() - 7));
+		} else if (className.endsWith("Import")) {
+			return addSpaces(className.substring(0, className.length() - 6));
+		} else if (className.endsWith("Rule")) {
+			return addSpaces(className.substring(0, className.length() - 4));
+		} else {
+			throw new IllegalArgumentException();
+		}
+	}
+
+	private String addSpaces(String s) {
+		StringBuilder sb = new StringBuilder();
+		for (char c : s.toCharArray()) {
+			if (Character.isUpperCase(c) && sb.length() > 0) {
+				sb.append(' ');
+			}
+			sb.append(c);
+		}
+		return sb.toString();
+	}
 }

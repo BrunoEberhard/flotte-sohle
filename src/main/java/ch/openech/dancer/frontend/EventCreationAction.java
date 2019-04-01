@@ -1,6 +1,8 @@
 package ch.openech.dancer.frontend;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +13,6 @@ import org.minimalj.frontend.editor.Editor.NewObjectEditor;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.CheckBoxFormElement;
 import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElementProperty;
-import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.backend.AnlikerTanzRule;
 import ch.openech.dancer.backend.BanditsRule;
@@ -31,7 +32,7 @@ import ch.openech.dancer.backend.Werk1Rule;
 
 public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>> {
 
-	public static final Set<DanceEventCrawler> crawlers = new HashSet<>();
+	public static final List<DanceEventCrawler> crawlers = new ArrayList<>();
 
 	static {
 		crawlers.add(new DanceCubeImport());
@@ -48,6 +49,8 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 		crawlers.add(new TanzZentrumImport());
 		crawlers.add(new TanzcenterImport());
 		crawlers.add(new GalacticCrawler());
+
+		Collections.sort(crawlers, Comparator.comparing(DanceEventCrawler::getName));
 	}
 
 	@Override
@@ -68,9 +71,8 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 	public Form<Set<DanceEventCrawler>> createForm() {
 		Form<Set<DanceEventCrawler>> form = new Form<>(Form.EDITABLE, 2);
 		org.minimalj.frontend.form.element.FormElement<?> leftElement = null;
-		for (Object object : crawlers) {
-			String text = Resources.getString(object.getClass().getSimpleName(), Resources.OPTIONAL);
-			String caption = text != null ? text : object.toString();
+		for (DanceEventCrawler object : crawlers) {
+			String caption = object.getName();
 			if (leftElement != null) {
 				form.line(leftElement, new CheckBoxFormElement(new SetElementFormElementProperty(object), caption, true, false));
 				leftElement = null;
