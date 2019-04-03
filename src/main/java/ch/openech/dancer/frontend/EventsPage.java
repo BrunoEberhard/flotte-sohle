@@ -15,23 +15,34 @@ import org.minimalj.util.DateUtils;
 import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.model.DanceEvent;
+import ch.openech.dancer.model.Region;
 
 public class EventsPage extends HtmlPage {
 
 	private static String template;
 	
 	public EventsPage() {
-		super(createHtml(null), "Anlässe");
+		super(createHtml((String) null), "Anlässe");
 	}
 
 	public EventsPage(String query) {
 		super(createHtml(query), "Suche: " + query);
 	}
 
+	public EventsPage(Region region) {
+		super(createHtml(region), "Region: " + region);
+	}
+
 	private static String createHtml(String query) {
 		template = JsonFrontend
 				.readStream(EventsPage.class.getResourceAsStream("/ch/openech/dancer/events.html"));
 		List<DanceEvent> events = load(query);
+		return fillTemplate(template, events);
+	}
+
+	private static String createHtml(Region region) {
+		template = JsonFrontend.readStream(EventsPage.class.getResourceAsStream("/ch/openech/dancer/events.html"));
+		List<DanceEvent> events = load(region);
 		return fillTemplate(template, events);
 	}
 
@@ -51,6 +62,20 @@ public class EventsPage extends HtmlPage {
 		} else {
 			return events;
 		}
+	}
+
+	protected static List<DanceEvent> load(Region region) {
+		List<DanceEvent> events = Backend.find(DanceEvent.class, By //
+				.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now()) //
+				.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1)))
+				.order(DanceEvent.$.date));
+
+		// TODO minimal-j: implement fetch to load list completely
+		events = events.subList(0, events.size());
+
+		List<DanceEvent> filteredEvents = events.stream().filter(new DanceRegionEventFilter(region))
+				.collect(Collectors.toList());
+		return filteredEvents;
 	}
 
 	private static String fillTemplate(String template, List<DanceEvent> events) {
@@ -116,6 +141,20 @@ public class EventsPage extends HtmlPage {
 	}
 
 	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
+
+	private static class DanceRegionEventFilter implements Predicate<DanceEvent> {
+
+		private final Region region;
+
+		public DanceRegionEventFilter(Region region) {
+			this.region = region;
+		}
+
+		@Override
+		public boolean test(DanceEvent event) {
+			return event.location.region.contains(region);
+		}
+	}
 
 	private static class DanceEventFilter implements Predicate<DanceEvent> {
 
