@@ -6,6 +6,7 @@ import java.util.List;
 import org.minimalj.model.Model;
 import org.minimalj.repository.Repository;
 import org.minimalj.repository.query.By;
+import org.minimalj.repository.query.Criteria;
 import org.minimalj.repository.query.FieldOperator;
 import org.minimalj.repository.query.Query;
 import org.minimalj.repository.sql.SqlRepository;
@@ -48,8 +49,8 @@ public class DancerRepository implements Repository {
 		}
 	}
 
-	public <T> long count(Class<T> clazz, Query query) {
-		return repository.count(clazz, query);
+	public <T> long count(Class<T> clazz, Criteria criteria) {
+		return repository.count(clazz, criteria);
 	}
 
 	public <T> Object insert(T object) {
@@ -62,12 +63,19 @@ public class DancerRepository implements Repository {
 		repository.update(object);
 	}
 
-	public <T> void delete(Class<T> clazz, Object id) {
+	@Override
+	public <T> void delete(T object) {
 		events = null;
-		repository.delete(clazz, id);
+		repository.delete(object);
 	}
 	
-	public static class EventsQuery implements Query {
+	@Override
+	public <T> int delete(Class<T> clazz, Criteria criteria) {
+		events = null;
+		return repository.delete(clazz, criteria);
+	}
+
+	public static class EventsQuery extends Query {
 		private static final long serialVersionUID = 1L;
 		
 		public static final EventsQuery instance = new EventsQuery();
