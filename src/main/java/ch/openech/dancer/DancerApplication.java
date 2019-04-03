@@ -21,6 +21,7 @@ import ch.openech.dancer.frontend.DanceEventLocationTablePage;
 import ch.openech.dancer.frontend.DanceEventPage;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventCreationAction;
+import ch.openech.dancer.frontend.EventHousekeepingAction;
 import ch.openech.dancer.frontend.EventsPage;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.frontend.UserTablePage;
@@ -37,16 +38,25 @@ public class DancerApplication extends Application {
 	@Override
 	public List<Action> getNavigation() {
 		ActionGroup actions = new ActionGroup("");
+
 		actions.add(new PageAction(new EventsPage()));
 		
+		// noch zu wenig in einzelnen Regionen
+		// ActionGroup regions = actions.addGroup("Regionen");
+		// for (Region region : Region.values()) {
+		// regions.add(new EventsPage(region), region.name());
+		// }
+
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
+			ActionGroup events = actions.addGroup("Events");
+			events.add(new EventCreationAction());
+			events.add(new CheckUnpublishedEventsAction());
+			events.add(new EventHousekeepingAction());
+			events.add(new DanceEventAdminTablePage());
 			ActionGroup admin = actions.addGroup("Admin");
-			admin.add(new PageAction(new DanceEventAdminTablePage()));
 			admin.add(new LocationTablePage());
 			admin.add(new DeeJayTablePage());
 			admin.add(new UserTablePage());
-			admin.add(new EventCreationAction());
-			admin.add(new CheckUnpublishedEventsAction());
 		} else if (Subject.currentHasRole(DancerRoles.location.name())) {
 			Location location = Backend.find(Location.class, By.field(Location.$.name, Subject.getCurrent().getName())).get(0);
 			actions.add(new PageAction(new DanceEventLocationTablePage(location)));
