@@ -28,6 +28,7 @@ public class LocationTablePage extends SimpleTableEditorPage<Location> {
 		form.line(Location.$.name);
 		form.line(Location.$.address);
 		form.line(Location.$.city);
+		form.line(Location.$.region);
 		form.line(Location.$.country);
 		form.line(Location.$.url);
 		return form;
