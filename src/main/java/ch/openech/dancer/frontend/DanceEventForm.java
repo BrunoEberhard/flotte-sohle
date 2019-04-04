@@ -15,13 +15,13 @@ public class DanceEventForm extends Form<DanceEvent> {
 		fill(editable, this, DanceEvent.$);
 	}
 	
-	public static void fill(boolean editable, Form<?> form, DanceEvent $) {
+	public static void fill(boolean locationEditable, Form<?> form, DanceEvent $) {
 		form.line($.date, new TextFormElement($.getDayOfWeek()));
 		form.line($.from, $.until);
 		form.line($.title);
 		form.line($.description);
 		// form.line(new FlyerFormElement($.flyer, editable));
-		form.line(editable ? new ReferenceFormElement<>($.location, Location.$.name) : new TextFormElement($.location));
+		form.line(locationEditable ? new ReferenceFormElement<>($.location, Location.$.name) : new TextFormElement($.location));
 		form.line($.tags);
 		form.line($.status);
 	}
