@@ -17,10 +17,10 @@ import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.frontend.CheckUnpublishedEventsAction;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
-import ch.openech.dancer.frontend.DanceEventPage;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventCreationAction;
 import ch.openech.dancer.frontend.EventHousekeepingAction;
+import ch.openech.dancer.frontend.EventPage;
 import ch.openech.dancer.frontend.EventsPage;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.model.DanceEvent;
@@ -71,7 +71,7 @@ public class DancerApplication extends Application {
 	public Page createPage(String route) {
 		if (route.startsWith("event/")) {
 			String id = route.substring("event/".length());
-			return new DanceEventPage(id);
+			return new EventPage(id);
 		} else {
 			return null;
 		}

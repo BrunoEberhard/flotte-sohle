@@ -73,9 +73,9 @@ public class DanceEvent {
 	@Decimal(2)
 	public BigDecimal price, priceReduced, priceWithWorkshop;
 
-	public Flyer flyer = new Flyer();
+	public List<Flyer> flyers = new ArrayList<>();
 
-	@Size(255)
+	@Size(1023)
 	public String url;
 
 	public Location location;
