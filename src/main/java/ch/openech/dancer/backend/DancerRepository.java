@@ -12,6 +12,7 @@ import org.minimalj.repository.query.Query;
 import org.minimalj.repository.sql.SqlRepository;
 
 import ch.openech.dancer.model.DanceEvent;
+import ch.openech.dancer.model.EventStatus;
 
 /**
  * Hält einen kleinen Cache für die DanceEvent, damit die nicht für jeden
@@ -37,7 +38,9 @@ public class DancerRepository implements Repository {
 		if (query == EventsQuery.instance) {
 			if (events == null || lastLoad < System.currentTimeMillis() - 60 * 1000) {
 				events = repository.find(DanceEvent.class, By //
-						.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now()) //
+						.field(DanceEvent.$.status, FieldOperator.notEqual, EventStatus.blocked) //
+						.and(By.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now())) //
+						.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1)))
 						.order(DanceEvent.$.date));
 				// load completely in one transaction
 				events = events.subList(0, events.size());

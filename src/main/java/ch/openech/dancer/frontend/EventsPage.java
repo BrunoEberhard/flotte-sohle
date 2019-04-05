@@ -2,86 +2,59 @@ package ch.openech.dancer.frontend;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.minimalj.backend.Backend;
+import org.minimalj.frontend.Frontend;
+import org.minimalj.frontend.Frontend.IContent;
 import org.minimalj.frontend.impl.json.JsonFrontend;
-import org.minimalj.frontend.page.HtmlPage;
-import org.minimalj.repository.query.By;
-import org.minimalj.repository.query.FieldOperator;
+import org.minimalj.frontend.page.Page;
 import org.minimalj.util.DateUtils;
 import org.minimalj.util.StringUtils;
 
+import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.model.DanceEvent;
-import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Region;
 
-public class EventsPage extends HtmlPage {
+public class EventsPage extends Page {
 
 	private static String template;
-	
+	private final String title;
+	private final Predicate<DanceEvent> filter;
+	static {
+		template = JsonFrontend.readStream(EventsPage.class.getResourceAsStream("/ch/openech/dancer/events.html"));
+	}
+
 	public EventsPage() {
-		super(createHtml((String) null), "Anlässe");
+		this.title = "Anlässe";
+		filter = event -> true;
 	}
 
 	public EventsPage(String query) {
-		super(createHtml(query), "Suche: " + query);
+		this.title = "Suche: " + query;
+		filter = new DanceEventFilter(query);
 	}
 
 	public EventsPage(Region region) {
-		super(createHtml(region), "Region: " + region);
+		this.title = "Region: " + region;
+		filter = new DanceRegionEventFilter(region);
 	}
 
-	private static String createHtml(String query) {
-		template = JsonFrontend
-				.readStream(EventsPage.class.getResourceAsStream("/ch/openech/dancer/events.html"));
-		List<DanceEvent> events = load(query);
-		return fillTemplate(template, events);
+	@Override
+	public String getTitle() {
+		return title;
 	}
 
-	private static String createHtml(Region region) {
-		template = JsonFrontend.readStream(EventsPage.class.getResourceAsStream("/ch/openech/dancer/events.html"));
-		List<DanceEvent> events = load(region);
-		return fillTemplate(template, events);
+	@Override
+	public IContent getContent() {
+		List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
+		return Frontend.getInstance().createHtmlContent(fillTemplate(events.stream().filter(filter)));
 	}
 
-	protected static List<DanceEvent> load(String query) {
-		List<DanceEvent> events = Backend.find(DanceEvent.class, By //
-				.field(DanceEvent.$.status, FieldOperator.notEqual, EventStatus.blocked) //
-				.and(By.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now())) //
-				.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1)))
-				.order(DanceEvent.$.date));
-
-		// TODO minimal-j: implement fetch to load list completely
-		events = events.subList(0, events.size());
-
-		if (!StringUtils.isEmpty(query)) {
-			List<DanceEvent> filteredEvents = events.stream().filter(new DanceEventFilter(query))
-					.collect(Collectors.toList());
-			return filteredEvents;
-		} else {
-			return events;
-		}
-	}
-
-	protected static List<DanceEvent> load(Region region) {
-		List<DanceEvent> events = Backend.find(DanceEvent.class, By //
-				.field(DanceEvent.$.status, FieldOperator.notEqual, EventStatus.blocked) //
-				.and(By.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now())) //
-				.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1)))
-				.order(DanceEvent.$.date));
-
-		// TODO minimal-j: implement fetch to load list completely
-		events = events.subList(0, events.size());
-
-		List<DanceEvent> filteredEvents = events.stream().filter(new DanceRegionEventFilter(region))
-				.collect(Collectors.toList());
-		return filteredEvents;
-	}
-
-	private static String fillTemplate(String template, List<DanceEvent> events) {
+	private static String fillTemplate(Stream<DanceEvent> events) {
 		StringBuilder s = new StringBuilder();
 		createBlocks(events, s);
 		
@@ -90,9 +63,11 @@ public class EventsPage extends HtmlPage {
 		return result;
 	}
 
-	private static void createBlocks(List<DanceEvent> events, StringBuilder s) {
+	private static void createBlocks(Stream<DanceEvent> events, StringBuilder s) {
 		LocalDate lastDate = null;
-		for (DanceEvent event : events) {
+		Iterator<DanceEvent> i = events.iterator();
+		while (i.hasNext()) {
+			DanceEvent event = i.next();
 			if (!event.date.equals(lastDate)) {
 				endDay(s, lastDate);
 				lastDate = event.date;
