@@ -58,21 +58,21 @@ public class GalacticCrawler extends DanceEventCrawler {
 
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-				String subtitle = element.selectFirst(".tribe-events-list-event-title").text();
-				if (subtitle.contains("Flamenco")) {
+				String title = element.selectFirst(".tribe-events-list-event-title").text();
+				if (title.contains("Flamenco")) {
 					continue;
-				} else if ("Ritmo Dell’Amicizia con Filippe & Enza".equals(subtitle)) {
-					subtitle = "Ritmo Dell’Amicizia";
-				} else if ("Musigstubete mit Viva Varia mit Fründe".equals(subtitle)) {
-					subtitle = "Musigstubete";
+				} else if ("Ritmo Dell’Amicizia con Filippe & Enza".equals(title)) {
+					title = "Ritmo Dell’Amicizia";
+				} else if ("Musigstubete mit Viva Varia mit Fründe".equals(title)) {
+					title = "Musigstubete";
 				}
 
 				Element description = element.selectFirst(".tribe-events-list-photo-description");
 
 				danceEvent.status = EventStatus.published;
 				danceEvent.date = date;
-				danceEvent.title = location.name;
-				danceEvent.subTitle = subtitle;
+				danceEvent.header = location.name;
+				danceEvent.title = title;
 				danceEvent.from = from;
 				danceEvent.until = until;
 				danceEvent.description = description.text();

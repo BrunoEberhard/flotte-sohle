@@ -37,6 +37,7 @@ public class DanceInnCrawler extends DanceEventCrawler {
 			events.forEach(element -> {
 				LocalDate date = null;
 				SAAL saal = null;
+				String title = null;
 				String description = null;
 				boolean geschlossen = false;
 				
@@ -63,23 +64,28 @@ public class DanceInnCrawler extends DanceEventCrawler {
 					}
 				}					
 				
-				Element descriptionElement = element.select("h4").get(1);
-				if (descriptionElement != null) {
-					description = descriptionElement.text();
-					geschlossen = description.toLowerCase().contains("geschlossen");
+				Element titleElement = element.select("h4").get(1);
+				if (titleElement != null) {
+					title = titleElement.text();
+					geschlossen = title.toLowerCase().contains("geschlossen");
+				}
+
+				Element collapseElement = element.selectFirst(".panel-collapse");
+				if (collapseElement != null) {
+					description = collapseElement.text();
 				}					
 				
 				if (date != null && saal != null) {
-					String title = saal == SAAL.MAIN ? "Dance Inn" : "Schlosshof";
+					String header = saal == SAAL.MAIN ? "Dance Inn" : "Schlosshof";
 					
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date))
-									.and(By.field(DanceEvent.$.title, title)));
+									.and(By.field(DanceEvent.$.header, header)));
 
 					DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
+					danceEvent.header = header;
 					danceEvent.title = title;
-					danceEvent.subTitle = saal == SAAL.Schloss ? "Schlosshof" : null;
 					danceEvent.description = description;
 
 					danceEvent.from = LocalTime.of(21, 0);
@@ -89,7 +95,6 @@ public class DanceInnCrawler extends DanceEventCrawler {
 					danceEvent.location = location;
 
 					Backend.save(danceEvent);
-
 				}
 			});
 			return 0;

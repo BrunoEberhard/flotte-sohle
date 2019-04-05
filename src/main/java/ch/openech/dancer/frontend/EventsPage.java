@@ -117,17 +117,17 @@ public class EventsPage extends HtmlPage {
 
 	private static void createBlock(DanceEvent event, StringBuilder s) {
 		s.append("<div class=\"DanceEvent\">");
-		s.append("<div class=\"EventLocation\">");
+		s.append("<div class=\"Header\">");
 		appendLink(event, s);
-		s.append(event.title).append("</a></div>");
+		s.append(event.header).append("</a></div>");
 		/*
 		 * if (event.flyer != null && event.flyer.image != null) {
 		 * s.append("<img class=\"EventPic\" src=\"data:image;base64,");
 		 * s.append(Base64.getEncoder().encodeToString(event.flyer.image));
 		 * s.append("\">"); }
 		 */
-		if (!StringUtils.isEmpty(event.subTitle)) {
-			s.append("<div class=\"EventTitle\">").append(event.subTitle).append("</div>");
+		if (!StringUtils.isEmpty(event.line)) {
+			s.append("<div class=\"EventTitle\">").append(event.line).append("</div>");
 		}
 		if (event.deeJay != null) {
 			s.append("<div class=\"DeeJay\">").append(event.deeJay.name).append("</div>");

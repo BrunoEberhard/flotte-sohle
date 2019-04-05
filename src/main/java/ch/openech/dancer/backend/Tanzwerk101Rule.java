@@ -40,8 +40,8 @@ public class Tanzwerk101Rule extends DanceEventCrawler {
 				danceEvent.status = EventStatus.generated;
 				danceEvent.date = date;
 
-				danceEvent.title = location.name;
-				danceEvent.subTitle = "Tanzabend";
+				danceEvent.header = location.name;
+				danceEvent.title = "Tanzabend";
 				danceEvent.from = LocalTime.of(20, 30);
 				danceEvent.until = LocalTime.of(23, 0);
 				danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";

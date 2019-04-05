@@ -46,8 +46,8 @@ public class AnlikerTanzRule extends DanceEventCrawler {
 				danceEvent.status = EventStatus.published;
 				danceEvent.date = date;
 
-				danceEvent.title = "Anliker";
-				danceEvent.subTitle = "Tanz Café";
+				danceEvent.header = "Anliker";
+				danceEvent.title = "Tanz Café";
 
 				if (WINTER.contains(date.getMonth())) {
 					danceEvent.from = LocalTime.of(20, 0);

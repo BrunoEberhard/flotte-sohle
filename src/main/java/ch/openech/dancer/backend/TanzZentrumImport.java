@@ -28,7 +28,7 @@ public class TanzZentrumImport extends DanceEventCrawler {
 
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
-				event.title = location.name;
+				event.header = location.name;
 				event.title = "Tanz(übungs-)abend";
 				event.from = LocalTime.of(20, 30);
 				event.until = LocalTime.of(23, 30);
