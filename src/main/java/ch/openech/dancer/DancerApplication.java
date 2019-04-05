@@ -12,7 +12,6 @@ import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
-import org.minimalj.security.model.User;
 
 import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.frontend.CheckUnpublishedEventsAction;
@@ -24,7 +23,6 @@ import ch.openech.dancer.frontend.EventCreationAction;
 import ch.openech.dancer.frontend.EventHousekeepingAction;
 import ch.openech.dancer.frontend.EventsPage;
 import ch.openech.dancer.frontend.LocationTablePage;
-import ch.openech.dancer.frontend.UserTablePage;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
 
@@ -56,7 +54,7 @@ public class DancerApplication extends Application {
 			ActionGroup admin = actions.addGroup("Admin");
 			admin.add(new LocationTablePage());
 			admin.add(new DeeJayTablePage());
-			admin.add(new UserTablePage());
+			// admin.add(new UserTablePage());
 		} else if (Subject.currentHasRole(DancerRoles.location.name())) {
 			Location location = Backend.find(Location.class, By.field(Location.$.name, Subject.getCurrent().getName())).get(0);
 			actions.add(new PageAction(new DanceEventLocationTablePage(location)));
@@ -81,7 +79,7 @@ public class DancerApplication extends Application {
 
 	@Override
 	public Class<?>[] getEntityClasses() {
-		return new Class<?>[] { DanceEvent.class, User.class };
+		return new Class<?>[] { DanceEvent.class };
 	}
 
 	@Override

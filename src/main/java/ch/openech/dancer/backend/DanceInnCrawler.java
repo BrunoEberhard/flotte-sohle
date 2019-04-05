@@ -16,7 +16,6 @@ import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
-import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
@@ -25,6 +24,10 @@ public class DanceInnCrawler extends DanceEventCrawler {
 
 	private static final String AGENDA_URL = "http://www.danceinn.ch/programm-2/";
 
+	private static enum SAAL {
+		MAIN, Schloss
+	};
+
 	@Override
 	public int crawlEvents() {
 		try {
@@ -32,8 +35,12 @@ public class DanceInnCrawler extends DanceEventCrawler {
 
 			Elements events = doc.select(".event");
 			events.forEach(element -> {
+				LocalDate date = null;
+				SAAL saal = null;
+				String description = null;
+				boolean geschlossen = false;
+				
 				Element dateElement = element.selectFirst("h4");
-
 				String dateText = dateElement.ownText();
 				int index = dateText.indexOf(", ");
 				if (index > 0) {
@@ -41,30 +48,48 @@ public class DanceInnCrawler extends DanceEventCrawler {
 					index = dateText.indexOf(" 20");
 					if (index > 0) {
 						dateText = dateText.substring(0, index + 5).trim();
-
 						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMMM yyyy", Locale.GERMAN);
-
-						LocalDate date = LocalDate.parse(dateText, formatter);
-
-						Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-								By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
-
-						DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
-
-						Element text = element.select("h4").get(1);
-						danceEvent.title = "Dance Inn";
-						danceEvent.description = text.ownText().trim();
-
-						danceEvent.from = LocalTime.of(21, 0);
-						danceEvent.until = LocalTime.of(1, 0);
-						danceEvent.status = EventStatus.generated;
-						danceEvent.date = date;
-						danceEvent.location = location;
-						danceEvent.tags.add(EventTag.Workshop);
-
-						Backend.save(danceEvent);
-
+						date = LocalDate.parse(dateText, formatter);
 					}
+				}
+		
+				Element saalElement = element.selectFirst("h3");
+				if (saalElement != null) {
+					String s = saalElement.text();
+					if (s.contains("Schloss")) {
+						saal = SAAL.Schloss;
+					} else  if (s.contains("Inn")) {
+						saal = SAAL.MAIN;
+					}
+				}					
+				
+				Element descriptionElement = element.select("h4").get(1);
+				if (descriptionElement != null) {
+					description = descriptionElement.text();
+					geschlossen = description.toLowerCase().contains("geschlossen");
+				}					
+				
+				if (date != null && saal != null) {
+					String title = saal == SAAL.MAIN ? "Dance Inn" : "Schlosshof";
+					
+					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
+							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date))
+									.and(By.field(DanceEvent.$.title, title)));
+
+					DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
+
+					danceEvent.title = title;
+					danceEvent.subTitle = saal == SAAL.Schloss ? "Schlosshof" : null;
+					danceEvent.description = description;
+
+					danceEvent.from = LocalTime.of(21, 0);
+					danceEvent.until = LocalTime.of(1, 0);
+					danceEvent.status = geschlossen ? EventStatus.blocked : EventStatus.generated;
+					danceEvent.date = date;
+					danceEvent.location = location;
+
+					Backend.save(danceEvent);
+
 				}
 			});
 			return 0;

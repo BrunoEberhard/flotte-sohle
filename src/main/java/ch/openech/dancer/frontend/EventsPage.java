@@ -15,6 +15,7 @@ import org.minimalj.util.DateUtils;
 import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.model.DanceEvent;
+import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Region;
 
 public class EventsPage extends HtmlPage {
@@ -48,7 +49,8 @@ public class EventsPage extends HtmlPage {
 
 	protected static List<DanceEvent> load(String query) {
 		List<DanceEvent> events = Backend.find(DanceEvent.class, By //
-				.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now()) //
+				.field(DanceEvent.$.status, FieldOperator.notEqual, EventStatus.blocked) //
+				.and(By.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now())) //
 				.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1)))
 				.order(DanceEvent.$.date));
 
@@ -66,7 +68,8 @@ public class EventsPage extends HtmlPage {
 
 	protected static List<DanceEvent> load(Region region) {
 		List<DanceEvent> events = Backend.find(DanceEvent.class, By //
-				.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now()) //
+				.field(DanceEvent.$.status, FieldOperator.notEqual, EventStatus.blocked) //
+				.and(By.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now())) //
 				.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1)))
 				.order(DanceEvent.$.date));
 
@@ -116,15 +119,15 @@ public class EventsPage extends HtmlPage {
 		s.append("<div class=\"DanceEvent\">");
 		s.append("<div class=\"EventLocation\">");
 		appendLink(event, s);
-		s.append(event.location.name).append("</a></div>");
+		s.append(event.title).append("</a></div>");
 		/*
 		 * if (event.flyer != null && event.flyer.image != null) {
 		 * s.append("<img class=\"EventPic\" src=\"data:image;base64,");
 		 * s.append(Base64.getEncoder().encodeToString(event.flyer.image));
 		 * s.append("\">"); }
 		 */
-		if (!StringUtils.isEmpty(event.displayTitle)) {
-			s.append("<div class=\"EventTitle\">").append(event.displayTitle).append("</div>");
+		if (!StringUtils.isEmpty(event.subTitle)) {
+			s.append("<div class=\"EventTitle\">").append(event.subTitle).append("</div>");
 		}
 		if (event.deeJay != null) {
 			s.append("<div class=\"DeeJay\">").append(event.deeJay.name).append("</div>");

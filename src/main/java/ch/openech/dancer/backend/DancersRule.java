@@ -36,7 +36,8 @@ public class DancersRule extends DanceEventCrawler {
 				danceEvent.status = EventStatus.published;
 				danceEvent.date = date;
 
-				danceEvent.title = "Saturday-Dancers";
+				danceEvent.title = location.name;
+				danceEvent.subTitle = "Saturday-Dancers";
 				danceEvent.from = LocalTime.of(20, 0);
 				danceEvent.until = LocalTime.of(2, 0);
 				danceEvent.description = "Der Klassiker - jeden Samstag mit dem bewährten Tanz-Mix, der keine Wünsche offen lässt. Daten, sowie eine Tabelle, wann jeweils zusätzliche Tanzflächen zur Verfügung stehen.";

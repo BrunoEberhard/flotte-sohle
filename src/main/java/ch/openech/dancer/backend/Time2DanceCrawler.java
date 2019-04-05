@@ -45,7 +45,8 @@ public class Time2DanceCrawler extends DanceEventCrawler {
 
 						danceEvent.status = EventStatus.published;
 						danceEvent.date = date;
-						danceEvent.title = "Saturday Dance Night";
+						danceEvent.title = location.name;
+						danceEvent.subTitle = "Saturday Dance Night";
 						danceEvent.from = LocalTime.of(20, 0);
 						danceEvent.until = LocalTime.of(23, 59);
 						danceEvent.description = "Einmal im Monat laden wir dich ein zu unserem Tanzabend.";

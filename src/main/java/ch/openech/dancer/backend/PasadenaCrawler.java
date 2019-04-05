@@ -50,7 +50,8 @@ public class PasadenaCrawler extends DanceEventCrawler {
 
 					danceEvent.status = EventStatus.published;
 					danceEvent.date = date;
-					danceEvent.title = extractDanceEventTitle(element);
+					danceEvent.title = location.name;
+					danceEvent.subTitle = extractDanceEventTitle(element);
 					danceEvent.from = period[0];
 					danceEvent.until = period[1];
 					danceEvent.description = element.nextElementSibling().text();
@@ -74,7 +75,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 					if (!StringUtils.isEmpty(danceEvent.title)) {
 						for (String title : TITLES) {
 							if (danceEvent.title.contains(title)) {
-								danceEvent.displayTitle = title;
+								danceEvent.subTitle = title;
 							}
 						}
 					}

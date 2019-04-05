@@ -1,6 +1,5 @@
 package ch.openech.dancer.backend;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,6 +28,7 @@ public class TanzZentrumImport extends DanceEventCrawler {
 
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
+				event.title = location.name;
 				event.title = "Tanz(übungs-)abend";
 				event.from = LocalTime.of(20, 30);
 				event.until = LocalTime.of(23, 30);

@@ -57,13 +57,13 @@ public class DanceEvent {
 	}
 
 	@Size(100)
-	@Searched
-	public String displayTitle;
-
-	@Size(100)
 	@NotEmpty
 	@Searched
 	public String title;
+
+	@Size(100)
+	@Searched
+	public String subTitle;
 
 	@Size(4000)
 	@Searched

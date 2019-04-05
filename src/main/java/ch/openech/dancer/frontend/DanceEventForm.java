@@ -19,6 +19,7 @@ public class DanceEventForm extends Form<DanceEvent> {
 		form.line($.date, new TextFormElement($.getDayOfWeek()));
 		form.line($.from, $.until);
 		form.line($.title);
+		form.line($.subTitle);
 		form.line($.description);
 		// form.line(new FlyerFormElement($.flyer, editable));
 		form.line(locationEditable ? new ReferenceFormElement<>($.location, Location.$.name) : new TextFormElement($.location));

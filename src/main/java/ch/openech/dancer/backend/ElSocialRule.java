@@ -38,7 +38,8 @@ public class ElSocialRule extends DanceEventCrawler {
 				danceEvent.status = EventStatus.generated;
 				danceEvent.date = date;
 
-				danceEvent.title = "Tanz-Boge";
+				danceEvent.title = location.name;
+				danceEvent.subTitle = "Tanz-Boge";
 				danceEvent.from = LocalTime.of(20, 0);
 				danceEvent.until = LocalTime.of(23, 0);
 				danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";

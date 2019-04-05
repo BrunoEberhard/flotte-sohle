@@ -41,7 +41,8 @@ public class BanditsRule extends DanceEventCrawler {
 				danceEvent.status = EventStatus.published;
 				danceEvent.date = date;
 
-				danceEvent.title = "Dancing Night";
+				danceEvent.title = location.name;
+				danceEvent.subTitle = "Dancing Night";
 				danceEvent.from = LocalTime.of(20, 0);
 				danceEvent.until = LocalTime.of(1, 0);
 				danceEvent.description = "DanceCharts & Dance Classics 80er & 90er Style & Latino (Salsas & Bachatas) & Oldies & Schlager u.s.w.";
