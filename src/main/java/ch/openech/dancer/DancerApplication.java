@@ -22,6 +22,7 @@ import ch.openech.dancer.frontend.EventCreationAction;
 import ch.openech.dancer.frontend.EventHousekeepingAction;
 import ch.openech.dancer.frontend.EventPage;
 import ch.openech.dancer.frontend.EventsPage;
+import ch.openech.dancer.frontend.InfoPage;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
@@ -37,7 +38,8 @@ public class DancerApplication extends Application {
 	public List<Action> getNavigation() {
 		ActionGroup actions = new ActionGroup("");
 
-		actions.add(new PageAction(new EventsPage()));
+		actions.add(new EventsPage());
+		actions.add(new InfoPage());
 		
 		// noch zu wenig in einzelnen Regionen
 		// ActionGroup regions = actions.addGroup("Regionen");
