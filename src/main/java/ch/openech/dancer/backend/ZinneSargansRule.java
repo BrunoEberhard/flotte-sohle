@@ -35,7 +35,7 @@ public class ZinneSargansRule extends DanceEventCrawler {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-			DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
+			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
 				continue;
 			}

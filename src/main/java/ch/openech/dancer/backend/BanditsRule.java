@@ -35,25 +35,26 @@ public class BanditsRule extends DanceEventCrawler {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-			if (!danceEventOptional.isPresent()) {
-				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
-
-				danceEvent.status = EventStatus.generated;
-				danceEvent.date = date;
-
-				danceEvent.header = location.name;
-				danceEvent.title = "Dancing Night";
-				danceEvent.from = LocalTime.of(20, 0);
-				danceEvent.until = LocalTime.of(1, 0);
-				danceEvent.description = "DanceCharts & Dance Classics 80er & 90er Style & Latino (Salsas & Bachatas) & Oldies & Schlager u.s.w.";
-				danceEvent.location = location;
-				danceEvent.price = BigDecimal.valueOf(5);
-				danceEvent.tags.add(EventTag.Workshop);
-				danceEvent.deeJay = deeJayJanosch;
-
-				Backend.save(danceEvent);
-				generated++;
+			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+			if (danceEvent.status == EventStatus.edited) {
+				continue;
 			}
+
+			danceEvent.status = EventStatus.generated;
+			danceEvent.date = date;
+
+			danceEvent.header = location.name;
+			danceEvent.title = "Dancing Night";
+			danceEvent.from = LocalTime.of(20, 0);
+			danceEvent.until = LocalTime.of(1, 0);
+			danceEvent.description = "DanceCharts & Dance Classics 80er & 90er Style & Latino (Salsas & Bachatas) & Oldies & Schlager u.s.w.";
+			danceEvent.location = location;
+			danceEvent.price = BigDecimal.valueOf(5);
+			danceEvent.tags.add(EventTag.Workshop);
+			danceEvent.deeJay = deeJayJanosch;
+
+			Backend.save(danceEvent);
+			generated++;
 		}
 
 		return generated;

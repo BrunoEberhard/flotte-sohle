@@ -32,22 +32,23 @@ public class ElSocialRule extends DanceEventCrawler {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-			if (!danceEventOptional.isPresent()) {
-				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
-
-				danceEvent.status = EventStatus.generated;
-				danceEvent.date = date;
-
-				danceEvent.header = location.name;
-				danceEvent.title = "Tanz-Boge";
-				danceEvent.from = LocalTime.of(20, 0);
-				danceEvent.until = LocalTime.of(23, 0);
-				danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";
-				danceEvent.location = location;
-
-				Backend.save(danceEvent);
-				generated++;
+			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+			if (danceEvent.status == EventStatus.edited) {
+				continue;
 			}
+
+			danceEvent.status = EventStatus.generated;
+			danceEvent.date = date;
+
+			danceEvent.header = location.name;
+			danceEvent.title = "Tanz-Boge";
+			danceEvent.from = LocalTime.of(20, 0);
+			danceEvent.until = LocalTime.of(23, 0);
+			danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";
+			danceEvent.location = location;
+
+			Backend.save(danceEvent);
+			generated++;
 		}
 
 		return generated;

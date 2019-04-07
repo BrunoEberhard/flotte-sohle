@@ -34,25 +34,26 @@ public class Werk1Rule extends DanceEventCrawler {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-			if (!danceEventOptional.isPresent()) {
-				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
-
-				danceEvent.status = EventStatus.generated;
-				danceEvent.date = date;
-
-				danceEvent.header = location.name;
-				danceEvent.title = "Tanz mit mir";
-				danceEvent.from = LocalTime.of(21, 00);
-				danceEvent.until = LocalTime.of(0, 30);
-				danceEvent.description = "DiscoSwing, West Coast Swing, Jive, Schlager, Walzer. Findet an Feiertagen im DanceINN (Münchwilen) statt.";
-				danceEvent.location = location;
-				danceEvent.price = BigDecimal.valueOf(9);
-				danceEvent.priceReduced = BigDecimal.valueOf(7);
-				danceEvent.deeJay = deeJayJanosch;
-
-				Backend.save(danceEvent);
-				generated++;
+			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+			if (danceEvent.status == EventStatus.edited) {
+				continue;
 			}
+
+			danceEvent.status = EventStatus.generated;
+			danceEvent.date = date;
+
+			danceEvent.header = location.name;
+			danceEvent.title = "Tanz mit mir";
+			danceEvent.from = LocalTime.of(21, 00);
+			danceEvent.until = LocalTime.of(0, 30);
+			danceEvent.description = "DiscoSwing, West Coast Swing, Jive, Schlager, Walzer. Findet an Feiertagen im DanceINN (Münchwilen) statt.";
+			danceEvent.location = location;
+			danceEvent.price = BigDecimal.valueOf(9);
+			danceEvent.priceReduced = BigDecimal.valueOf(7);
+			danceEvent.deeJay = deeJayJanosch;
+
+			Backend.save(danceEvent);
+			generated++;
 		}
 		DanceInnCrawler.handleWerk1InDanceInn();
 

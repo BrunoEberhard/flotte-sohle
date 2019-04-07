@@ -30,22 +30,23 @@ public class DancersRule extends DanceEventCrawler {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-			if (!danceEventOptional.isPresent()) {
-				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
-
-				danceEvent.status = EventStatus.generated;
-				danceEvent.date = date;
-
-				danceEvent.header = location.name;
-				danceEvent.title = "Saturday-Dancers";
-				danceEvent.from = LocalTime.of(20, 0);
-				danceEvent.until = LocalTime.of(2, 0);
-				danceEvent.description = "Der Klassiker - jeden Samstag mit dem bewährten Tanz-Mix, der keine Wünsche offen lässt. Daten, sowie eine Tabelle, wann jeweils zusätzliche Tanzflächen zur Verfügung stehen.";
-				danceEvent.location = location;
-
-				Backend.save(danceEvent);
-				generated++;
+			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+			if (danceEvent.status == EventStatus.edited) {
+				continue;
 			}
+
+			danceEvent.status = EventStatus.generated;
+			danceEvent.date = date;
+
+			danceEvent.header = location.name;
+			danceEvent.title = "Saturday-Dancers";
+			danceEvent.from = LocalTime.of(20, 0);
+			danceEvent.until = LocalTime.of(2, 0);
+			danceEvent.description = "Der Klassiker - jeden Samstag mit dem bewährten Tanz-Mix, der keine Wünsche offen lässt. Daten, sowie eine Tabelle, wann jeweils zusätzliche Tanzflächen zur Verfügung stehen.";
+			danceEvent.location = location;
+
+			Backend.save(danceEvent);
+			generated++;
 		}
 
 		return generated;

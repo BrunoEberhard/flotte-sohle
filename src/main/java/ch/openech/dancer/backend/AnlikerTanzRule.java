@@ -40,31 +40,32 @@ public class AnlikerTanzRule extends DanceEventCrawler {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-			if (!danceEventOptional.isPresent()) {
-				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
-
-				danceEvent.status = EventStatus.generated;
-				danceEvent.date = date;
-
-				danceEvent.header = "Anliker";
-				danceEvent.title = "Tanz Café";
-
-				if (WINTER.contains(date.getMonth())) {
-					danceEvent.from = LocalTime.of(20, 0);
-					danceEvent.until = LocalTime.of(0, 0);
-				} else {
-					danceEvent.from = LocalTime.of(20, 30);
-					danceEvent.until = LocalTime.of(0, 30);
-				}
-
-				danceEvent.description = "Die Anliker Dance Night. TANZcafé auf 2 Dance-Floors mit Standard/Latein, Salsa, Disco-Fox, West Coast Swing u.v.m.!";
-				danceEvent.location = location;
-				danceEvent.price = BigDecimal.valueOf(14);
-				danceEvent.priceReduced = BigDecimal.valueOf(12);
-
-				Backend.save(danceEvent);
-				generated++;
+			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+			if (danceEvent.status == EventStatus.edited) {
+				continue;
 			}
+
+			danceEvent.status = EventStatus.generated;
+			danceEvent.date = date;
+
+			danceEvent.header = "Anliker";
+			danceEvent.title = "Tanz Café";
+
+			if (WINTER.contains(date.getMonth())) {
+				danceEvent.from = LocalTime.of(20, 0);
+				danceEvent.until = LocalTime.of(0, 0);
+			} else {
+				danceEvent.from = LocalTime.of(20, 30);
+				danceEvent.until = LocalTime.of(0, 30);
+			}
+
+			danceEvent.description = "Die Anliker Dance Night. TANZcafé auf 2 Dance-Floors mit Standard/Latein, Salsa, Disco-Fox, West Coast Swing u.v.m.!";
+			danceEvent.location = location;
+			danceEvent.price = BigDecimal.valueOf(14);
+			danceEvent.priceReduced = BigDecimal.valueOf(12);
+
+			Backend.save(danceEvent);
+			generated++;
 		}
 
 		return generated;

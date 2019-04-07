@@ -34,24 +34,25 @@ public class Tanzwerk101Rule extends DanceEventCrawler {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-			if (!danceEventOptional.isPresent()) {
-				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
-
-				danceEvent.status = EventStatus.generated;
-				danceEvent.date = date;
-
-				danceEvent.header = location.name;
-				danceEvent.title = "Tanzabend";
-				danceEvent.from = LocalTime.of(20, 30);
-				danceEvent.until = LocalTime.of(23, 0);
-				danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";
-				danceEvent.location = location;
-				danceEvent.deeJay = deeJayJanosch;
-				danceEvent.tags.add(EventTag.Taxidancer);
-
-				Backend.save(danceEvent);
-				generated++;
+			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+			if (danceEvent.status == EventStatus.edited) {
+				continue;
 			}
+
+			danceEvent.status = EventStatus.generated;
+			danceEvent.date = date;
+
+			danceEvent.header = location.name;
+			danceEvent.title = "Tanzabend";
+			danceEvent.from = LocalTime.of(20, 30);
+			danceEvent.until = LocalTime.of(23, 0);
+			danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";
+			danceEvent.location = location;
+			danceEvent.deeJay = deeJayJanosch;
+			danceEvent.tags.add(EventTag.Taxidancer);
+
+			Backend.save(danceEvent);
+			generated++;
 		}
 
 		return generated;
