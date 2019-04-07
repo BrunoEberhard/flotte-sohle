@@ -9,13 +9,13 @@ import ch.openech.dancer.model.Location;
 
 public class DanceEventForm extends Form<DanceEvent> {
 
-	public DanceEventForm(boolean editable) {
+	public DanceEventForm(boolean editable, boolean locationEditable) {
 		super(editable, 2);
 		
-		fill(editable, this, DanceEvent.$);
+		fill(editable, locationEditable && editable, this, DanceEvent.$);
 	}
 	
-	public static void fill(boolean locationEditable, Form<?> form, DanceEvent $) {
+	public static void fill(boolean editable, boolean locationEditable, Form<?> form, DanceEvent $) {
 		form.line($.date, new TextFormElement($.getDayOfWeek()));
 		form.line($.from, $.until);
 		form.line($.title);
@@ -25,6 +25,8 @@ public class DanceEventForm extends Form<DanceEvent> {
 		// form.line(new FlyerFormElement($.flyer, editable));
 		form.line(locationEditable ? new ReferenceFormElement<>($.location, Location.$.name) : new TextFormElement($.location));
 		form.line($.tags);
-		form.line($.status);
+		if (!editable) {
+			form.line($.status);
+		}
 	}
 }

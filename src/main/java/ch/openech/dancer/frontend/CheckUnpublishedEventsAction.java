@@ -7,7 +7,6 @@ import org.minimalj.frontend.editor.Editor.SimpleEditor;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.model.Keys;
 import org.minimalj.repository.query.By;
-import org.minimalj.util.CloneHelper;
 
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
@@ -34,7 +33,7 @@ public class CheckUnpublishedEventsAction extends SimpleEditor<CheckUnpublishedE
 	@Override
 	protected Form<CheckUnpublishedEventsModel> createForm() {
 		Form<CheckUnpublishedEventsModel> form = new Form<>(Form.EDITABLE, 2);
-		DanceEventForm.fill(Form.EDITABLE, form, CheckUnpublishedEventsModel.$.event);
+		DanceEventForm.fill(Form.EDITABLE, true, form, CheckUnpublishedEventsModel.$.event);
 		// Minimal-J 1.17.0.0 form.line(form.readonly(CheckUnpublishedEventsModel.$.pos), form.readonly(CheckUnpublishedEventsModel.$.count));
 		return form;
 	}

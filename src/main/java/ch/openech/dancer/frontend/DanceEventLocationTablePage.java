@@ -46,7 +46,13 @@ public class DanceEventLocationTablePage extends SimpleTableEditorPage<DanceEven
 
 	@Override
 	protected Form<DanceEvent> createForm(boolean editable, boolean newObject) {
-		return new DanceEventForm(editable);
+		return new DanceEventForm(editable, false);
+	}
+
+	@Override
+	protected DanceEvent save(DanceEvent event) {
+		event.status = EventStatus.edited;
+		return super.save(event);
 	}
 
 	@Override
