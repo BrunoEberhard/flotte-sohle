@@ -65,7 +65,7 @@ public class Tanzwerk101Rule extends DanceEventCrawler {
 		location.address = "Viaduktstrasse 67";
 		location.city = "8005 Zürich";
 		location.name = "Tanzwerk 101";
-		location.url = "http://www.elsocial.ch";
+		location.url = "http://www.tanzwerk101.ch";
 		location.region.add(Region.ZH);
 		return location;
 	}
