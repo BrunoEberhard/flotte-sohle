@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.impl.json.JsonFrontend;
 import org.minimalj.frontend.page.HtmlPage;
+import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.model.DanceEvent;
 
@@ -36,6 +37,10 @@ public class EventPage extends HtmlPage {
 
 		String date = event.getDayOfWeek() + ", " + shortFormat.format(event.date);
 		result = result.replace("$date", date);
+
+		if (!StringUtils.isEmpty(event.location.url)) {
+			result = result.replace("$url", event.location.url);
+		}
 		return result;
 	}
 
