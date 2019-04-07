@@ -39,7 +39,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 		DanceEvent event = new DanceEvent();
 		event.from = LocalTime.of(20, 00);
 		event.until = LocalTime.of(23, 00);
-		event.status = EventStatus.published;
+		event.status = EventStatus.edited;
 		return event;
 	}
 

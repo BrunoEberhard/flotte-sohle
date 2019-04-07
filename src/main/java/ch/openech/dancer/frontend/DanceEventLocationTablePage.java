@@ -40,7 +40,7 @@ public class DanceEventLocationTablePage extends SimpleTableEditorPage<DanceEven
 	protected DanceEvent createObject() {
 		DanceEvent event = new DanceEvent();
 		event.location = location;
-		event.status = EventStatus.published;
+		event.status = EventStatus.edited;
 		return event;
 	}
 

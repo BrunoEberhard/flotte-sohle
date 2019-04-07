@@ -27,7 +27,7 @@ public class DanceCubeImport extends DanceEventCrawler {
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
 				event.header = location.name;
-				event.status = EventStatus.published;
+				event.status = EventStatus.generated;
 				event.tags.add(EventTag.Workshop);
 
 				Backend.insert(event);

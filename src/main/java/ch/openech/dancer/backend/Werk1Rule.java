@@ -54,6 +54,7 @@ public class Werk1Rule extends DanceEventCrawler {
 				generated++;
 			}
 		}
+		DanceInnCrawler.handleWerk1InDanceInn();
 
 		return generated;
 	}

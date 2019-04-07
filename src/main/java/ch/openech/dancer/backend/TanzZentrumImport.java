@@ -34,7 +34,7 @@ public class TanzZentrumImport extends DanceEventCrawler {
 				event.until = LocalTime.of(23, 30);
 				event.price = BigDecimal.valueOf(15);
 				event.priceReduced = BigDecimal.valueOf(0);
-				event.status = EventStatus.published;
+				event.status = EventStatus.generated;
 				event.tags.add(EventTag.Workshop);
 
 				Backend.insert(event);

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
+import org.minimalj.repository.query.FieldCriteria;
 
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
@@ -97,10 +99,32 @@ public class DanceInnCrawler extends DanceEventCrawler {
 					Backend.save(danceEvent);
 				}
 			});
+			handleWerk1InDanceInn();
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return 0;
+		}
+	}
+
+	public static void handleWerk1InDanceInn() {
+		Optional<Location> werk1 = findOne(Location.class, new FieldCriteria(Location.$.name, "Werk 1"));
+		Optional<Location> danceInn = findOne(Location.class, new FieldCriteria(Location.$.name, "Dance Inn"));
+		if (!werk1.isPresent() || !danceInn.isPresent()) {
+			return;
+		}
+
+		List<DanceEvent> danceInnEvents = Backend.find(DanceEvent.class,
+				By.field(DanceEvent.$.location, danceInn.get()));
+		for (DanceEvent i : danceInnEvents) {
+			if (i.description.contains("Werk 1")) {
+				Optional<DanceEvent> werkEvent = findOne(DanceEvent.class,
+						By.field(DanceEvent.$.location, werk1.get()).and(By.field(DanceEvent.$.date, i.date)));
+				if (werkEvent.isPresent()) {
+					werkEvent.get().status = EventStatus.blocked;
+					Backend.save(werkEvent.get());
+				}
+			}
 		}
 	}
 

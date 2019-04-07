@@ -69,7 +69,7 @@ public class GalacticCrawler extends DanceEventCrawler {
 
 				Element description = element.selectFirst(".tribe-events-list-photo-description");
 
-				danceEvent.status = EventStatus.published;
+				danceEvent.status = EventStatus.generated;
 				danceEvent.date = date;
 				danceEvent.header = location.name;
 				danceEvent.title = title;

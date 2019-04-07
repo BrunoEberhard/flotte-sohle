@@ -26,7 +26,7 @@ public class TanzcenterImport extends DanceEventCrawler {
 			if (!danceEventOptional.isPresent() && !event.date.isBefore(LocalDate.now())) {
 				event.location = this.location;
 				event.header = location.name;
-				event.status = EventStatus.published;
+				event.status = EventStatus.generated;
 
 				Backend.insert(event);
 				count++;
