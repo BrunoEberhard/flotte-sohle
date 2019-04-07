@@ -1,0 +1,11 @@
+Routen auf open street map
+https://maps.openrouteservice.org/
+
+IP zu Standort (Auflistung von Services)
+https://ahmadawais.com/best-api-geolocating-an-ip-address/
+
+Einer der Services
+https://ipdata.co/docs.html
+
+xCal: calender informationen in xml
+https://tools.ietf.org/html/rfc6321
