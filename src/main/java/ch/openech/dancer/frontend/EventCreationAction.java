@@ -29,6 +29,7 @@ import ch.openech.dancer.backend.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.Tanzwerk101Rule;
 import ch.openech.dancer.backend.Time2DanceCrawler;
 import ch.openech.dancer.backend.Werk1Rule;
+import ch.openech.dancer.backend.ZinneSargansRule;
 
 public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>> {
 
@@ -49,6 +50,7 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 		crawlers.add(new TanzZentrumImport());
 		crawlers.add(new TanzcenterImport());
 		crawlers.add(new GalacticCrawler());
+		crawlers.add(new ZinneSargansRule());
 
 		Collections.sort(crawlers, Comparator.comparing(DanceEventCrawler::getName));
 	}
