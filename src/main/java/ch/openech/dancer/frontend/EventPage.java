@@ -28,7 +28,7 @@ public class EventPage extends HtmlPage {
 
 	private static String fillTemplate(DanceEvent event) {
 		String result = template.replace("$title", event.title);
-		result = result.replace("$description", event.description);
+		result = result.replace("$description", event.description != null ? event.description : "");
 		result = result.replace("$fromUntil", event.getFromUntil());
 		result = result.replace("$location", event.location.name);
 		result = result.replace("$address", event.location.address);
