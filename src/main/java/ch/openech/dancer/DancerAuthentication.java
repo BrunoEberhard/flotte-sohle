@@ -18,7 +18,8 @@ public class DancerAuthentication extends UserPasswordAuthentication {
 	static {
 		admin.name = "admin";
 		admin.roles.add(new UserRole(DancerRoles.admin.name()));
-		admin.password.setPassword("admin".toCharArray());
+		String password = System.getProperty("ADMIN_PASSWORD", "");
+		admin.password.setPassword(password.toCharArray());
 	}
 
 	@Override
