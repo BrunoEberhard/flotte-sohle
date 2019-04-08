@@ -31,7 +31,10 @@ public class DanceEvent {
 	
 	@NotEmpty
 	@Size(Size.TIME_HH_MM)
-	public LocalTime from, until;
+	public LocalTime from;
+
+	@Size(Size.TIME_HH_MM)
+	public LocalTime until;
 
 	public static boolean isDuringTheDay(LocalTime time) {
 		return time != null && time.isBefore(LocalTime.of(18, 0));
@@ -41,7 +44,11 @@ public class DanceEvent {
 		if (Keys.isKeyObject(this))
 			return Keys.methodOf(this, "fromUntil");
 
-		return Rendering.render(from) + " - " + Rendering.render(until);
+		if (until != null) {
+			return Rendering.render(from) + " - " + Rendering.render(until);
+		} else {
+			return Rendering.render(from).toString();
+		}
 	}
 
 	public String getDayOfWeek() {
