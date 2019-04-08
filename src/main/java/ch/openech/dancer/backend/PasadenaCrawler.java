@@ -60,14 +60,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 					Elements mitDj = element.nextElementSibling().getElementsContainingOwnText("Mit DJ");
 					if (!mitDj.isEmpty()) {
 						String djText = mitDj.get(0).ownText().substring(4);
-						Optional<DeeJay> deeJay = findOne(DeeJay.class, By.field(DeeJay.$.name, djText));
-						if (deeJay.isPresent()) {
-							danceEvent.deeJay = deeJay.get();
-						} else {
-							DeeJay newDeeJay = new DeeJay();
-							newDeeJay.name = djText;
-							danceEvent.deeJay = Backend.save(newDeeJay);
-						}
+						danceEvent.deeJay = getDeeJay(djText);
 					} else {
 						danceEvent.deeJay = null;
 					}

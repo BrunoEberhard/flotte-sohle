@@ -15,6 +15,7 @@ import org.minimalj.frontend.form.element.CheckBoxFormElement;
 import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElementProperty;
 
 import ch.openech.dancer.backend.AnlikerTanzRule;
+import ch.openech.dancer.backend.BadenerTanzCenterCrawler;
 import ch.openech.dancer.backend.BanditsRule;
 import ch.openech.dancer.backend.DanceCubeImport;
 import ch.openech.dancer.backend.DanceEventCrawler;
@@ -51,6 +52,7 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 		crawlers.add(new TanzcenterImport());
 		crawlers.add(new GalacticCrawler());
 		crawlers.add(new ZinneSargansRule());
+		crawlers.add(new BadenerTanzCenterCrawler());
 
 		Collections.sort(crawlers, Comparator.comparing(DanceEventCrawler::getName));
 	}

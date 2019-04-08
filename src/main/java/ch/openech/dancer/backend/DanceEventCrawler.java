@@ -4,10 +4,12 @@ import java.util.Optional;
 
 import org.minimalj.backend.Backend;
 import org.minimalj.backend.repository.ReadCriteriaTransaction;
+import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.FieldCriteria;
 import org.minimalj.repository.query.Query;
 import org.minimalj.transaction.Transaction;
 
+import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.Location;
 
 public abstract class DanceEventCrawler implements Transaction<Integer> {
@@ -61,5 +63,16 @@ public abstract class DanceEventCrawler implements Transaction<Integer> {
 			sb.append(c);
 		}
 		return sb.toString();
+	}
+
+	protected DeeJay getDeeJay(String djText) {
+		Optional<DeeJay> deeJay = findOne(DeeJay.class, By.field(DeeJay.$.name, djText));
+		if (deeJay.isPresent()) {
+			return deeJay.get();
+		} else {
+			DeeJay newDeeJay = new DeeJay();
+			newDeeJay.name = djText;
+			return Backend.save(newDeeJay);
+		}
 	}
 }
