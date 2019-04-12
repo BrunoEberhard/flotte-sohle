@@ -35,7 +35,12 @@ public class DancersRule extends DanceEventCrawler {
 				continue;
 			}
 
-			danceEvent.status = EventStatus.generated;
+			if (LocalDate.of(2019, 04, 20).equals(date)) {
+				// Ostern
+				danceEvent.status = EventStatus.blocked;
+			} else {
+				danceEvent.status = EventStatus.generated;
+			}
 			danceEvent.date = date;
 
 			danceEvent.header = location.name;
