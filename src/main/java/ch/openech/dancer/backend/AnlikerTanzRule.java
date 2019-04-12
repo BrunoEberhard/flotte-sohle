@@ -26,14 +26,14 @@ public class AnlikerTanzRule extends DanceEventCrawler {
 	@Override
 	public int crawlEvents() {
 		LocalDate start = LocalDate.now();
-		LocalDate firstSunday = start.with(TemporalAdjusters.firstInMonth(DayOfWeek.SUNDAY));
-		if (firstSunday.isBefore(start)) {
+		LocalDate firstSaturday = start.with(TemporalAdjusters.firstInMonth(DayOfWeek.SATURDAY));
+		if (firstSaturday.isBefore(start)) {
 			start = start.plusMonths(1);
 		}
 
 		int generated = 0;
 		for (int i = 0; i < 3; i++) {
-			LocalDate date = start.plusMonths(i).with(TemporalAdjusters.firstInMonth(DayOfWeek.SUNDAY));
+			LocalDate date = start.plusMonths(i).with(TemporalAdjusters.firstInMonth(DayOfWeek.SATURDAY));
 			if (date.getYear() == 2019 && date.getMonth() == Month.APRIL)
 				continue;
 
