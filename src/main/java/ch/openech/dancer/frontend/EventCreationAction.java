@@ -26,6 +26,7 @@ import ch.openech.dancer.backend.ElSocialRule;
 import ch.openech.dancer.backend.GalacticCrawler;
 import ch.openech.dancer.backend.PasadenaCrawler;
 import ch.openech.dancer.backend.SchuetzenhausRule;
+import ch.openech.dancer.backend.TanzSalonCrawler;
 import ch.openech.dancer.backend.TanzZentrumImport;
 import ch.openech.dancer.backend.TanzcenterImport;
 import ch.openech.dancer.backend.TanzenMitHerzCrawler;
@@ -57,6 +58,7 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 		crawlers.add(new BadenerTanzCenterCrawler());
 		crawlers.add(new SchuetzenhausRule());
 		crawlers.add(new BlueboxCrawler());
+		crawlers.add(new TanzSalonCrawler());
 
 		Collections.sort(crawlers, Comparator.comparing(DanceEventCrawler::getName));
 	}
