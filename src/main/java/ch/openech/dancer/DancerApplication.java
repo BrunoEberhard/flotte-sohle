@@ -84,11 +84,6 @@ public class DancerApplication extends Application {
 		return new Class<?>[] { DanceEvent.class };
 	}
 
-	@Override
-	public String getName() {
-		return "Anlässe Paartanz";
-	}
-
 	public static void main(String[] args) {
 		Configuration.set("MjRepository", DancerRepository.class.getName());
 		Configuration.set("MjAuthentication", DancerAuthentication.class.getName());
