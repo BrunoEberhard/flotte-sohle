@@ -12,6 +12,7 @@ import java.util.Optional;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.minimalj.backend.Backend;
+import org.minimalj.frontend.impl.json.JsonReader;
 import org.minimalj.repository.query.By;
 import org.minimalj.util.StringUtils;
 
