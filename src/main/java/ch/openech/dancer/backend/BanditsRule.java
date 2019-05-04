@@ -16,11 +16,13 @@ import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class BanditsRule extends DanceEventCrawler {
+public class BanditsRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int crawlEvents() {
+	public EventUpdateCounter updateEvents() {
+		EventUpdateCounter result = new EventUpdateCounter();
+
 		LocalDate start = LocalDate.now();
 		while (start.getDayOfWeek() != DayOfWeek.WEDNESDAY) {
 			start = start.plusDays(1);
@@ -28,7 +30,6 @@ public class BanditsRule extends DanceEventCrawler {
 
 		DeeJay deeJayJanosch = Backend.find(DeeJay.class, By.field(DeeJay.$.name, "DJ Janosch")).get(0);
 
-		int generated = 0;
 		for (int i = 0; i < 12; i++) {
 			LocalDate date = start.plusWeeks(i);
 
@@ -37,6 +38,10 @@ public class BanditsRule extends DanceEventCrawler {
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
 				continue;
 			}
 
@@ -53,11 +58,10 @@ public class BanditsRule extends DanceEventCrawler {
 			danceEvent.tags.add(EventTag.Workshop);
 			danceEvent.deeJay = deeJayJanosch;
 
-			Backend.save(danceEvent);
-			generated++;
+			save(danceEvent, result);
 		}
 
-		return generated;
+		return result;
 	}
 
 	@Override

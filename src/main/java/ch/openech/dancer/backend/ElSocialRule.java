@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Optional;
 
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
@@ -14,18 +13,19 @@ import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class ElSocialRule extends DanceEventCrawler {
+public class ElSocialRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int crawlEvents() {
+	public EventUpdateCounter updateEvents() {
+		EventUpdateCounter result = new EventUpdateCounter();
+
 		LocalDate start = LocalDate.now();
 		LocalDate firstSunday = start.with(TemporalAdjusters.firstInMonth(DayOfWeek.SUNDAY));
 		if (firstSunday.isBefore(start)) {
 			start = start.plusMonths(1);
 		}
 
-		int generated = 0;
 		for (int i = 0; i < 3; i++) {
 			LocalDate date = start.plusMonths(i).with(TemporalAdjusters.firstInMonth(DayOfWeek.SUNDAY));
 
@@ -34,6 +34,10 @@ public class ElSocialRule extends DanceEventCrawler {
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
 				continue;
 			}
 
@@ -47,11 +51,10 @@ public class ElSocialRule extends DanceEventCrawler {
 			danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";
 			danceEvent.location = location;
 
-			Backend.save(danceEvent);
-			generated++;
+			save(danceEvent, result);
 		}
 
-		return generated;
+		return result;
 	}
 
 	@Override

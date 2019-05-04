@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 import org.minimalj.util.CsvReader;
 
@@ -15,13 +14,14 @@ import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class TanzZentrumImport extends DanceEventCrawler {
+public class TanzZentrumImport extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int crawlEvents() {
+	public EventUpdateCounter updateEvents() {
+		EventUpdateCounter result = new EventUpdateCounter();
+
 		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/dancer/data/tanz_zentrum.csv"));
-		int count = 0;
 		for (DanceEvent event : reader.readValues(DanceEvent.class)) {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, event.date)));
@@ -37,11 +37,10 @@ public class TanzZentrumImport extends DanceEventCrawler {
 				event.status = EventStatus.generated;
 				event.tags.add(EventTag.Workshop);
 
-				Backend.insert(event);
-				count++;
+				save(event, result);
 			}
 		}
-		return count;
+		return result;
 	}
 
 	@Override

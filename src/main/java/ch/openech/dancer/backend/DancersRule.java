@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
@@ -13,11 +12,13 @@ import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class DancersRule extends DanceEventCrawler {
+public class DancersRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int crawlEvents() {
+	public EventUpdateCounter updateEvents() {
+		EventUpdateCounter result = new EventUpdateCounter();
+
 		LocalDate start = LocalDate.now();
 		while (!(start.getDayOfWeek() == DayOfWeek.SATURDAY)) {
 			start = start.plusDays(1);
@@ -32,6 +33,10 @@ public class DancersRule extends DanceEventCrawler {
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
 				continue;
 			}
 
@@ -50,11 +55,11 @@ public class DancersRule extends DanceEventCrawler {
 			danceEvent.description = "Der Klassiker - jeden Samstag mit dem bewährten Tanz-Mix, der keine Wünsche offen lässt. Daten, sowie eine Tabelle, wann jeweils zusätzliche Tanzflächen zur Verfügung stehen.";
 			danceEvent.location = location;
 
-			Backend.save(danceEvent);
+			save(danceEvent, result);
 			generated++;
 		}
 
-		return generated;
+		return result;
 	}
 
 	@Override

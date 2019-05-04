@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
@@ -14,17 +13,18 @@ import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class DukesRule extends DanceEventCrawler {
+public class DukesRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int crawlEvents() {
+	public EventUpdateCounter updateEvents() {
+		EventUpdateCounter result = new EventUpdateCounter();
+
 		LocalDate start = LocalDate.now();
 		while (start.getDayOfWeek() != DayOfWeek.THURSDAY) {
 			start = start.plusDays(1);
 		}
 
-		int generated = 0;
 		for (int i = 0; i < 12; i++) {
 			LocalDate date = start.plusWeeks(i);
 
@@ -33,6 +33,10 @@ public class DukesRule extends DanceEventCrawler {
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
 				continue;
 			}
 
@@ -48,11 +52,10 @@ public class DukesRule extends DanceEventCrawler {
 			danceEvent.location = location;
 			danceEvent.tags.add(EventTag.Taxidancer);
 
-			Backend.save(danceEvent);
-			generated++;
+			save(danceEvent, result);
 		}
 
-		return generated;
+		return result;
 	}
 
 	@Override

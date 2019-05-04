@@ -7,7 +7,6 @@ import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Optional;
 
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
@@ -15,11 +14,13 @@ import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class SchuetzenhausRule extends DanceEventCrawler {
+public class SchuetzenhausRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int crawlEvents() {
+	public EventUpdateCounter updateEvents() {
+		EventUpdateCounter result = new EventUpdateCounter();
+
 		LocalDate start = LocalDate.now();
 		LocalDate firstTuesday = start.with(TemporalAdjusters.firstInMonth(DayOfWeek.TUESDAY));
 		LocalDate thirdTuesDay = firstTuesday.plusWeeks(2);
@@ -27,7 +28,6 @@ public class SchuetzenhausRule extends DanceEventCrawler {
 			start = start.plusMonths(1);
 		}
 
-		int generated = 0;
 		for (int i = 0; i < 3; i++) {
 			// jeweils am 3. Dienstag des Monats
 			LocalDate date = start.plusMonths(i).with(TemporalAdjusters.firstInMonth(DayOfWeek.TUESDAY));
@@ -38,6 +38,10 @@ public class SchuetzenhausRule extends DanceEventCrawler {
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
 				continue;
 			}
 
@@ -54,11 +58,10 @@ public class SchuetzenhausRule extends DanceEventCrawler {
 			danceEvent.location = location;
 			danceEvent.price = BigDecimal.valueOf(0);
 
-			Backend.save(danceEvent);
-			generated++;
+			save(danceEvent, result);
 		}
 
-		return generated;
+		return result;
 	}
 
 	@Override

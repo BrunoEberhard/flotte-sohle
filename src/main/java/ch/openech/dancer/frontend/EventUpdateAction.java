@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.minimalj.backend.Backend;
+import org.minimalj.frontend.Frontend;
 import org.minimalj.frontend.action.Action;
-import org.minimalj.frontend.editor.Editor.NewObjectEditor;
+import org.minimalj.frontend.editor.Editor;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.CheckBoxFormElement;
 import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElementProperty;
@@ -19,12 +20,13 @@ import ch.openech.dancer.backend.BadenerTanzCenterCrawler;
 import ch.openech.dancer.backend.BanditsRule;
 import ch.openech.dancer.backend.BlueboxCrawler;
 import ch.openech.dancer.backend.DanceCubeImport;
-import ch.openech.dancer.backend.DanceEventCrawler;
+import ch.openech.dancer.backend.DanceEventProvider;
 import ch.openech.dancer.backend.DanceInnCrawler;
 import ch.openech.dancer.backend.DanceToDanceImport;
 import ch.openech.dancer.backend.DancersRule;
 import ch.openech.dancer.backend.DukesRule;
 import ch.openech.dancer.backend.ElSocialRule;
+import ch.openech.dancer.backend.EventUpdateCounter;
 import ch.openech.dancer.backend.GalacticCrawler;
 import ch.openech.dancer.backend.PasadenaCrawler;
 import ch.openech.dancer.backend.SchuetzenhausRule;
@@ -39,36 +41,36 @@ import ch.openech.dancer.backend.Time2DanceCrawler;
 import ch.openech.dancer.backend.Werk1Rule;
 import ch.openech.dancer.backend.ZinneSargansRule;
 
-public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>> {
+public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<EventUpdateCounter>> {
 
-	public static final List<DanceEventCrawler> crawlers = new ArrayList<>();
+	public static final List<DanceEventProvider> providers = new ArrayList<>();
 
 	static {
-		crawlers.add(new DanceCubeImport());
-		crawlers.add(new DanceInnCrawler());
-		crawlers.add(new DancersRule());
-		crawlers.add(new ElSocialRule());
-		crawlers.add(new PasadenaCrawler());
-		crawlers.add(new TanzenMitHerzCrawler());
-		crawlers.add(new Tanzwerk101Rule());
-		crawlers.add(new Time2DanceCrawler());
-		crawlers.add(new AnlikerTanzRule());
-		crawlers.add(new BanditsRule());
-		crawlers.add(new Werk1Rule());
-		crawlers.add(new TanzZentrumImport());
-		crawlers.add(new TanzcenterImport());
-		crawlers.add(new GalacticCrawler());
-		crawlers.add(new ZinneSargansRule());
-		crawlers.add(new BadenerTanzCenterCrawler());
-		crawlers.add(new SchuetzenhausRule());
-		crawlers.add(new BlueboxCrawler());
-		crawlers.add(new TanzSalonCrawler());
-		crawlers.add(new DanceToDanceImport());
-		crawlers.add(new DukesRule());
-		crawlers.add(new TanzlokalSurseeCrawler());
-		crawlers.add(new TanzArtImport());
+		providers.add(new DanceCubeImport());
+		providers.add(new DanceInnCrawler());
+		providers.add(new DancersRule());
+		providers.add(new ElSocialRule());
+		providers.add(new PasadenaCrawler());
+		providers.add(new TanzenMitHerzCrawler());
+		providers.add(new Tanzwerk101Rule());
+		providers.add(new Time2DanceCrawler());
+		providers.add(new AnlikerTanzRule());
+		providers.add(new BanditsRule());
+		providers.add(new Werk1Rule());
+		providers.add(new TanzZentrumImport());
+		providers.add(new TanzcenterImport());
+		providers.add(new GalacticCrawler());
+		providers.add(new ZinneSargansRule());
+		providers.add(new BadenerTanzCenterCrawler());
+		providers.add(new SchuetzenhausRule());
+		providers.add(new BlueboxCrawler());
+		providers.add(new TanzSalonCrawler());
+		providers.add(new DanceToDanceImport());
+		providers.add(new DukesRule());
+		providers.add(new TanzlokalSurseeCrawler());
+		providers.add(new TanzArtImport());
 
-		Collections.sort(crawlers, Comparator.comparing(DanceEventCrawler::getName));
+		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
 
 	@Override
@@ -77,19 +79,19 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 	}
 
 	@Override
-	public Set<DanceEventCrawler> createObject() {
-		return new HashSet<DanceEventCrawler>(crawlers);
+	public Set<DanceEventProvider> createObject() {
+		return new HashSet<DanceEventProvider>(providers);
 	}
 
 	protected Class<?> getEditedClass() {
-		return DanceEventCrawler.class;
+		return DanceEventProvider.class;
 	}
 
 	@Override
-	public Form<Set<DanceEventCrawler>> createForm() {
-		Form<Set<DanceEventCrawler>> form = new Form<>(Form.EDITABLE, 2);
+	public Form<Set<DanceEventProvider>> createForm() {
+		Form<Set<DanceEventProvider>> form = new Form<>(Form.EDITABLE, 2);
 		org.minimalj.frontend.form.element.FormElement<?> leftElement = null;
-		for (DanceEventCrawler object : crawlers) {
+		for (DanceEventProvider object : providers) {
 			String caption = object.getName();
 			if (leftElement != null) {
 				form.line(leftElement, new CheckBoxFormElement(new SetElementFormElementProperty(object), caption, true, false));
@@ -107,9 +109,9 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 	private class AllNoneAction extends Action {
 		@Override
 		public void action() {
-			Set<DanceEventCrawler> set = getObject();
-			if (set.size() < crawlers.size() / 2) {
-				set.addAll(crawlers);
+			Set<DanceEventProvider> set = getObject();
+			if (set.size() < providers.size() / 2) {
+				set.addAll(providers);
 			} else {
 				set.clear();
 			}
@@ -118,10 +120,19 @@ public class EventCreationAction extends NewObjectEditor<Set<DanceEventCrawler>>
 	}
 
 	@Override
-	protected Set<DanceEventCrawler> save(Set<DanceEventCrawler> selected) {
-		for (DanceEventCrawler crawler : selected) {
-			Backend.execute(crawler);
+	protected List<EventUpdateCounter> save(Set<DanceEventProvider> selected) {
+		List<EventUpdateCounter> counters = new ArrayList<EventUpdateCounter>();
+		for (DanceEventProvider provider : selected) {
+			EventUpdateCounter counter = Backend.execute(provider);
+			counter.provider = provider.getName();
+			counters.add(counter);
 		}
-		return selected;
+		Collections.sort(counters, Comparator.comparing(counter -> counter.provider));
+		return counters;
+	}
+
+	@Override
+	protected void finished(List<EventUpdateCounter> result) {
+		Frontend.show(new EventUpdateTable(result));
 	}
 }

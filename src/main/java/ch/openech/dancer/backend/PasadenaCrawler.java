@@ -12,18 +12,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 import org.minimalj.util.DateUtils;
 import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.model.DanceEvent;
-import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class PasadenaCrawler extends DanceEventCrawler {
+public class PasadenaCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	private static final String AGENDA_URL = "http://www.pasadena.ch/agendanews/";
@@ -31,62 +29,66 @@ public class PasadenaCrawler extends DanceEventCrawler {
 	private static final String[] TITLES = { "Schlagerparty", "Schlagernacht", "Facebookparty" };
 
 	@Override
-	public int crawlEvents() {
-		try {
-			Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
-			Element c31 = doc.selectFirst("#c31");
-			Elements elements = c31.select("p[style]");
-			for (Element element : elements) {
-				if (!isSimpleElement(element)) {
-					LocalDate date = extractLocalDate(element);
-					LocalTime[] period = extractPeriod(element);
-					if (DanceEvent.isDuringTheDay(period[0]))
-						continue;
+	public EventUpdateCounter updateEvents() throws IOException {
+		EventUpdateCounter result = new EventUpdateCounter();
 
-					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
+		Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
+		Element c31 = doc.selectFirst("#c31");
+		Elements elements = c31.select("p[style]");
+		for (Element element : elements) {
+			if (!isSimpleElement(element)) {
+				LocalDate date = extractLocalDate(element);
+				LocalTime[] period = extractPeriod(element);
+				if (DanceEvent.isDuringTheDay(period[0]))
+					continue;
 
-					DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
+				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-					danceEvent.status = EventStatus.generated;
-					danceEvent.date = date;
-					danceEvent.header = location.name;
-					danceEvent.title = extractDanceEventTitle(element);
-					danceEvent.from = period[0];
-					danceEvent.until = period[1];
-					danceEvent.description = element.nextElementSibling().text();
-					danceEvent.location = location;
+				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-					Elements mitDj = element.nextElementSibling().getElementsContainingOwnText("Mit DJ");
-					if (!mitDj.isEmpty()) {
-						String djText = mitDj.get(0).ownText().substring(4);
-						danceEvent.deeJay = getDeeJay(djText);
-					} else {
-						danceEvent.deeJay = null;
-					}
-					
-					// Normalerweise den Titel verwenden
-					danceEvent.line = danceEvent.title;
-					if (StringUtils.equals(danceEvent.title, "Dancing Night", "Tanzabig", "Hit Dance Night")) {
-						// Diese Titel sind nichtssagend, da muss nichts angezeigt werden
-						danceEvent.line = null;
-					} else if (!StringUtils.isEmpty(danceEvent.title)) {
-						// bei diesen Titeln nur das Stichwort anzeigen
-						for (String title : TITLES) {
-							if (danceEvent.title.contains(title)) {
-								danceEvent.line = title;
-							}
+				if (danceEvent.status == EventStatus.edited) {
+					result.skippedEditedEvents++;
+					continue;
+				} else if (danceEvent.status == EventStatus.blocked) {
+					result.skippedBlockedEvents++;
+					continue;
+				}
+
+				danceEvent.status = EventStatus.generated;
+				danceEvent.date = date;
+				danceEvent.header = location.name;
+				danceEvent.title = extractDanceEventTitle(element);
+				danceEvent.from = period[0];
+				danceEvent.until = period[1];
+				danceEvent.description = element.nextElementSibling().text();
+				danceEvent.location = location;
+
+				Elements mitDj = element.nextElementSibling().getElementsContainingOwnText("Mit DJ");
+				if (!mitDj.isEmpty()) {
+					String djText = mitDj.get(0).ownText().substring(4);
+					danceEvent.deeJay = getDeeJay(djText);
+				} else {
+					danceEvent.deeJay = null;
+				}
+
+				// Normalerweise den Titel verwenden
+				danceEvent.line = danceEvent.title;
+				if (StringUtils.equals(danceEvent.title, "Dancing Night", "Tanzabig", "Hit Dance Night")) {
+					// Diese Titel sind nichtssagend, da muss nichts angezeigt werden
+					danceEvent.line = null;
+				} else if (!StringUtils.isEmpty(danceEvent.title)) {
+					// bei diesen Titeln nur das Stichwort anzeigen
+					for (String title : TITLES) {
+						if (danceEvent.title.contains(title)) {
+							danceEvent.line = title;
 						}
 					}
-
-					Backend.save(danceEvent);
 				}
+
+				save(danceEvent, result);
 			}
-			return elements.size();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return 0;
 		}
+		return result;
 	}
 
 	private boolean isSimpleElement(Element element) {
@@ -99,8 +101,7 @@ public class PasadenaCrawler extends DanceEventCrawler {
 			if (period != null) {
 				String[] moments = period.split("bis");
 				if (moments.length == 2) {
-					return new LocalTime[] { LocalTime.parse(moments[0].trim(), DateUtils.TIME_FORMAT),
-							LocalTime.parse(moments[1].trim(), DateUtils.TIME_FORMAT) };
+					return new LocalTime[] { LocalTime.parse(moments[0].trim(), DateUtils.TIME_FORMAT), LocalTime.parse(moments[1].trim(), DateUtils.TIME_FORMAT) };
 				}
 			}
 		}

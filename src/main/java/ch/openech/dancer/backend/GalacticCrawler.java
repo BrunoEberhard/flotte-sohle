@@ -13,7 +13,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
@@ -21,70 +20,65 @@ import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class GalacticCrawler extends DanceEventCrawler {
+public class GalacticCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	private static final String AGENDA_URL = "https://www.galactic-dance.ch/events/";
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("H:mm");
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MMMM d", Locale.GERMAN);
-	
+
 	@Override
-	public int crawlEvents() {
-		try {
-			Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
+	public EventUpdateCounter updateEvents() throws IOException {
+		EventUpdateCounter result = new EventUpdateCounter();
+		Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
 
-			Elements events = doc.select(".type-tribe_events");
-			for (Element element : events) {
-				Element start = element.selectFirst(".tribe-event-date-start");
-				LocalDate date = extractLocalDate(start);
-				LocalTime from = extractTime(start);
+		Elements events = doc.select(".type-tribe_events");
+		for (Element element : events) {
+			Element start = element.selectFirst(".tribe-event-date-start");
+			LocalDate date = extractLocalDate(start);
+			LocalTime from = extractTime(start);
 
-				LocalTime until = null;
-				Element end = element.selectFirst(".tribe-event-date-end");
+			LocalTime until = null;
+			Element end = element.selectFirst(".tribe-event-date-end");
+			if (end != null) {
+				until = extractTime(end);
+			} else {
+				end = element.selectFirst(".tribe-event-time");
 				if (end != null) {
-					until = extractTime(end);
-				} else {
-					end = element.selectFirst(".tribe-event-time");
-					if (end != null) {
-						until = LocalTime.parse(end.text(), TIME_FORMATTER);
-					}
+					until = LocalTime.parse(end.text(), TIME_FORMATTER);
 				}
-
-				if (DanceEvent.isDuringTheDay(from))
-					continue;
-
-				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-						By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
-
-				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
-
-				String title = element.selectFirst(".tribe-events-list-event-title").text();
-				if (title.contains("Flamenco")) {
-					continue;
-				} else if ("Ritmo Dell’Amicizia con Filippe & Enza".equals(title)) {
-					title = "Ritmo Dell’Amicizia";
-				} else if ("Musigstubete mit Viva Varia mit Fründe".equals(title)) {
-					title = "Musigstubete";
-				}
-
-				Element description = element.selectFirst(".tribe-events-list-photo-description");
-
-				danceEvent.status = EventStatus.generated;
-				danceEvent.date = date;
-				danceEvent.header = location.name;
-				danceEvent.title = title;
-				danceEvent.from = from;
-				danceEvent.until = until;
-				danceEvent.description = description.text();
-				danceEvent.location = location;
-
-				Backend.save(danceEvent);
 			}
-			return events.size();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return 0;
+
+			if (DanceEvent.isDuringTheDay(from))
+				continue;
+
+			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
+
+			DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
+
+			String title = element.selectFirst(".tribe-events-list-event-title").text();
+			if (title.contains("Flamenco")) {
+				continue;
+			} else if ("Ritmo Dell’Amicizia con Filippe & Enza".equals(title)) {
+				title = "Ritmo Dell’Amicizia";
+			} else if ("Musigstubete mit Viva Varia mit Fründe".equals(title)) {
+				title = "Musigstubete";
+			}
+
+			Element description = element.selectFirst(".tribe-events-list-photo-description");
+
+			danceEvent.status = EventStatus.generated;
+			danceEvent.date = date;
+			danceEvent.header = location.name;
+			danceEvent.title = title;
+			danceEvent.from = from;
+			danceEvent.until = until;
+			danceEvent.description = description.text();
+			danceEvent.location = location;
+
+			save(danceEvent, result);
 		}
+		return result;
 	}
 
 	private LocalDate extractLocalDate(Element element) {

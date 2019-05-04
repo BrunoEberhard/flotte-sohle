@@ -1,5 +1,7 @@
 package ch.openech.dancer.backend;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Optional;
 
 import org.minimalj.backend.Backend;
@@ -8,11 +10,13 @@ import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.FieldCriteria;
 import org.minimalj.repository.query.Query;
 import org.minimalj.transaction.Transaction;
+import org.minimalj.util.EqualsHelper;
 
+import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.Location;
 
-public abstract class DanceEventCrawler implements Transaction<Integer> {
+public abstract class DanceEventProvider implements Transaction<EventUpdateCounter> {
 	private static final long serialVersionUID = 1L;
 
 	protected static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0";
@@ -32,12 +36,21 @@ public abstract class DanceEventCrawler implements Transaction<Integer> {
 	}
 
 	@Override
-	public Integer execute() {
+	public EventUpdateCounter execute() {
 		initData();
-		return crawlEvents();
+		try {
+			return updateEvents();
+		} catch (Exception e) {
+			EventUpdateCounter counter = new EventUpdateCounter();
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			counter.exception = sw.toString();
+			return counter;
+		}
 	}
 	
-	public abstract int crawlEvents();
+	public abstract EventUpdateCounter updateEvents() throws Exception;
 
 	protected abstract Location createLocation();
 
@@ -63,6 +76,23 @@ public abstract class DanceEventCrawler implements Transaction<Integer> {
 			sb.append(c);
 		}
 		return sb.toString();
+	}
+
+	protected void save(DanceEvent event, EventUpdateCounter result) {
+		try {
+			if (event.id == null) {
+				Backend.save(event);
+				result.newEvents++;
+			} else {
+				DanceEvent existing = Backend.read(DanceEvent.class, event.id);
+				if (!EqualsHelper.equals(existing, event)) {
+					Backend.save(event);
+					result.updatedEvents++;
+				}
+			}
+		} catch (Exception x) {
+			result.failedEvents++;
+		}
 	}
 
 	protected DeeJay getDeeJay(String djText) {

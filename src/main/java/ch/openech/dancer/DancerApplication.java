@@ -14,13 +14,12 @@ import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 
 import ch.openech.dancer.backend.DancerRepository;
-import ch.openech.dancer.frontend.CheckUnpublishedEventsAction;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
 import ch.openech.dancer.frontend.DeeJayTablePage;
-import ch.openech.dancer.frontend.EventCreationAction;
 import ch.openech.dancer.frontend.EventHousekeepingAction;
 import ch.openech.dancer.frontend.EventPage;
+import ch.openech.dancer.frontend.EventUpdateAction;
 import ch.openech.dancer.frontend.EventsPage;
 import ch.openech.dancer.frontend.InfoPage;
 import ch.openech.dancer.frontend.LocationTablePage;
@@ -49,10 +48,9 @@ public class DancerApplication extends Application {
 
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
 			ActionGroup events = actions.addGroup("Events");
-			events.add(new EventCreationAction());
-			events.add(new CheckUnpublishedEventsAction());
-			events.add(new EventHousekeepingAction());
 			events.add(new DanceEventAdminTablePage());
+			events.add(new EventUpdateAction());
+			events.add(new EventHousekeepingAction());
 			ActionGroup admin = actions.addGroup("Admin");
 			admin.add(new LocationTablePage());
 			admin.add(new DeeJayTablePage());

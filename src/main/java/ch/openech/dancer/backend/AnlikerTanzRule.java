@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
@@ -18,20 +17,21 @@ import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class AnlikerTanzRule extends DanceEventCrawler {
+public class AnlikerTanzRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	private static final List<Month> WINTER = Arrays.asList(Month.NOVEMBER, Month.DECEMBER, Month.JANUARY, Month.FEBRUARY, Month.MARCH);
 
 	@Override
-	public int crawlEvents() {
+	public EventUpdateCounter updateEvents() {
+		EventUpdateCounter result = new EventUpdateCounter();
+
 		LocalDate start = LocalDate.now();
 		LocalDate firstSaturday = start.with(TemporalAdjusters.firstInMonth(DayOfWeek.SATURDAY));
 		if (firstSaturday.isBefore(start)) {
 			start = start.plusMonths(1);
 		}
 
-		int generated = 0;
 		for (int i = 0; i < 3; i++) {
 			LocalDate date = start.plusMonths(i).with(TemporalAdjusters.firstInMonth(DayOfWeek.SATURDAY));
 			if (date.getYear() == 2019 && date.getMonth() == Month.APRIL)
@@ -42,6 +42,10 @@ public class AnlikerTanzRule extends DanceEventCrawler {
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
 				continue;
 			}
 
@@ -64,11 +68,10 @@ public class AnlikerTanzRule extends DanceEventCrawler {
 			danceEvent.price = BigDecimal.valueOf(14);
 			danceEvent.priceReduced = BigDecimal.valueOf(12);
 
-			Backend.save(danceEvent);
-			generated++;
+			save(danceEvent, result);
 		}
 
-		return generated;
+		return result;
 	}
 
 	@Override

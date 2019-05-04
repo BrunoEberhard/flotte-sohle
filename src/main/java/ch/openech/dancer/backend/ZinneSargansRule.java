@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.DanceEvent;
@@ -14,15 +13,16 @@ import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class ZinneSargansRule extends DanceEventCrawler {
+public class ZinneSargansRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int crawlEvents() {
+	public EventUpdateCounter updateEvents() {
+		EventUpdateCounter result = new EventUpdateCounter();
+
 		LocalDate start = LocalDate.now();
 		LocalDate end = start.plusWeeks(12);
 
-		int generated = 0;
 		LocalDate date = start.minusDays(1);
 		while (date.isBefore(end)) {
 			date = date.plusDays(1);
@@ -37,6 +37,10 @@ public class ZinneSargansRule extends DanceEventCrawler {
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
 				continue;
 			}
 
@@ -51,11 +55,10 @@ public class ZinneSargansRule extends DanceEventCrawler {
 			danceEvent.location = location;
 			danceEvent.tags.add(EventTag.LiveBand);
 
-			Backend.save(danceEvent);
-			generated++;
+			save(danceEvent, result);
 		}
 
-		return generated;
+		return result;
 	}
 
 	@Override

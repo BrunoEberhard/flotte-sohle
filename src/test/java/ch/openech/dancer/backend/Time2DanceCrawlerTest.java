@@ -1,5 +1,7 @@
 package ch.openech.dancer.backend;
 
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.minimalj.application.Application;
@@ -17,8 +19,8 @@ public class Time2DanceCrawlerTest {
 	}
 
 	@Test
-	public void test() {
+	public void test() throws IOException {
 		Time2DanceCrawler crawler = new Time2DanceCrawler();
-		crawler.crawlEvents();
+		crawler.updateEvents();
 	}
 }
