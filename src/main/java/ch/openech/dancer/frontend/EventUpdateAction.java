@@ -37,6 +37,7 @@ import ch.openech.dancer.backend.TanzcenterImport;
 import ch.openech.dancer.backend.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.TanzlokalSurseeCrawler;
 import ch.openech.dancer.backend.Tanzwerk101Rule;
+import ch.openech.dancer.backend.TanzwerkShCrawler;
 import ch.openech.dancer.backend.Time2DanceCrawler;
 import ch.openech.dancer.backend.Werk1Rule;
 import ch.openech.dancer.backend.ZinneSargansRule;
@@ -69,6 +70,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new DukesRule());
 		providers.add(new TanzlokalSurseeCrawler());
 		providers.add(new TanzArtImport());
+		providers.add(new TanzwerkShCrawler());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
