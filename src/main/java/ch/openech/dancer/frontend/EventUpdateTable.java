@@ -14,8 +14,12 @@ public class EventUpdateTable extends TablePage<EventUpdateCounter> {
 	private final List<EventUpdateCounter> counters;
 
 	public EventUpdateTable(List<EventUpdateCounter> counters) {
-		super(new Object[] { $.provider, $.newEvents, $.updatedEvents, $.skippedEditedEvents, $.skippedBlockedEvents, $.failedEvents });
 		this.counters = Objects.requireNonNull(counters);
+	}
+
+	@Override
+	protected Object[] getColumns() {
+		return new Object[] { $.provider, $.newEvents, $.updatedEvents, $.skippedEditedEvents, $.skippedBlockedEvents, $.failedEvents };
 	}
 
 	@Override

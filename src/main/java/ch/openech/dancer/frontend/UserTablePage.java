@@ -19,10 +19,9 @@ import ch.openech.dancer.DancerRoles;
 
 public class UserTablePage extends SimpleTableEditorPage<User> {
 
-	private static final Object[] keys = new Object[] { User.$.name };
-	
-	public UserTablePage() {
-		super(keys);
+	@Override
+	protected Object[] getColumns() {
+		return new Object[] { User.$.name };
 	}
 	
 	@Override

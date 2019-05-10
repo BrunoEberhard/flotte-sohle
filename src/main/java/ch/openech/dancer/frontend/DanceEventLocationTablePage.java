@@ -17,13 +17,15 @@ import ch.openech.dancer.model.Location;
 
 public class DanceEventLocationTablePage extends SimpleTableEditorPage<DanceEvent> {
 
-	private static final Object[] KEYS = new Object[] { DanceEvent.$.date, DanceEvent.$.title, DanceEvent.$.status };
-
 	private final Location location;
 
 	public DanceEventLocationTablePage(Location location) {
-		super(KEYS);
 		this.location = location;
+	}
+
+	@Override
+	protected Object[] getColumns() {
+		return new Object[] { DanceEvent.$.date, DanceEvent.$.title, DanceEvent.$.status };
 	}
 
 	@Override

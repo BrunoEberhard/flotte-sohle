@@ -14,10 +14,9 @@ import ch.openech.dancer.model.Location;
 
 public class LocationTablePage extends SimpleTableEditorPage<Location> {
 
-	private static final Object[] keys = new Object[] { Location.$.name, Location.$.city };
-	
-	public LocationTablePage() {
-		super(keys);
+	@Override
+	protected Object[] getColumns() {
+		return new Object[] { Location.$.name, Location.$.city };
 	}
 	
 	@Override

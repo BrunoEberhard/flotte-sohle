@@ -11,10 +11,9 @@ import ch.openech.dancer.model.DeeJay;
 
 public class DeeJayTablePage extends SimpleTableEditorPage<DeeJay> {
 
-	private static final Object[] keys = new Object[] { DeeJay.$.name, DeeJay.$.url };
-	
-	public DeeJayTablePage() {
-		super(keys);
+	@Override
+	protected Object[] getColumns() {
+		return new Object[] { DeeJay.$.name, DeeJay.$.url };
 	}
 	
 	@Override

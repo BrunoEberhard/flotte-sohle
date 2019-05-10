@@ -10,15 +10,16 @@ import org.minimalj.frontend.action.ActionGroup;
 import org.minimalj.frontend.impl.web.WebServer;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
+import org.minimalj.frontend.page.Routing;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 
 import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
+import ch.openech.dancer.frontend.DancerRouting;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventHousekeepingAction;
-import ch.openech.dancer.frontend.EventPage;
 import ch.openech.dancer.frontend.EventUpdateAction;
 import ch.openech.dancer.frontend.EventsPage;
 import ch.openech.dancer.frontend.InfoPage;
@@ -68,13 +69,8 @@ public class DancerApplication extends Application {
 	}
 	
 	@Override
-	public Page createPage(String route) {
-		if (route.startsWith("event/")) {
-			String id = route.substring("event/".length());
-			return new EventPage(id);
-		} else {
-			return null;
-		}
+	public Routing createRouting() {
+		return new DancerRouting();
 	}
 
 	@Override
@@ -91,6 +87,7 @@ public class DancerApplication extends Application {
 		//Lanterna.start(application);
 		// RestServer.start(application);
 		WebServer.start(application);
+		// MjVaadinSpringbootApplication.start(application);
 	}
 
 }

@@ -11,8 +11,15 @@ import ch.openech.dancer.model.DanceEvent;
 
 public class EventPage extends HtmlPage {
 
+	private final Object id;
+
 	public EventPage(Object id) {
 		super(createHtml(id), "Anlass");
+		this.id = id;
+	}
+
+	public Object getId() {
+		return id;
 	}
 
 	private static String template;
