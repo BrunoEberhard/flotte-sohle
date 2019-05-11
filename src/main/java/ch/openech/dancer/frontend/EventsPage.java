@@ -115,7 +115,7 @@ public class EventsPage extends Page {
 	}
 
 	private static void appendLink(DanceEvent event, StringBuilder s) {
-		s.append("<a href=\"event/").append(event.id).append("\">");
+		s.append("<a href=\"event/").append(event.id).append("\" rel=\"nofollow\">");
 	}
 
 	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
