@@ -29,6 +29,7 @@ import ch.openech.dancer.backend.ElSocialRule;
 import ch.openech.dancer.backend.EventUpdateCounter;
 import ch.openech.dancer.backend.GalacticCrawler;
 import ch.openech.dancer.backend.PasadenaCrawler;
+import ch.openech.dancer.backend.RyvaCrawler;
 import ch.openech.dancer.backend.SchuetzenhausRule;
 import ch.openech.dancer.backend.TanzArtImport;
 import ch.openech.dancer.backend.TanzSalonCrawler;
@@ -71,6 +72,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new TanzlokalSurseeCrawler());
 		providers.add(new TanzArtImport());
 		providers.add(new TanzwerkShCrawler());
+		providers.add(new RyvaCrawler());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
