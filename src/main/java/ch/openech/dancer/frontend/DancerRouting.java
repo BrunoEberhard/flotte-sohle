@@ -1,17 +1,27 @@
 package ch.openech.dancer.frontend;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.minimalj.application.Application;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.Routing;
 
 public class DancerRouting extends Routing {
+	private static final Logger logger = Logger.getLogger(Routing.class.getName());
 
 	@Override
 	protected Page createPage(String route) {
-		if (route != null && route.startsWith("event/")) {
-			String id = route.substring("event/".length());
-			return new EventPage(id);
+		try {
+			if (route != null && route.startsWith("event/")) {
+				String id = route.substring("event/".length());
+				return new EventPage(id);
+			}
+		} catch (Exception x) {
+			logger.log(Level.WARNING, x.getClass().getSimpleName() + ": " + route);
+
 		}
-		return null;
+		return Application.getInstance().createDefaultPage();
 	}
 
 	@Override
