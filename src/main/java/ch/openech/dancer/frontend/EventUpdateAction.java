@@ -22,6 +22,7 @@ import ch.openech.dancer.backend.BlueboxCrawler;
 import ch.openech.dancer.backend.DanceCubeImport;
 import ch.openech.dancer.backend.DanceEventProvider;
 import ch.openech.dancer.backend.DanceInnCrawler;
+import ch.openech.dancer.backend.DancePassionCrawler;
 import ch.openech.dancer.backend.DanceToDanceImport;
 import ch.openech.dancer.backend.DancersRule;
 import ch.openech.dancer.backend.DukesRule;
@@ -73,6 +74,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new TanzArtImport());
 		providers.add(new TanzwerkShCrawler());
 		providers.add(new RyvaCrawler());
+		providers.add(new DancePassionCrawler());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
