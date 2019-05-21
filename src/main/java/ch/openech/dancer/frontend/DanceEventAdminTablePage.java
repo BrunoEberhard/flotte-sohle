@@ -24,7 +24,18 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 
 	@Override
 	public List<Action> getTableActions() {
-		return Arrays.asList(new TableNewObjectEditor(), new TableEditor(), new DeleteDetailAction());
+		return Arrays.asList(new TableNewObjectEditor(), new DanceEventTableEditor(), new DeleteDetailAction());
+	}
+
+	private class DanceEventTableEditor extends TableEditor {
+		@Override
+		protected DanceEvent createObject() {
+			DanceEvent event = super.createObject();
+			if (event.status == EventStatus.generated) {
+				event.status = EventStatus.edited;
+			}
+			return event;
+		}
 	}
 
 	@Override
