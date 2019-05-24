@@ -17,6 +17,7 @@ import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.model.DanceEvent;
+import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
 public class EventsPage extends Page {
@@ -41,6 +42,11 @@ public class EventsPage extends Page {
 	public EventsPage(Region region) {
 		this.title = "Region: " + region;
 		filter = new DanceRegionEventFilter(region);
+	}
+
+	public EventsPage(Location location) {
+		this.title = "Veranstalter: " + location.name;
+		filter = new DanceLocationEventFilter(location);
 	}
 
 	@Override
@@ -131,6 +137,20 @@ public class EventsPage extends Page {
 		@Override
 		public boolean test(DanceEvent event) {
 			return event.location.region.contains(region);
+		}
+	}
+
+	private static class DanceLocationEventFilter implements Predicate<DanceEvent> {
+
+		private final Location location;
+
+		public DanceLocationEventFilter(Location location) {
+			this.location = location;
+		}
+
+		@Override
+		public boolean test(DanceEvent event) {
+			return event.location.id.equals(location.id);
 		}
 	}
 
