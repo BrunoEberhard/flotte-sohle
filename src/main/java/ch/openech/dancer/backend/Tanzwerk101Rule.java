@@ -66,7 +66,7 @@ public class Tanzwerk101Rule extends DanceEventProvider {
 	public Location createLocation() {
 		Location location = new Location();
 		location.country = "Schweiz";
-		location.address = "Viaduktstrasse 67";
+		location.address = "Pfingstweidstrasse 101";
 		location.city = "8005 Zürich";
 		location.name = "Tanzwerk 101";
 		location.url = "http://www.tanzwerk101.ch";
