@@ -85,8 +85,8 @@
 		<dependency>
 			<groupId>org.minimalj</groupId>
 			<artifactId>minimalj</artifactId>
-			<!--   <version>[1.20.0.0-SNAPSHOT,)</version> -->
-			<version>1.19.5.0</version>
+			<!--  <version>[1.20.0.0-SNAPSHOT,)</version>-->
+			<version>1.19.6.0</version> 
 		</dependency>
 		<!-- 
 		<dependency>
@@ -106,7 +106,18 @@
 			<!- Mit provided wird das nicht deployed, eclipse verwendet es aber beim starten in der ide ->
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+  <groupId>org.minimalj</groupId>
+  <artifactId>rest</artifactId>
+  <version>0.3.1.0-SNAPSHOT</version>
+		</dependency>
 		-->
+		
+		<dependency>
+			<groupId>org.nanohttpd</groupId>
+			<artifactId>nanohttpd-websocket</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 		<dependency>
 		    <groupId>org.postgresql</groupId>
 		    <artifactId>postgresql</artifactId>
@@ -123,5 +134,10 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.11.3</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.8</version>
+		</dependency>		
 	</dependencies>
 </project>
