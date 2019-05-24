@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import org.minimalj.model.Keys;
 import org.minimalj.model.Rendering;
+import org.minimalj.model.annotation.Decimal;
 import org.minimalj.model.annotation.NotEmpty;
 import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
@@ -24,6 +25,7 @@ public class Location implements Rendering {
 	@Size(60)
 	public String address, city, country;
 	
+	@Decimal(7)
 	public BigDecimal latitude, longitude;
 
 	public DanceFloorSize danceFloorSize;
