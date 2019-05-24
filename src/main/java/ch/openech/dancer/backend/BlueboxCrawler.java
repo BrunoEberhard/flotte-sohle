@@ -1,6 +1,7 @@
 package ch.openech.dancer.backend;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -103,6 +104,9 @@ public class BlueboxCrawler extends DanceEventProvider {
 		location.country = "Schweiz";
 		location.address = "Im Fennen 11";
 		location.city = "8867 Niederurnen";
+		location.latitude = BigDecimal.valueOf(47.5197307);
+		location.longitude = BigDecimal.valueOf(8.7178192128166);
+		// location.osm = 43011471;
 		location.region.add(Region.GR);
 		location.name = "BlueBox Disco";
 		location.url = "https://www.blue-box.ch/";

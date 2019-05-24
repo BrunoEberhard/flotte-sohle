@@ -1,6 +1,7 @@
 package ch.openech.dancer.backend;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.MonthDay;
@@ -131,6 +132,9 @@ public class PasadenaCrawler extends DanceEventProvider {
 		Location location = new Location();
 		location.country = "Schweiz";
 		location.address = "Chriesbaumstrasse 2";
+		location.latitude = BigDecimal.valueOf(47.3814611);
+		location.longitude = BigDecimal.valueOf(8.6801448);
+		// location.osm = 1682227;
 		location.city = "8604 Volketswil";
 		location.name = "Pasadena";
 		location.url = "http://www.pasadena.ch";
