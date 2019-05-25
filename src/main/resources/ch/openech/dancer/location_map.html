@@ -35,7 +35,7 @@
         subdomains: ['a', 'b', 'c']
     }).addTo(mymap);
 
-    var markers = JSON.parse(window.parent.document.getElementById('locs').value); 
+    var markers = $LOCS; 
 
     var markerClusters = L.markerClusterGroup();
 

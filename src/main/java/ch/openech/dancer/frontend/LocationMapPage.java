@@ -24,7 +24,7 @@ public class LocationMapPage extends HtmlPage {
 
 	private static String template;
 	static {
-		template = JsonFrontend.readStream(LocationMapPage.class.getResourceAsStream("/ch/openech/dancer/location_map_container.html"));
+		template = JsonFrontend.readStream(LocationMapPage.class.getResourceAsStream("/ch/openech/dancer/location_map.html"));
 	}
 
 	public LocationMapPage() {
@@ -33,7 +33,7 @@ public class LocationMapPage extends HtmlPage {
 
 	@Override
 	public IContent getContent() {
-		String htmlOrUrl = JsonFrontend.readStream(LocationMapPage.class.getResourceAsStream("/ch/openech/dancer/location_map_container.html"));
+		String htmlOrUrl = JsonFrontend.readStream(LocationMapPage.class.getResourceAsStream("/ch/openech/dancer/location_map.html"));
 
 		List<Location> locations = Backend.find(Location.class, By.all());
 
