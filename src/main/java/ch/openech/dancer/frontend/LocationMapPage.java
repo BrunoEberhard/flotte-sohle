@@ -28,7 +28,7 @@ public class LocationMapPage extends HtmlPage {
 	}
 
 	public LocationMapPage() {
-		super(template, "Veranstalter");
+		super(template, "Tanzkarte");
 	}
 
 	@Override
@@ -45,6 +45,7 @@ public class LocationMapPage extends HtmlPage {
 			lMap.put("name", l.name);
 			lMap.put("address", l.address);
 			lMap.put("city", l.city);
+			lMap.put("url", l.url);
 
 			if (l.latitude == null) {
 				try {

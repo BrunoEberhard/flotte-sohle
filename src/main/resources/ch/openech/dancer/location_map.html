@@ -42,7 +42,8 @@
     for (var i = 0; i < markers.length; ++i) {
         var popup = markers[i].name +
             '<br/>' + markers[i].address +
-            '<br/>' + markers[i].city;
+            '<br/>' + markers[i].city +
+            '<br/><a href="' + markers[i].url + '" target="_top">' + markers[i].url + '</a>';
 
         var m = L.marker([markers[i].latitude, markers[i].longitude])
             .bindPopup(popup);
