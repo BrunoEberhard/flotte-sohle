@@ -22,8 +22,11 @@ public class LocationTablePage extends TablePage<Location> {
 	}
 
 	@Override
-	public void action(Location selectedObject) {
-		Frontend.getInstance().showBrowser(selectedObject.url);
+	public void selectionChanged(List<Location> selectedObjects) {
+		if (selectedObjects.size() > 0) {
+			Frontend.getInstance().showBrowser(selectedObjects.get(0).url);
+		}
 	}
+
 
 }
