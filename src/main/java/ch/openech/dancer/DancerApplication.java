@@ -46,6 +46,7 @@ public class DancerApplication extends Application {
 			ActionGroup pub = actions.addGroup("Öffentlich");
 			pub.add(new EventsPage());
 			pub.add(new LocationMapPage());
+			pub.add(new LocationTablePage());
 			pub.add(new InfoPage());
 			ActionGroup events = actions.addGroup("Anlässe");
 			events.add(new DanceEventAdminTablePage());
@@ -61,6 +62,7 @@ public class DancerApplication extends Application {
 		} else {
 			actions.add(new EventsPage());
 			actions.add(new LocationMapPage());
+			actions.add(new LocationTablePage());
 			actions.add(new InfoPage());
 			// noch zu wenig in einzelnen Regionen
 			// ActionGroup regions = actions.addGroup("Regionen");
