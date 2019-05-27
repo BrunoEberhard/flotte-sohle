@@ -8,7 +8,7 @@
 	<name>Dancer</name>
 	<description>Local ballroom dance events</description>
 
-	<licenses>
+	<licenses> 
 		<license>
 			<name>GNU Affero General Public License (AGPL) version 3.0</name>
 			<url>http://www.gnu.org/licenses/agpl-3.0.html</url>
