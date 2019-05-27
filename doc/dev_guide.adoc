@@ -1,0 +1,275 @@
+= A Minimal-J application
+
+This application lists the dance events in my region. There wasn't such a list for my favorite dance style
+so I decided to do one on my own. The application should crawl the web site of the locations and look for the dates of the
+coming events. Most of the data should be collected in this way but I still wanted to have a admin UI to change specific dates
+if the crawler did something wrong. The data should be kept in a small database.
+
+The running application can be found at https://www.flotte-sohle.ch/ . 
+
+== Data model
+
+The data model consist only of a handful entities. Obviously there has to be an entity representing an event. I called it
+DanceEvent because in java there are already a lot technical Event classes.
+
+Let's go through this class because you see many of the Minimal-J concepts. The class starts as nearly always with the definition
+of the $ constant. This will be used later in the UI and for DB request. Second the class has an id. A main entity always has
+an id. Only entities depending on a main entity can live without an own id (internally they use the on from the entity they
+depend on).
+
+Then various fields follow. EventStatus is an enum. If an event has been edited by the administrator it should never be overwritten
+by the crawler. Also there exists the status 'blocked'. Events with this status are never shown in the public list. Not all events
+are created by crawlers. There are also rules that generate events for example every Tuesday. But maybe on chrstimas day that event
+doesn't take place. With a block event this rule should not display an event on christmas.
+
+The purpose of date, from, until is quite obvious. Note that from is mandatory where until is not. Later in the table of all events
+the two fields from and until should be displayed together. This is what the method getFromUntil is for. It's first two lines
+represent the trick so that this method can be used as column definition. Then there is the simple logic to format the two times.
+
+The method getDayOfWeek is another method that derivates its return from the actual values. The day should not be persisted in the
+database but be calculated from the date.
+
+[source,java,title="DanceEvent.java"]
+----
+public class DanceEvent {
+	public static final DanceEvent $ = Keys.of(DanceEvent.class);
+	
+	public Object id;
+	
+	@NotEmpty
+	public EventStatus status;
+
+	@NotEmpty
+	public LocalDate date;
+	
+	@NotEmpty
+	@Size(Size.TIME_HH_MM)
+	public LocalTime from;
+
+	@Size(Size.TIME_HH_MM)
+	public LocalTime until;
+
+	public String getFromUntil() {
+		if (Keys.isKeyObject(this))
+			return Keys.methodOf(this, "fromUntil");
+
+		if (until != null) {
+			return Rendering.render(from) + " - " + Rendering.render(until);
+		} else {
+			return Rendering.render(from).toString();
+		}
+	}
+
+	public String getDayOfWeek() {
+		if (Keys.isKeyObject(this))
+			return Keys.methodOf(this, "dayOfWeek", $.date);
+
+		if (date != null) {
+			DayOfWeek dayOfWeek = date.getDayOfWeek();
+			return dayOfWeek.getDisplayName(TextStyle.FULL, LocaleContext.getCurrent());
+		} else {
+			return null;
+		}
+	}
+
+	@Size(100)
+	@NotEmpty
+	@Searched
+	public String header, title;
+
+	@Size(100)
+	@Searched
+	public String line;
+
+	@Size(4000)
+	@Searched
+	public String description;
+	
+	@Size(5)
+	@Decimal(2)
+	public BigDecimal price, priceReduced, priceWithWorkshop;
+
+	public List<Flyer> flyers = new ArrayList<>();
+
+	@Size(1023)
+	public String url;
+
+	public Location location;
+	
+	public DeeJay deeJay, deeJay2;
+
+	public final Set<EventTag> tags = new TreeSet<>();
+	
+	public final List<DanceFloor> floors = new ArrayList<>();
+}
+----
+
+Some String fields contain the title and the description of the event. Some of the other fields are not yet visible in public.
+But still I inserted it at the beginning because its easier than to change the tables afterwards. The prices are of course
+modeled as BigDecimal.
+
+There are two more fields I would like to discuss. First location. This is a reference to a location entity. The location entity
+has an id field of it's own. So the locations can exists without any event. And changes to the events don't change the locations (event
+if the location object attached was changed).  
+
+The last new kind of field is the tags field. It contains a Set of EventTag values. EventTag is an enum. This is kind of a typed
+binary Set. Note that such sets must be declared final and therefore must be initialized.
+
+== Main class
+
+The main class is the starting point and does also some configuration. This is done by overriding the parents methods. Let's
+go through these methods.
+
+First createDefaultPage. This defines the Page the use will see when he starts the application or when he visits its web page.
+If we don't define this method the use will see an empty page which is a little bit odd. We present the most important thing
+like on the start: the list of the events for the next month.
+
+The second method looks more complicated. getNavigation should build a list of Actions or ActionsGroups. These actions are the ones
+shown at the left border. They cannot be changed while the application is used except the user does a login or a logout. Then
+he may get or loose more possible actions. Here you see how to check if the current user has a certain role.
+
+createSearchPage again looks simpler. This method is called when the user enters a text on the top right. Every application
+is free how to interpret the entered text but normally the user would expect a full text search.
+
+[source,java,title="DanceApplication.java"]
+----
+public class DancerApplication extends Application {
+	
+	@Override
+	public Page createDefaultPage() {
+		return new EventsPage();
+	}
+
+	@Override
+	public List<Action> getNavigation() {
+		ActionGroup actions = new ActionGroup("");
+
+		if (Subject.currentHasRole(DancerRoles.admin.name())) {
+			events.add(new DanceEventAdminTablePage());
+			events.add(new EventUpdateAction());
+			events.add(new EventHousekeepingAction());
+		   ...
+		} else {
+			actions.add(new EventsPage());
+			actions.add(new LocationMapPage());
+			actions.add(new InfoPage());
+		}
+		return actions.getItems();
+	}
+	
+	@Override
+	public Page createSearchPage(String query) {
+		return new EventsPage(query);
+	}
+	
+	@Override
+	public Routing createRouting() {
+		return new DancerRouting();
+	}
+
+	@Override
+	public Class<?>[] getEntityClasses() {
+		return new Class<?>[] { DanceEvent.class };
+	}
+
+	public static void main(String[] args) {
+		Configuration.set("MjRepository", DancerRepository.class.getName());
+		Configuration.set("MjAuthentication", DancerAuthentication.class.getName());
+		Configuration.set("MjInit", DancerInitTransaction.class.getName());
+		Application application = new DancerApplication();
+		WebServer.start(application);
+	}
+}
+----
+
+We discuss the Routing class later. Very important is getEntityClasses. With it you declare all the persistent entities of an application.
+But you don't have to list all of them by hand. It's enough to declare the roots. The persistence layer goes through all fields of these
+classes and gathers all depending classes. For most application the direct declaration of one or two classes is enough.
+
+At the end there is a main method. All the configurations could also be done as start parameter.
+
+== The pages
+
+Let's go through some of the pages declared in the navigation method. By the way pages aren't actions. But on ActionGroup there
+is a add method that takes a page as argument. Thats why we simply can add pages to an ActionGroup. 
+
+=== List of all events
+
+This page is only for the administrator. It lists all events (not only for the next month) as a table.
+You also can edit one of the events or create one.
+
+For all kind of table pages you always need the specifiy the columns. Of course this is the method getColumns for.
+It's return value is an array of fields defined with the $ construct. You could shorten this line by a static
+import of the DanceEvent.$ constant.
+
+Next you can define the possible Actions on the table. The three actions of this table are nearly the same
+as the default actions would be. Only the Editor for an existing event is a little bit different. When starting
+the editor the event's status should be switched to 'edited' which means the crawler will not touch this event
+anymore. In the inner class DanceEventTableEditor the createObject method is overridden (create is the perspective
+of the editor. We can return an existing object with this method). 
+
+There is a second createMethod on the top level. It defines some default values when a new event is created.
+Before that there is the load method. It should return the list of objects to be filled in the table. We
+delegate this to the Backend. By the way the Backend can decide to return a more complicated list than
+a simple ArrayList. If the list is very long there should be a kind of paging. This is done between the
+Backend and Frontend automatically. While debugging you may see QueryResultList which is exactly about that.
+
+
+[source,java,title="Events table"]
+----
+public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> {
+
+	@Override
+	protected Object[] getColumns() {
+		return new Object[] { DanceEvent.$.date, DanceEvent.$.title, DanceEvent.$.line, DanceEvent.$.from, DanceEvent.$.location.name, DanceEvent.$.status };
+	}
+
+	@Override
+	public List<Action> getTableActions() {
+		return Arrays.asList(new TableNewObjectEditor(), new DanceEventTableEditor(), new DeleteDetailAction());
+	}
+
+	private class DanceEventTableEditor extends TableEditor {
+		@Override
+		protected DanceEvent createObject() {
+			DanceEvent event = super.createObject();
+			if (event.status == EventStatus.generated) {
+				event.status = EventStatus.edited;
+			}
+			return event;
+		}
+	}
+
+	@Override
+	protected List<DanceEvent> load() {
+		return Backend.find(DanceEvent.class, By.all().order(DanceEvent.$.location).order(DanceEvent.$.date));
+	}
+
+	@Override
+	protected DanceEvent createObject() {
+		DanceEvent event = new DanceEvent();
+		event.from = LocalTime.of(20, 00);
+		event.until = LocalTime.of(23, 00);
+		event.status = EventStatus.edited;
+		return event;
+	}
+
+	@Override
+	protected Form<DanceEvent> createForm(boolean editable, boolean newObject) {
+		return new DanceEventForm(editable, true);
+	}
+
+	@Override
+	protected void validate(DanceEvent event, boolean newObject, List<ValidationMessage> validationMessages) {
+		if (newObject) {
+			if (event.date != null && event.date.isBefore(LocalDate.now())) {
+				validationMessages.add(new ValidationMessage(DanceEvent.$.date, "Muss in Zukunft liegen"));
+			}
+		}
+	}
+
+}
+----
+
+The second part of the class is about editing or creating an new event. We have already seen createObject.
+CreateForm defines the Form to be used. I defined a special class an return an instance of it. 

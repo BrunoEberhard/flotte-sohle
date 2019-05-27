@@ -1,0 +1,9 @@
+= A Minimal-J application
+
+This application lists the dance events in my region. There wasn't such a list for my favorite dance style
+so I decided to do one on my own. The application should crawl the web site of the locations and look for the dates of the
+coming events. Most of the data should be collected in this way but I still wanted to have a admin UI to change specific dates
+if the crawler did something wrong. The data should be kept in a small database.
+
+The running application can be found at https://www.flotte-sohle.ch/ .
+This is also an example application for link:http://www.minimal-j.org/[Minimal-J] . See link:doc/dev_guide.adoc[dev guide]. 
