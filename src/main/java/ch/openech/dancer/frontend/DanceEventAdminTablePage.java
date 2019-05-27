@@ -57,11 +57,6 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 		return new DanceEventForm(editable, true);
 	}
 
-	@Override
-	protected DanceEvent save(DanceEvent event) {
-		event.status = EventStatus.edited;
-		return super.save(event);
-	}
 
 	@Override
 	protected void validate(DanceEvent event, boolean newObject, List<ValidationMessage> validationMessages) {
