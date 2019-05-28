@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.minimalj.backend.Backend;
-import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
 import org.minimalj.model.validation.ValidationMessage;
 import org.minimalj.repository.query.By;
+import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
@@ -62,7 +62,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 	protected void validate(DanceEvent event, boolean newObject, List<ValidationMessage> validationMessages) {
 		if (newObject) {
 			if (event.date != null && event.date.isBefore(LocalDate.now())) {
-				validationMessages.add(new ValidationMessage(DanceEvent.$.date, "Muss in Zukunft liegen"));
+				validationMessages.add(new ValidationMessage(DanceEvent.$.date, Resources.getString("DanceEvent.validation.past")));
 			}
 		}
 	}

@@ -263,7 +263,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 	protected void validate(DanceEvent event, boolean newObject, List<ValidationMessage> validationMessages) {
 		if (newObject) {
 			if (event.date != null && event.date.isBefore(LocalDate.now())) {
-				validationMessages.add(new ValidationMessage(DanceEvent.$.date, "Muss in Zukunft liegen"));
+				validationMessages.add(new ValidationMessage(DanceEvent.$.date, Resources.getString("DanceEvent.validation.past")));
 			}
 		}
 	}
@@ -272,4 +272,6 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 ----
 
 The second part of the class is about editing or creating an new event. We have already seen createObject.
-CreateForm defines the Form to be used. I defined a special class an return an instance of it. 
+CreateForm defines the Form to be used. I defined a special class an return an instance of it. The last method
+is a validation method to check if the date of the event is in the future. For new events it doesn't make
+sense to accept dates in the past.
