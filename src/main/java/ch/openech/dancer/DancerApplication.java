@@ -13,6 +13,7 @@ import org.minimalj.frontend.page.PageAction;
 import org.minimalj.frontend.page.Routing;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
+import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
@@ -43,16 +44,16 @@ public class DancerApplication extends Application {
 
 
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
-			ActionGroup pub = actions.addGroup("Öffentlich");
+			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
 			pub.add(new EventsPage());
 			pub.add(new LocationMapPage());
 			pub.add(new LocationTablePage());
 			pub.add(new InfoPage());
-			ActionGroup events = actions.addGroup("Anlässe");
+			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			events.add(new DanceEventAdminTablePage());
 			events.add(new EventUpdateAction());
 			events.add(new EventHousekeepingAction());
-			ActionGroup admin = actions.addGroup("Stammdaten");
+			ActionGroup admin = actions.addGroup(Resources.getString("Navigation.base"));
 			admin.add(new LocationTablePage());
 			admin.add(new DeeJayTablePage());
 			// admin.add(new UserTablePage());

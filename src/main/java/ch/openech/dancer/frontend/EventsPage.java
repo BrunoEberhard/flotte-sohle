@@ -14,6 +14,7 @@ import org.minimalj.frontend.impl.json.JsonFrontend;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.util.DateUtils;
 import org.minimalj.util.StringUtils;
+import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.model.DanceEvent;
@@ -30,22 +31,22 @@ public class EventsPage extends Page {
 	}
 
 	public EventsPage() {
-		this.title = "Anlässe";
+		this.title = Resources.getString("EventsPage");
 		filter = event -> true;
 	}
 
 	public EventsPage(String query) {
-		this.title = "Suche: " + query;
+		this.title = Resources.getString("EventsPage.search") + ": " + query;
 		filter = new DanceEventFilter(query);
 	}
 
 	public EventsPage(Region region) {
-		this.title = "Region: " + region;
+		this.title = Resources.getString("EventsPage.region") + ": " + region;
 		filter = new DanceRegionEventFilter(region);
 	}
 
 	public EventsPage(Location location) {
-		this.title = "Veranstalter: " + location.name;
+		this.title = Resources.getString("Location") + ": " + location.name;
 		filter = new DanceLocationEventFilter(location);
 	}
 
@@ -65,6 +66,7 @@ public class EventsPage extends Page {
 		createBlocks(events, s);
 		
 		String result = template.replace("$Blocks", s.toString());
+		result = result.replace("$Header", Resources.getString("EventsPage.header"));
 
 		return result;
 	}
