@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.minimalj.backend.Backend;
+import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
 import org.minimalj.model.validation.ValidationMessage;
