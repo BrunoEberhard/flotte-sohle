@@ -17,6 +17,7 @@ import org.minimalj.frontend.impl.json.JsonReader;
 import org.minimalj.frontend.impl.json.JsonWriter;
 import org.minimalj.frontend.page.HtmlPage;
 import org.minimalj.repository.query.By;
+import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.model.Location;
 
@@ -29,6 +30,10 @@ public class LocationMapPage extends HtmlPage {
 
 	public LocationMapPage() {
 		super(template, "Tanzkarte");
+	}
+
+	public String getTitle() {
+		return Resources.getString(getClass());
 	}
 
 	@Override

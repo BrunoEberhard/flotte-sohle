@@ -11,7 +11,7 @@ public class InfoPage extends HtmlPage {
 	}
 
 	public InfoPage() {
-		super(template, "Infos");
+		super(template);
 	}
 
 }

@@ -14,7 +14,7 @@ public class EventPage extends HtmlPage {
 	private final Object id;
 
 	public EventPage(Object id) {
-		super(createHtml(id), "Anlass");
+		super(createHtml(id));
 		this.id = id;
 	}
 
