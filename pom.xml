@@ -103,7 +103,7 @@
 			<artifactId>swingfxbrowser</artifactId>
 			<version>1.0.0.0-SNAPSHOT</version>
 			<!- Mit provided wird das nicht deployed, eclipse verwendet es aber beim starten in der ide ->
-			<scope>provided</scope> 
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
   <groupId>org.minimalj</groupId>
