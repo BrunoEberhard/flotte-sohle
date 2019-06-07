@@ -38,6 +38,7 @@ import ch.openech.dancer.backend.TanzZentrumImport;
 import ch.openech.dancer.backend.TanzcenterImport;
 import ch.openech.dancer.backend.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.TanzlokalSurseeCrawler;
+import ch.openech.dancer.backend.TanzschuleBayerCrawler;
 import ch.openech.dancer.backend.Tanzwerk101Rule;
 import ch.openech.dancer.backend.TanzwerkShCrawler;
 import ch.openech.dancer.backend.Time2DanceCrawler;
@@ -75,6 +76,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new TanzwerkShCrawler());
 		providers.add(new RyvaCrawler());
 		providers.add(new DancePassionCrawler());
+		providers.add(new TanzschuleBayerCrawler());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
