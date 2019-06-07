@@ -55,7 +55,7 @@ public class LocationMapPage extends HtmlPage {
 			if (l.latitude == null) {
 				try {
 					URIBuilder b = new URIBuilder("https://nominatim.openstreetmap.org");
-					b.addParameter("country", "CH");
+					b.addParameter("country", l.country);
 					b.addParameter("city", l.city.substring(l.city.indexOf(' ') + 1));
 					b.addParameter("street", l.address);
 					b.addParameter("format", "jsonv2");
