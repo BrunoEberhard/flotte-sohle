@@ -54,10 +54,15 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 	}
 
 	@Override
+	public void action(DanceEvent event) {
+		// detail nervt nur
+		openEditor(event);
+	}
+
+	@Override
 	protected Form<DanceEvent> createForm(boolean editable, boolean newObject) {
 		return new DanceEventForm(editable, true);
 	}
-
 
 	@Override
 	protected void validate(DanceEvent event, boolean newObject, List<ValidationMessage> validationMessages) {
