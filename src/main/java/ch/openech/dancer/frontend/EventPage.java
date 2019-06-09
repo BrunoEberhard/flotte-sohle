@@ -18,6 +18,13 @@ public class EventPage extends HtmlPage {
 		this.id = id;
 	}
 
+	@Override
+	public String getTitle() {
+		// TODO DanceEvent nur einmal lesen
+		DanceEvent event = Backend.read(DanceEvent.class, id);
+		return event.header;
+	}
+
 	public Object getId() {
 		return id;
 	}
