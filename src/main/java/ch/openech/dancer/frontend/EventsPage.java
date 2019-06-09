@@ -64,7 +64,7 @@ public class EventsPage extends Page {
 	private static String fillTemplate(Stream<DanceEvent> events) {
 		StringBuilder s = new StringBuilder();
 		createBlocks(events, s);
-		
+
 		String result = template.replace("$Blocks", s.toString());
 		result = result.replace("$Header", Resources.getString("EventsPage.header"));
 
@@ -87,8 +87,7 @@ public class EventsPage extends Page {
 	}
 
 	private static void createDay(DanceEvent event, StringBuilder s) {
-		s.append("<h1 class=\"Day\">").append(event.getDayOfWeek()).append(", ").append(shortFormat.format(event.date))
-				.append("</h1>");
+		s.append("<h1 class=\"Day\">").append(event.getDayOfWeek()).append(", ").append(shortFormat.format(event.date)).append("</h1>");
 		s.append("<div class=\"DayEvents\">");
 	}
 
@@ -123,7 +122,7 @@ public class EventsPage extends Page {
 	}
 
 	private static void appendLink(DanceEvent event, StringBuilder s) {
-		s.append("<a href=\"event/").append(event.id).append("\" rel=\"nofollow\">");
+		s.append("<a href=\"event/").append(event.id).append("\" target=\"_top\" rel=\"nofollow\">");
 	}
 
 	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
