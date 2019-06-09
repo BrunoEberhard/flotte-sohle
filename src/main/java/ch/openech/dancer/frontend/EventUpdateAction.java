@@ -29,6 +29,7 @@ import ch.openech.dancer.backend.DukesRule;
 import ch.openech.dancer.backend.ElSocialRule;
 import ch.openech.dancer.backend.EventUpdateCounter;
 import ch.openech.dancer.backend.GalacticCrawler;
+import ch.openech.dancer.backend.HappyDancRule;
 import ch.openech.dancer.backend.PasadenaCrawler;
 import ch.openech.dancer.backend.RyvaCrawler;
 import ch.openech.dancer.backend.SchuetzenhausRule;
@@ -77,6 +78,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new RyvaCrawler());
 		providers.add(new DancePassionCrawler());
 		providers.add(new TanzschuleBayerCrawler());
+		providers.add(new HappyDancRule());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
