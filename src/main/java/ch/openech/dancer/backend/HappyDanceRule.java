@@ -12,7 +12,7 @@ import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class HappyDancRule extends DanceEventProvider {
+public class HappyDanceRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
