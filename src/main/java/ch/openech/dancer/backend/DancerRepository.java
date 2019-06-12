@@ -1,7 +1,9 @@
 package ch.openech.dancer.backend;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.minimalj.model.Model;
 import org.minimalj.repository.Repository;
@@ -23,6 +25,7 @@ public class DancerRepository implements Repository {
 
 	private final Repository repository;
 
+	private final Map<Object, DanceEvent> eventCache = new HashMap<>(1000);
 	private List<DanceEvent> events;
 	private long lastLoad = Long.MIN_VALUE;
 
@@ -31,7 +34,14 @@ public class DancerRepository implements Repository {
 	}
 
 	public <T> T read(Class<T> clazz, Object id) {
-		return repository.read(clazz, id);
+		if (eventCache.containsKey(id)) {
+			return (T) eventCache.get(id);
+		}
+		T result = repository.read(clazz, id);
+		if (result instanceof DanceEvent) {
+			eventCache.put(id, (DanceEvent) result);
+		}
+		return result;
 	}
 
 	public <T> List<T> find(Class<T> clazz, Query query) {
@@ -56,25 +66,30 @@ public class DancerRepository implements Repository {
 		return repository.count(clazz, criteria);
 	}
 
+	private void clearCache() {
+		events = null;
+		eventCache.clear();
+	}
+
 	public <T> Object insert(T object) {
 		events = null;
 		return repository.insert(object);
 	}
 
 	public <T> void update(T object) {
-		events = null;
+		clearCache();
 		repository.update(object);
 	}
 
 	@Override
 	public <T> void delete(T object) {
-		events = null;
+		clearCache();
 		repository.delete(object);
 	}
 	
 	@Override
 	public <T> int delete(Class<T> clazz, Criteria criteria) {
-		events = null;
+		clearCache();
 		return repository.delete(clazz, criteria);
 	}
 
