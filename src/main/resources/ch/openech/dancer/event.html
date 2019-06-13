@@ -5,17 +5,24 @@
 </style>
 </head>
 <body>
+<div itemscope itemtype="http://schema.org/Event">
 
-<h1>$title</h1>
+	<h1 itemprop="name">$title</h1>
 
-<div>$date</div>
-<div>$fromUntil</div>
-<p>$description</p>
+	<div itemprop="startDate" content="$date">$dateText</div>
+	<div>$fromUntil</div>
+	<p itemprop="description">$description</p>
+	
+	<div itemscope itemtype="http://schema.org/Place">
+		<h2 itemprop="name">$location</h2>
+		<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+			<div itemprop="streetAddress">$address</div>
+			<div itemprop="addressLocality">$city</div>
+		</div>
+	
+		<p><a href="$url" target="_blank" itemprop="url">$url</a></p>
 
-<h2>$location</h2>
-<div>$address</div>
-<div>$city</div>
-
-<p><a href="$url" target="_blank">$url</a></p>
+	</div>
+</div>
 </body>
 </html>

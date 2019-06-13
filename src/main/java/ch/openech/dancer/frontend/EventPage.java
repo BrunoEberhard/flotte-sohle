@@ -1,5 +1,6 @@
 package ch.openech.dancer.frontend;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.minimalj.backend.Backend;
@@ -49,7 +50,10 @@ public class EventPage extends HtmlPage {
 		result = result.replace("$address", event.location.address);
 		result = result.replace("$city", event.location.city);
 
-		String date = event.getDayOfWeek() + ", " + shortFormat.format(event.date);
+		String dateText = event.getDayOfWeek() + ", " + shortFormat.format(event.date);
+		result = result.replace("$dateText", dateText);
+
+		String date = LocalDateTime.of(event.date, event.from).toString();
 		result = result.replace("$date", date);
 
 		if (!StringUtils.isEmpty(event.location.url)) {
