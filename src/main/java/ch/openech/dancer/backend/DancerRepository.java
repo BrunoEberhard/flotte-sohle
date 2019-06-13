@@ -46,7 +46,7 @@ public class DancerRepository implements Repository {
 
 	public <T> List<T> find(Class<T> clazz, Query query) {
 		if (query == EventsQuery.instance) {
-			if (events == null || lastLoad < System.currentTimeMillis() - 60 * 1000) {
+			if (events == null || lastLoad < System.currentTimeMillis() - 2 * 60 * 60 * 1000) {
 				events = repository.find(DanceEvent.class, By //
 						.field(DanceEvent.$.status, FieldOperator.notEqual, EventStatus.blocked) //
 						.and(By.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now())) //
