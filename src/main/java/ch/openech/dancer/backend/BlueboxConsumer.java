@@ -21,7 +21,7 @@ import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
-public class BlueboxCrawler extends DanceEventProvider {
+public class BlueboxConsumer extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	private static final String AGENDA_URL = "https://www.blue-box.ch/wp-admin/admin-ajax.php?action=wcs_get_events_json&content%5Bwcs_type%5D%5B%5D=42&";

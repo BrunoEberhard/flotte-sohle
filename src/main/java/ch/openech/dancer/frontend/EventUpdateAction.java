@@ -18,7 +18,7 @@ import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElem
 import ch.openech.dancer.backend.AnlikerTanzRule;
 import ch.openech.dancer.backend.BadenerTanzCenterCrawler;
 import ch.openech.dancer.backend.BanditsRule;
-import ch.openech.dancer.backend.BlueboxCrawler;
+import ch.openech.dancer.backend.BlueboxConsumer;
 import ch.openech.dancer.backend.DanceCubeImport;
 import ch.openech.dancer.backend.DanceEventProvider;
 import ch.openech.dancer.backend.DanceInnCrawler;
@@ -69,7 +69,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new ZinneSargansRule());
 		providers.add(new BadenerTanzCenterCrawler());
 		providers.add(new SchuetzenhausRule());
-		providers.add(new BlueboxCrawler());
+		providers.add(new BlueboxConsumer());
 		providers.add(new TanzSalonCrawler());
 		providers.add(new DanceToDanceImport());
 		providers.add(new DukesRule());
