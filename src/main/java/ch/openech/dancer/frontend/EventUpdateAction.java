@@ -33,6 +33,7 @@ import ch.openech.dancer.backend.HappyDanceRule;
 import ch.openech.dancer.backend.PasadenaCrawler;
 import ch.openech.dancer.backend.RyvaCrawler;
 import ch.openech.dancer.backend.SchuetzenhausRule;
+import ch.openech.dancer.backend.SummerDanceConsumer;
 import ch.openech.dancer.backend.TanzArtImport;
 import ch.openech.dancer.backend.TanzSalonCrawler;
 import ch.openech.dancer.backend.TanzZentrumImport;
@@ -79,6 +80,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new DancePassionCrawler());
 		providers.add(new TanzschuleBayerCrawler());
 		providers.add(new HappyDanceRule());
+		providers.add(new SummerDanceConsumer());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}

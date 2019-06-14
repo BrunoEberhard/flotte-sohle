@@ -46,9 +46,15 @@ public class EventPage extends HtmlPage {
 		String result = template.replace("$title", event.title);
 		result = result.replace("$description", event.description != null ? event.description : "");
 		result = result.replace("$fromUntil", event.getFromUntil());
-		result = result.replace("$location", event.location.name);
-		result = result.replace("$address", event.location.address);
-		result = result.replace("$city", event.location.city);
+		if (event.location != null) {
+			result = result.replace("$location", event.location.name);
+			result = result.replace("$address", StringUtils.emptyIfNull(event.location.address));
+			result = result.replace("$city", StringUtils.emptyIfNull(event.location.city));
+		} else {
+			result = result.replace("$location", "");
+			result = result.replace("$address", "");
+			result = result.replace("$city", "");
+		}
 
 		String dateText = event.getDayOfWeek() + ", " + shortFormat.format(event.date);
 		result = result.replace("$dateText", dateText);

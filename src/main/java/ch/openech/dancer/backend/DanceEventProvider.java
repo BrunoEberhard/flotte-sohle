@@ -62,6 +62,8 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 			return addSpaces(className.substring(0, className.length() - 6));
 		} else if (className.endsWith("Rule")) {
 			return addSpaces(className.substring(0, className.length() - 4));
+		} else if (className.endsWith("Consumer")) {
+			return addSpaces(className.substring(0, className.length() - 8));
 		} else {
 			throw new IllegalArgumentException();
 		}
