@@ -129,36 +129,6 @@ public class SummerDanceConsumer extends DanceEventProvider {
 					} catch (Exception x) {
 						result.failedEvents++;
 					}
-
-//			          "endHour":22,
-//			          "allday":false,
-//			          "end":"1559779200000",
-//			          "description":"WEGEN DES KALTEN WETTERS LEIDER ABGESAGT - wir freuen uns auf den 13.6.",
-//			          "links":{  
-//			            "0":{  
-//			              "url":"http://www.landgasthof-hasenstrick.ch/",
-//			              "newtab":true,
-//			              "text":"http://www.landgasthof-hasenstrick.ch/"
-//			            }
-//			          },
-//			          "title":"HEUTE ABGESAGT :-( Tanz auf dem Hasenstrick",
-//			          "image":{  
-//			            "width":800.0000000000001,
-//			            "url":"https://static.wixstatic.com/media/18a507_9ab6ece857d043bfa012424162222c4f~mv2.jpg/v1/fill/w_800,h_304,q_85,usm_0.66_1.00_0.01/18a507_9ab6ece857d043bfa012424162222c4f~mv2.jpg",
-//			            "original_url":"18a507_9ab6ece857d043bfa012424162222c4f~mv2.jpg",
-//			            "height":304.39024390243907,
-//			            "source":"wix",
-//			            "token":"b0bce7daf353e00b8e52bed085bc0976"
-//			          },
-//			          "endMinutes":0,
-//			          "start":"1559779200000", (tag)
-//			          "startMinutes":0,
-//			          "location":"hasenstrick D\u00fcrnten",
-//			          "location_to_gmaps":true,
-//			          "id":"event_0ZJ0lwCQsKfkoZa3c60y0",
-//			          "startHour":18
-
-
 				}
 			}
 		}
@@ -172,18 +142,6 @@ public class SummerDanceConsumer extends DanceEventProvider {
 		Long minute = (Long) data.get(prefix + "Minutes");
 		return LocalTime.of(hour.intValue(), minute.intValue());
 	}
-
-//	private Location getLocation(String name, String url) {
-//		List<Location> locations = Backend.find(Location.class, By.field(Location.$.name, name));
-//		if (locations.isEmpty()) {
-//			Location location = new Location();
-//			location.name = name;
-//			location.url = url;
-//			return Backend.save(location);
-//		} else {
-//			return locations.get(0);
-//		}
-//	}
 
 	@Override
 	public Location createLocation() {
