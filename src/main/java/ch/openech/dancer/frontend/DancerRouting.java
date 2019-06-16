@@ -11,8 +11,14 @@ public class DancerRouting extends Routing {
 		if (route != null && route.startsWith("event/")) {
 			String id = route.substring("event/".length());
 			return new EventPage(id);
+		} else if (StringUtils.equals(route, "events")) {
+			return new EventsPage();
 		} else if (StringUtils.equals(route, "map")) {
 			return new LocationMapPage();
+		} else if (StringUtils.equals(route, "locations")) {
+			return new LocationsPage();
+		} else if (StringUtils.equals(route, "infos")) {
+			return new InfoPage();
 		}
 		return null;
 	}
@@ -21,6 +27,14 @@ public class DancerRouting extends Routing {
 	protected String getRoute(Page page) {
 		if (page instanceof EventPage) {
 			return "event/" + ((EventPage) page).getId();
+		} else if (page instanceof EventsPage) {
+			return "events";
+		} else if (page instanceof LocationMapPage) {
+			return "map";
+		} else if (page instanceof LocationsPage) {
+			return "locations";
+		} else if (page instanceof InfoPage) {
+			return "infos";
 		}
 		return null;
 	}

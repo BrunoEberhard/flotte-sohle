@@ -37,7 +37,7 @@ public class EventPage extends HtmlPage {
 		template = JsonFrontend.readStream(EventPage.class.getResourceAsStream("/ch/openech/dancer/event.html"));
 	}
 
-	private static String createHtml(Object id) {
+	public static String createHtml(Object id) {
 		DanceEvent event = Backend.read(DanceEvent.class, id);
 		return fillTemplate(event);
 	}

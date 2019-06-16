@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>$TITLE</title>
+$META
+
+<!-- $MINIMALJ-VERSION -->
+<!-- $APPLICATION-VERSION -->
+<base href="$BASE">
+
+<link rel="stylesheet" type="text/css" href="mj.css" />
+$THEME
+
+$ICON
+
+<script type="text/javascript">
+	"use strict";
+
+	function toggleNavigation(openOrClose) {
+		var navigationElement = document.getElementById("navigationContainer");
+		var isClosed = navigationElement.style.display === "none";
+		if (isClosed && (openOrClose == undefined || openOrClose === "open")) {
+			navigationElement.style.display = "block";
+		} else if (!isClosed && (openOrClose == undefined || openOrClose == "close")) {
+			navigationElement.style.display = "none";
+		}
+	}
+	
+	function searchButtonAction() {
+		var searchElement = document.getElementById("search");
+		if (searchElement.style.display == "inline") {
+			searchElement.style.display = "none";
+			searchElement.value = "";
+		} else {
+			searchElement.style.display = "inline";
+			searchElement.focus();
+		}
+	}
+	
+	function search() {
+		var searchElement = document.getElementById("search");
+		var search = searchElement.value;
+		if (search && search.length > 0) {
+			document.location.href = "query?query=" + search;
+		} else {
+			searchElement.style.display = "none";
+		}
+	}
+	
+    var lastWidth = 10000;
+    
+    function resizeNavigation() {
+        var newWidth = window.innerWidth;
+        if (lastWidth > newWidth && newWidth < 800) {
+			toggleNavigation("close");
+            // document.getElementById("search").style.display = "none";      
+        } else if (lastWidth < newWidth && newWidth >= 1200) {
+            toggleNavigation("open");
+        }
+        lastWidth = newWidth;
+    }	
+    
+    window.addEventListener("resize", resizeNavigation);
+</script>
+<style>
+	a {
+		text-decoration: none;
+	}
+</style>
+
+<meta name="viewport" content="width=device-width, minimum-scale=1, user-scalable=no" />
+</head>
+<body id="body">
+	<div id="header">
+		<svg class="button headerButton" style="margin-left: 1.0em;" onclick="toggleNavigation()">
+              <g style="stroke-width:0px"> 		
+  				<title>Show or hide navigation</title>
+				<rect x="0" y="5%" width="100%" height="0.25em"/>
+				<rect x="0" y="40%" width="100%" height="0.25em"/>
+				<rect x="0" y="75%" width="100%" height="0.25em"/>
+			</g>
+		</svg>
+		<span id="pageTitle" style="padding-left: 1em; padding-bottom: 0.5em;"></span>
+		<div id="searchSpan">
+			<input type="search" id="search" onkeydown="if (event.keyCode == 13) search();" $DISABLED_SEARCH />
+			<svg id="searchButton" class="button headerButton" onclick="searchButtonAction();">
+				<g style="stroke-width:16%;stroke-linecap:square"> 		
+					<line x1="59%" y1="59%" x2="91%" y2="91%" />
+					<circle cx="37%" cy="37%" r="30%" stroke-width="14%" fill="none" />
+				</g>
+			</svg>
+		</div>			
+	</div>
+	<div id="container">
+		<div id="navigationContainer" style="display: block;">
+			<div id="navigation">
+			$NAVIGATION
+			</div>
+		</div>
+		<noscript style="display: block; margin: 2em;">$NOSCRIPT</noscript>
+		<div id="pageContainer" class="pageContent">
+		$PAGE
+		</div>	
+	</div>
+	<script>
+	    if (window.innerWidth < 800) {
+     	   toggleNavigation("close");
+    	}
+	</script>
+	
+</body>
+</html>

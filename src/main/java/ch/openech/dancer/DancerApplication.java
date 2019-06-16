@@ -7,7 +7,6 @@ import org.minimalj.application.Configuration;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
-import org.minimalj.frontend.impl.web.WebServer;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.frontend.page.Routing;
@@ -26,6 +25,7 @@ import ch.openech.dancer.frontend.EventsPage;
 import ch.openech.dancer.frontend.InfoPage;
 import ch.openech.dancer.frontend.LocationMapPage;
 import ch.openech.dancer.frontend.LocationTablePage;
+import ch.openech.dancer.frontend.LocationsPage;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
 
@@ -42,12 +42,11 @@ public class DancerApplication extends Application {
 
 		// actions.add(new EntityTablePage());
 
-
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
 			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
 			pub.add(new EventsPage());
 			pub.add(new LocationMapPage());
-			pub.add(new LocationTablePage());
+			pub.add(new LocationsPage());
 			pub.add(new InfoPage());
 			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			events.add(new DanceEventAdminTablePage());
@@ -63,7 +62,7 @@ public class DancerApplication extends Application {
 		} else {
 			actions.add(new EventsPage());
 			actions.add(new LocationMapPage());
-			actions.add(new LocationTablePage());
+			actions.add(new LocationsPage());
 			actions.add(new InfoPage());
 			// noch zu wenig in einzelnen Regionen
 			// ActionGroup regions = actions.addGroup("Regionen");
@@ -98,12 +97,13 @@ public class DancerApplication extends Application {
 	public static void main(String[] args) {
 		Configuration.set("MjRepository", DancerRepository.class.getName());
 		Configuration.set("MjAuthentication", DancerAuthentication.class.getName());
+		Configuration.set("MjLoginAtStart", "true");
 		Configuration.set("MjInit", DancerInitTransaction.class.getName());
 		Application application = new DancerApplication();
 		// Swing.start(application);
 		//Lanterna.start(application);
 		// RestServer.start(application);
-		WebServer.start(application);
+		DancerWebServer.start(application);
 		// RestServer.start(application);
 		// MjVaadinSpringbootApplication.start(application);
 	}
