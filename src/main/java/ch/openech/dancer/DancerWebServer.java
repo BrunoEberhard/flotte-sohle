@@ -18,6 +18,7 @@ import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.frontend.page.Routing;
 import org.minimalj.model.test.ModelTest;
+import org.minimalj.util.LocaleContext;
 import org.minimalj.util.StringUtils;
 import org.minimalj.util.resources.Resources;
 
@@ -61,30 +62,32 @@ public class DancerWebServer {
 		@Override
 		public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> parms,
 				Map<String, String> files) {
+			Locale locale = MjWebDaemon.getLocale(headers.get("accept-language"));
+			LocaleContext.setCurrent(locale);
+
 			if (uri.equals("/")) {
-				return newFixedLengthResponse(Status.OK, "text/html", getStatic(Application.getInstance().createDefaultPage(), uri, headers));
+				return newFixedLengthResponse(Status.OK, "text/html", getStatic(Application.getInstance().createDefaultPage(), uri, locale));
 			}
 			if (uri.startsWith("/") && uri.endsWith(".html")) {
 				String path = uri.substring(1, uri.length() - 5);
-				return newFixedLengthResponse(Status.OK, "text/html", getStatic(Routing.createPageSafe(path), path, headers));
+				return newFixedLengthResponse(Status.OK, "text/html", getStatic(Routing.createPageSafe(path), path, locale));
 			}
 			if (uri.equals("/query")) {
 				Page page = Application.getInstance().createSearchPage(parms.get("query"));
-				return newFixedLengthResponse(Status.OK, "text/html", getStatic(page, uri, headers));
+				return newFixedLengthResponse(Status.OK, "text/html", getStatic(page, uri, locale));
 			}
 			if (uri.startsWith("/event/")) {
 				String id = uri.substring(7);
 				Page page = new EventPage(id);
-				return newFixedLengthResponse(Status.OK, "text/html", getStatic(page, uri, headers));
+				return newFixedLengthResponse(Status.OK, "text/html", getStatic(page, uri, locale));
 			}
 			return super.serve(uri, method, headers, parms, files);
 		}
 		
 	}
 	
-	private static String getStatic(Page page, String path, Map<String, String> headers) {
+	private static String getStatic(Page page, String path, Locale locale) {
 		String htmlTemplate = JsonFrontend.readStream(JsonFrontend.class.getResourceAsStream("/static.html"));
-		Locale locale = MjWebDaemon.getLocale(headers.get("accept-language"));
 		String html = fillPlaceHolder(htmlTemplate, locale, page, path);
 		return html;
 	}
