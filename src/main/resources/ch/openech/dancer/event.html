@@ -1,28 +1,20 @@
 <html>
 <head>
-<style>
-
-</style>
-</head>
+<script type="application/ld+json">
+$json
+</script></head>
 <body>
-<div itemscope itemtype="http://schema.org/Event">
 
-	<h1 itemprop="name">$title</h1>
+<h1>$title</h1>
 
-	<div itemprop="startDate" content="$date">$dateText</div>
-	<div>$fromUntil</div>
-	<p itemprop="description">$description</p>
-	
-	<div itemprop="location" itemscope itemtype="http://schema.org/Place">
-		<h2 itemprop="name">$location</h2>
-		<div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-			<div itemprop="streetAddress">$address</div>
-			<div itemprop="addressLocality">$city</div>
-		</div>
-	
-		<p><a href="$url" target="_blank" itemprop="url">$url</a></p>
+<div>$date</div>
+<div>$fromUntil</div>
+<p>$description</p>
 
-	</div>
-</div>
+<h2>$location</h2>
+<div>$address</div>
+<div>$city</div>
+
+<p><a href="$url" target="_blank">$url</a></p>
 </body>
 </html>
