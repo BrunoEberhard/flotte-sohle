@@ -23,10 +23,10 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 
-public class MadAndDanceCrawler extends DanceEventProvider {
+public class HappyAndMadCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "https://badenertanzcentrum.ch/events/tanz-partys/?art=2";
+	private static final String AGENDA_URL = "https://www.happyandmad.ch/index.html";
 
 	@Override
 	public EventUpdateCounter updateEvents() throws IOException {
