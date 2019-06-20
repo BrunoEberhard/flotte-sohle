@@ -3,12 +3,14 @@ package ch.openech.dancer.frontend;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import ch.openech.dancer.model.DanceEvent;
 import org.apache.http.client.utils.URIBuilder;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.Frontend;
@@ -39,11 +41,18 @@ public class LocationMapPage extends Page {
 
 		List<Map<String, Object>> locs = new ArrayList<>();
 		for (Location location : locations) {
+
+
+			List<DanceEvent> events = Backend.find(DanceEvent.class, By.field(DanceEvent.$.location, location).order(DanceEvent.$.date));
 			Map<String, Object> lMap = new HashMap<>();
 			lMap.put("name", location.name);
 			lMap.put("address", location.address);
 			lMap.put("city", location.city);
 			lMap.put("url", location.url);
+			if (!events.isEmpty()) {
+				DanceEvent upcomingEvent = events.get(0);
+				lMap.put("upcoming", createUpcomingEvent(upcomingEvent));
+			}
 
 			if (location.latitude == null) {
 				location = getPosition(location);
@@ -60,6 +69,13 @@ public class LocationMapPage extends Page {
 		String html = template.replace("$LOCS", json);
 		return Frontend.getInstance().createHtmlContent(html);
 	}
+
+	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
+
+	private String createUpcomingEvent(DanceEvent event) {
+		return String.format("%s %s %s %s %s",shortFormat.format(event.date), event.title, event.description, event.getDayOfWeek(), event.getFromUntil());
+	}
+
 
 	private Location getPosition(Location location) {
 		try {
