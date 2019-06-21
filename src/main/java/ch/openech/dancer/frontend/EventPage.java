@@ -25,6 +25,11 @@ public class EventPage extends HtmlPage {
 		this.id = id;
 	}
 
+	public EventPage(DanceEvent event) {
+		super(createHtml(event));
+		this.id = event.id;
+	}
+	
 	@Override
 	public String getTitle() {
 		// TODO DanceEvent nur einmal lesen
@@ -45,6 +50,10 @@ public class EventPage extends HtmlPage {
 
 	public static String createHtml(Object id) {
 		DanceEvent event = Backend.read(DanceEvent.class, id);
+		return fillTemplate(event);
+	}
+	
+	public static String createHtml(DanceEvent event) {
 		return fillTemplate(event);
 	}
 

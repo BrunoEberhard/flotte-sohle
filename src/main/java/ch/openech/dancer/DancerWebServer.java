@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.minimalj.application.Application;
 import org.minimalj.application.Configuration;
+import org.minimalj.backend.Backend;
 import org.minimalj.frontend.Frontend;
 import org.minimalj.frontend.Frontend.IContent;
 import org.minimalj.frontend.action.Action;
@@ -20,9 +21,10 @@ import org.minimalj.frontend.page.Routing;
 import org.minimalj.model.test.ModelTest;
 import org.minimalj.util.LocaleContext;
 import org.minimalj.util.StringUtils;
-import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.frontend.EventPage;
+import ch.openech.dancer.model.DanceEvent;
+import ch.openech.dancer.model.EventStatus;
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoHTTPD.Response.Status;
 
@@ -78,8 +80,13 @@ public class DancerWebServer {
 			}
 			if (uri.startsWith("/event/")) {
 				String id = uri.substring(7);
-				Page page = new EventPage(id);
-				return newFixedLengthResponse(Status.OK, "text/html", getStatic(page, uri, locale));
+				DanceEvent event = Backend.read(DanceEvent.class, id);
+				if (event != null && event.status != EventStatus.blocked) {
+					Page page = new EventPage(id);
+					return newFixedLengthResponse(Status.OK, "text/html", getStatic(page, uri, locale));
+				} else {
+					return newFixedLengthResponse(Status.NOT_FOUND, "text/html", "Not available");
+				}
 			}
 			return super.serve(uri, method, headers, parms, files);
 		}
