@@ -29,8 +29,8 @@ import ch.openech.dancer.backend.DukesRule;
 import ch.openech.dancer.backend.ElSocialRule;
 import ch.openech.dancer.backend.EventUpdateCounter;
 import ch.openech.dancer.backend.GalacticCrawler;
-import ch.openech.dancer.backend.HappyDanceRule;
 import ch.openech.dancer.backend.HappyAndMadCrawler;
+import ch.openech.dancer.backend.HappyDanceRule;
 import ch.openech.dancer.backend.PasadenaCrawler;
 import ch.openech.dancer.backend.RyvaCrawler;
 import ch.openech.dancer.backend.SchuetzenhausRule;
@@ -39,6 +39,7 @@ import ch.openech.dancer.backend.TanzArtImport;
 import ch.openech.dancer.backend.TanzSalonCrawler;
 import ch.openech.dancer.backend.TanzZentrumImport;
 import ch.openech.dancer.backend.TanzcenterImport;
+import ch.openech.dancer.backend.TanzclubWinterthurConsumer;
 import ch.openech.dancer.backend.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.TanzlokalSurseeCrawler;
 import ch.openech.dancer.backend.TanzschuleBayerCrawler;
@@ -83,6 +84,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new HappyDanceRule());
 		providers.add(new SummerDanceConsumer());
 		providers.add(new HappyAndMadCrawler());
+		providers.add(new TanzclubWinterthurConsumer());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
