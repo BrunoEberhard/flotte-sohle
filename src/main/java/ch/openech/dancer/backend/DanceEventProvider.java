@@ -83,13 +83,18 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 	protected void save(DanceEvent event, EventUpdateCounter result) {
 		try {
 			if (event.id == null) {
-				Backend.save(event);
+				Backend.insert(event);
 				result.newEvents++;
 			} else {
 				DanceEvent existing = Backend.read(DanceEvent.class, event.id);
-				if (!EqualsHelper.equals(existing, event)) {
-					Backend.save(event);
-					result.updatedEvents++;
+				if (existing != null) {
+					if (!EqualsHelper.equals(existing, event)) {
+						Backend.update(event);
+						result.updatedEvents++;
+					}
+				} else {
+					Backend.insert(event);
+					result.newEvents++;
 				}
 			}
 		} catch (Exception x) {
