@@ -9,6 +9,8 @@ import org.minimalj.security.model.User;
 import org.minimalj.security.model.UserRole;
 import org.minimalj.util.CloneHelper;
 
+import ch.openech.dancer.model.AdminLog;
+import ch.openech.dancer.model.AdminLog.AdminLogType;
 import ch.openech.dancer.model.Location;
 
 public class DancerAuthentication extends UserPasswordAuthentication {
@@ -20,6 +22,15 @@ public class DancerAuthentication extends UserPasswordAuthentication {
 		admin.roles.add(new UserRole(DancerRoles.admin.name()));
 		String password = System.getProperty("ADMIN_PASSWORD", "");
 		admin.password.setPassword(password.toCharArray());
+	}
+
+	@Override
+	protected User retrieveUser(String userName, char[] password) {
+		User user = super.retrieveUser(userName, password);
+		if (user != null) {
+			Backend.insert(new AdminLog(AdminLogType.LOGIN, user.name + " eingeloggt"));
+		}
+		return user;
 	}
 
 	@Override

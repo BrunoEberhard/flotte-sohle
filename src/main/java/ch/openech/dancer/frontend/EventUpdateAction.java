@@ -49,6 +49,8 @@ import ch.openech.dancer.backend.TanzwerkShCrawler;
 import ch.openech.dancer.backend.Time2DanceCrawler;
 import ch.openech.dancer.backend.Werk1Rule;
 import ch.openech.dancer.backend.ZinneSargansRule;
+import ch.openech.dancer.model.AdminLog;
+import ch.openech.dancer.model.AdminLog.AdminLogType;
 
 public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<EventUpdateCounter>> {
 
@@ -146,6 +148,9 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 			counters.add(counter);
 		}
 		Collections.sort(counters, Comparator.comparing(counter -> counter.provider));
+		Integer inserted = counters.stream().mapToInt(c -> c.newEvents).sum();
+		Integer updated = counters.stream().mapToInt(c -> c.updatedEvents).sum();
+		Backend.insert(new AdminLog(AdminLogType.IMPORT, "Import: " + inserted + " neue, " + updated + " aktualisierte Anlässe"));
 		return counters;
 	}
 

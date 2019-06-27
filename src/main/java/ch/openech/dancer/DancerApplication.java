@@ -15,6 +15,8 @@ import org.minimalj.security.Subject;
 import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.backend.DancerRepository;
+import ch.openech.dancer.frontend.AccessPage;
+import ch.openech.dancer.frontend.AdminLogPage;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
 import ch.openech.dancer.frontend.DancerRouting;
@@ -26,6 +28,8 @@ import ch.openech.dancer.frontend.InfoPage;
 import ch.openech.dancer.frontend.LocationMapPage;
 import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.frontend.LocationsPage;
+import ch.openech.dancer.model.AccessCounter;
+import ch.openech.dancer.model.AdminLog;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
 
@@ -52,9 +56,12 @@ public class DancerApplication extends Application {
 			events.add(new DanceEventAdminTablePage());
 			events.add(new EventUpdateAction());
 			events.add(new EventHousekeepingAction());
-			ActionGroup admin = actions.addGroup(Resources.getString("Navigation.base"));
-			admin.add(new LocationTablePage());
-			admin.add(new DeeJayTablePage());
+			ActionGroup base = actions.addGroup(Resources.getString("Navigation.base"));
+			base.add(new LocationTablePage());
+			base.add(new DeeJayTablePage());
+			ActionGroup admin = actions.addGroup(Resources.getString("Navigation.admin"));
+			admin.add(new AccessPage());
+			admin.add(new AdminLogPage());
 			// admin.add(new UserTablePage());
 		} else if (Subject.currentHasRole(DancerRoles.location.name())) {
 			Location location = Backend.find(Location.class, By.field(Location.$.name, Subject.getCurrent().getName())).get(0);
@@ -85,7 +92,7 @@ public class DancerApplication extends Application {
 
 	@Override
 	public Class<?>[] getEntityClasses() {
-		return new Class<?>[] { DanceEvent.class };
+		return new Class<?>[] { DanceEvent.class, AccessCounter.class, AdminLog.class };
 	}
 
 //	@Override

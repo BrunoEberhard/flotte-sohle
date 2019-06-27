@@ -1,6 +1,7 @@
 package ch.openech.dancer;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -19,10 +20,12 @@ import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.frontend.page.Routing;
 import org.minimalj.model.test.ModelTest;
+import org.minimalj.repository.query.By;
 import org.minimalj.util.LocaleContext;
 import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.frontend.EventPage;
+import ch.openech.dancer.model.AccessCounter;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import fi.iki.elonen.NanoHTTPD;
@@ -88,6 +91,9 @@ public class DancerWebServer {
 					return newFixedLengthResponse(Status.NOT_FOUND, "text/html", "Not available");
 				}
 			}
+			if (uri.equals("/mj.css")) {
+				updateAccessCounter();
+			}
 			return super.serve(uri, method, headers, parms, files);
 		}
 		
@@ -131,4 +137,20 @@ public class DancerWebServer {
 		return s;
 	}
 	
+	private static void updateAccessCounter() {
+		LocalDate now = LocalDate.now();
+		List<AccessCounter> counterList = Backend.find(AccessCounter.class, By.field(AccessCounter.$.date, now));
+		AccessCounter counter;
+		if (counterList.isEmpty()) {
+			counter = new AccessCounter();
+			counter.date = now;
+			counter.count = 1;
+			Backend.insert(counter);
+		} else {
+			counter = counterList.get(0);
+			counter.count += 1;
+			Backend.update(counter);
+		}
+	}
+
 }
