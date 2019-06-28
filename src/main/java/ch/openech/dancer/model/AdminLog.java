@@ -20,13 +20,13 @@ public class AdminLog {
 
 	public Object id;
 
-	@Size(Size.TIME_WITH_SECONDS)
+	@Size(Size.TIME_WITH_SECONDS) @NotEmpty
 	public LocalDateTime dateTime = LocalDateTime.now();
 
 	@NotEmpty
 	public AdminLogType logType;
 
-	@Size(1000)
+	@Size(1000) @NotEmpty
 	public String msg;
 
 	public static enum AdminLogType {
