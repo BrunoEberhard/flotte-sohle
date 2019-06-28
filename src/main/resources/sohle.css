@@ -1,0 +1,512 @@
+html {
+	height: 100%;
+}
+
+body {
+	font-family: sans-serif;
+	font-size: 11px;
+	margin: 0px;
+	height: 100%;
+}
+
+/* header with search */
+
+#header {
+	position: fixed;
+	margin: 0px;
+	width: 100%;
+	height: 2.6em;
+	box-sizing: border-box;
+	line-height: 2.45em;
+	text-align: left;
+	background: rgb(224,224,224);
+	border-bottom: 1px rgb(160,160,160) solid;
+	padding-left: 0ex;
+}
+
+.headerButton {
+	margin-top: 0.6em;
+	margin-left: 0.4em;
+	width: 1.52em;
+	height: 1.52em;
+}
+
+#searchSpan {
+	position: absolute;
+	top: 0;
+	right: 1em;
+	overflow: none;
+}
+
+#search {
+	vertical-align: top;
+	border: solid 1px #888;
+	margin-top: 0.53em;
+	height: 1.55em
+}
+
+#search input:focus {
+	outline: none;
+}
+
+/* content */
+
+#container {
+	position: fixed;
+	display: flex;
+	top: 2.6em;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: 0px;
+}
+
+#navigationContainer {
+	margin: 0px;
+	border-right: 1px rgb(160,160,160) solid;
+}
+
+#navigationHeader {
+	position: relative;
+	height: 2em;
+	box-sizing: border-box;
+	line-height: 2.1em;
+	padding-left: 1em;
+	width: 100%;
+	background: rgb(240,240,240);
+	border-bottom: 1px rgb(160,160,160) solid;
+}
+
+#navigation {
+	position: relative;
+	width: calc(15em - 1px);
+	max-height: calc(100% - 2em);
+	bottom: 0;
+	overflow: auto;
+}
+
+#navigation ul {
+	padding: 1ex 0ex 1ex 1ex;
+}
+
+#navigation li, .actionMenu li {
+	list-style: none;
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
+}
+
+.action {
+	color: blue;
+	color: -moz-hyperlinktext;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.action:hover {
+	text-decoration: underline;
+}
+
+.action[disabled] {
+	cursor: default;
+	text-decoration: none;
+	color: gray;
+}
+
+.button {
+	stroke: #555;
+	fill: #555;
+	display: inline-block;
+	margin-left: 1em;
+}
+
+.button:hover {
+	stroke: #000;
+	fill: #000;
+}
+
+/* pages */
+
+#pageContainer {
+	flex-grow: 10;
+	margin: 0px;
+	overflow: auto;
+	background: white;
+}
+
+.page {
+	position: relative;
+	border-bottom: 1px rgb(160,160,160) solid;
+	width: 100%;
+}
+
+.page:only-child {
+	border-bottom: none;
+	top: 0em;
+	right: 0em;
+	min-height: unset;
+	height: 100%;
+}
+
+.pageHeader {
+	position: relative;
+	height: 2em;
+	box-sizing: border-box;
+	line-height: 2.1em;
+	padding-left: 1em;
+	background: rgb(240,240,240);
+	border-bottom: 1px rgb(160,160,160) solid;
+}
+
+.pageContentAndActions {
+	position: relative;
+	min-height: 8em;
+}
+
+.page:only-child > .pageContentAndActions {
+	position: absolute;
+	top: 2em;
+	left: 0em;
+	right: 0em;
+	height: calc(100% - 2em)
+}
+
+.pageButton {
+	width: 1.1em;
+	height: 1.1em;
+}
+
+.pageContent {
+	width: 100%;
+	box-sizing: border-box;
+	padding-left: 1em;
+	padding-top: 0.5ex;
+	overflow: auto;
+}
+
+.page:only-child > .pageContentAndActions > iframe.pageContent {
+	height: 100%;
+}
+
+iframe.pageContent {
+	padding-top: 0;
+	border: 0;
+	font-family: inherit;
+}
+
+table.table tr td {
+	height: 1.7em;
+	line-height: 1.6em;
+}
+
+.actionMenu {
+	position: fixed;
+	z-index: 20;
+	padding: 0.5ex 1ex 0.5ex 1ex;
+	border: 1px rgb(160,160,160) solid;
+	background: white;
+	overflow: auto;
+}
+
+.fullscreen .dialogFooter {
+	position: absolute;
+	left: 0em;
+	right: 0em;
+	bottom: 0em;
+}
+
+.dialogFooter button {
+	margin-right: 0.2em;
+}
+
+/* table */
+
+table {
+	width: 100%;
+	table-layout: fixed;
+	font-size: inherit;
+	border-spacing: 0px;
+}
+
+td, th {
+	text-align: left;
+	color: black;
+	white-space: nowrap;
+	vertical-align: top;
+	overflow: hidden;
+}
+
+table.selected {
+	background: blue;
+}
+
+table tr:nth-child(even) {
+	background: #f8f8f8;
+}
+
+table tr:nth-child(odd) {
+	background: white;
+}
+
+table tr:nth-child(even).selected {
+	background: #99f;
+}
+
+table tr:nth-child(odd).selected {
+	background: #99f;
+}
+
+dialog .form div.list {
+	padding-top: 0.05rem;
+}
+
+/* group (of form elements) must not double the paddings and keep background pattern */
+
+.groupHorizontal {
+	display: flex;
+	flex-wrap: wrap;	
+}
+
+.groupVertical {
+	display: block;
+}
+
+/* various elements */
+
+input, .checkBoxContainer, select {
+	padding-top: 0.15em;
+	padding-bottom: 0.15em;
+	font-size: inherit;
+}
+
+input[type="checkbox"] {
+	height: inherit;
+	width: 1.2em;
+	margin-bottom: 0px;
+	vertical-align: bottom;
+}
+
+label.checkboxLabel {
+	display: inline;
+	white-space: nowrap; /* important for long labels */
+	margin-top: 0.2em;
+	font-weight: normal;
+}
+
+textarea {
+	font-family: inherit;
+	font-size: inherit;
+	resize: vertical;
+}
+
+hr {
+	margin: 0px;
+	border: 0px;
+	border-top: 1px rgb(160,160,160) solid;
+}
+
+label {
+	display: inline-flex;
+	align-items: center;
+	overflow: hidden;
+	font-size: x-smaller;
+	font-weight: bolder;
+}
+
+.title {
+	font-size: larger;
+	font-weight: bolder;
+}
+
+.lookup {
+	display: flex;
+}
+
+.lookup input {
+	flex-grow: 1;
+	margin: 0px;
+	width: 3em;
+}
+
+.lookup button, .lookup select {
+	align-self: start;
+}
+
+.lookup span {
+	flex-grow: 1;
+	align-self: center;
+}
+
+.lookup select {
+	width: 1.8em;
+	height: 1.8em;
+	padding: 0;
+	vertical-align: middle;
+	margin: 0;
+}
+
+.lookup select option:first-child {
+	display: none;
+}
+
+.hide {
+	visibility: hidden;
+}
+
+@media (min-width: 992px) {
+	#search { display: inline !important; }
+	#searchButton { display: none; }
+	#actionMenuButton { display: none; }
+}
+
+@media (max-width: 991px) {
+	#search { display: none; }
+	#navigationContainer { left: 1ex; top: 1ex; bottom: 1ex; z-index: 1; background: white; border-right: 1px rgb(160,160,160) solid;}
+	#navigationHeader { display: none; }
+	#navigation { max-height: 100%}
+	#pageContainer { height: 100%}
+	/* not working with ie: #pageContainer .page:not(:last-child) { display: none; } */
+	.page { display: none; }
+	.page:last-child { display: block; border-bottom: none; top: 0em; right: 0em; min-height: unset; height: 100%; }
+	.page:last-child > .pageContentAndActions { top: 0em; height: 100%;}
+	.pageHeader { display: none; }
+	.actionMenu { min-width: 13em;}
+	.pageButton { display: none; }
+	table.form > tbody > tr > td:first-child, table.form > tbody > tr > td:last-child, table.form th { padding: 1ex; }
+	table.form, table.form input, table.form select { margin: 0px; }
+	.dialogFooter button { font-size : inherit; }
+	.dialogHeader { height: 2.3em; line-Height: 2.3em; font-size: larger;}
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 15px;
+	margin: 0px;
+	height: 100%;
+	color: rgb(21, 21, 21);
+}
+
+#header {
+	border: none;
+	z-index: 1;
+    box-shadow: rgba(0, 0, 0, 0.26) 0px 2px 5px;
+}
+
+#navigationHeader {
+	border: none;
+	box-shadow: rgba(0, 0, 0, 0.26) 0px 1px 3px;
+}
+
+#navigationContainer {
+	background: rgb(250, 250, 250);
+	z-index: 1;
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+	border: none;
+}
+
+.pageHeader {
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+	border: none;
+}
+
+.pageButton {
+	margin-top: 0.2em;
+	width: 0.9em;
+	height: 0.9em;
+}
+
+#navigation ul {
+	padding: 0.7ex 0em .7em 0em;
+}
+
+#navigation li {
+	padding: 1em 0em 0em 1em;
+}
+
+.action {
+	font-weight: 100;
+}
+
+.page {
+	border: none;
+}
+
+.actionMenu {
+	padding: 1ex 2ex 1ex 2ex;
+	box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+}
+
+.actionMenu ul {
+}
+
+.actionMenu li {
+	padding: 0.5em;
+}
+
+dialog {
+	box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px
+		rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+	border: none;
+	padding: 1.2em;
+	right: 0em;
+}
+
+.dialogContent {
+	padding: 0.8em;
+	box-sizing: border-box;
+}
+
+.dialogHeader {
+	border: none;
+	background: transparent;
+	padding: 0em;
+}
+
+@media (max-width: 991px) {
+	.dialogHeader {
+		line-height: unset;
+	}
+
+	.dialogFooter {
+		height: fit-content;
+	}
+}
+
+.dialogContent {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.dialogFooter {
+	border: none;
+	background: transparent;
+}
+
+button {
+	padding: .5em 1em;
+	border-width: 0;
+	outline: none;
+	border-radius: 2px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+	background-color: #888888;
+	color: #ecf0f1;
+	transition: background-color .3s;
+}
+
+.dialogFooter button {
+	margin: 0.5em 1em;
+}
+
+button:hover {
+	background-color: #aaaaaa;
+}
+
+button:hover[disabled="true"] {
+	background-color: #888888;
+}
+
+label {
+	font-weight: unset;
+	color: gray;
+	font-size: small;
+}
+
