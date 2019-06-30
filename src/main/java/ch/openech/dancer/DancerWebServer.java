@@ -91,7 +91,7 @@ public class DancerWebServer {
 					return newFixedLengthResponse(Status.NOT_FOUND, "text/html", "Not available");
 				}
 			}
-			if (uri.equals("/mj.css")) {
+			if (uri.equals("/sohle.css")) {
 				updateAccessCounter();
 			}
 			return super.serve(uri, method, headers, parms, files);
