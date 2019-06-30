@@ -3,6 +3,7 @@ package ch.openech.dancer.frontend;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import ch.openech.dancer.model.DanceEvent;
-import org.apache.http.client.utils.URIBuilder;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.Frontend;
 import org.minimalj.frontend.Frontend.IContent;
@@ -22,6 +21,7 @@ import org.minimalj.frontend.page.Page;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.DancerWebServer;
+import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
 
 public class LocationMapPage extends Page {
@@ -79,13 +79,13 @@ public class LocationMapPage extends Page {
 
 	private Location getPosition(Location location) {
 		try {
-			URIBuilder b = new URIBuilder("https://nominatim.openstreetmap.org");
-			b.addParameter("country", location.country);
-			b.addParameter("city", location.city.substring(location.city.indexOf(' ') + 1));
-			b.addParameter("street", location.address);
-			b.addParameter("format", "jsonv2");
-
-			URL url = b.build().toURL();
+			StringBuilder s = new StringBuilder("https://nominatim.openstreetmap.org/");
+			s.append("?country=").append(URLEncoder.encode(location.country, "UTF-8"));
+			s.append("&city=").append(URLEncoder.encode(location.city.substring(location.city.indexOf(' ') + 1), "UTF-8"));
+			s.append("&street=").append(URLEncoder.encode(location.address, "UTF-8"));
+			s.append("&format=jsonv2");
+			
+			URL url = new URL(s.toString());
 			try (InputStreamReader isr = new InputStreamReader(url.openStream())) {
 				List<?> result = (List<?>) JsonReader.read(isr);
 				@SuppressWarnings("unchecked")

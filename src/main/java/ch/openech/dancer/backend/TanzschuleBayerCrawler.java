@@ -5,12 +5,12 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.minimalj.repository.query.By;
 import org.minimalj.util.DateUtils;
+import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
