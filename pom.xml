@@ -8,6 +8,10 @@
 	<name>Dancer</name>
 	<description>Local ballroom dance events</description>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<licenses> 
 		<license>
 			<name>GNU Affero General Public License (AGPL) version 3.0</name>
@@ -30,6 +34,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
