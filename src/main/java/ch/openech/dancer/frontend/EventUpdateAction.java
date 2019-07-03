@@ -14,6 +14,7 @@ import org.minimalj.frontend.editor.Editor;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.CheckBoxFormElement;
 import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElementProperty;
+import org.minimalj.frontend.form.element.FormElement;
 
 import ch.openech.dancer.backend.AnlikerTanzRule;
 import ch.openech.dancer.backend.BadenerTanzCenterCrawler;
@@ -109,21 +110,25 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		return DanceEventProvider.class;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Form<Set<DanceEventProvider>> createForm() {
-		Form<Set<DanceEventProvider>> form = new Form<>(Form.EDITABLE, 2);
-		org.minimalj.frontend.form.element.FormElement<?> leftElement = null;
+		int columns = 3;
+		Form<Set<DanceEventProvider>> form = new Form<>(Form.EDITABLE, columns);
+		FormElement[] row = new FormElement[columns];
+		int pos = 0;
 		for (DanceEventProvider object : providers) {
 			String caption = object.getName();
-			if (leftElement != null) {
-				form.line(leftElement, new CheckBoxFormElement(new SetElementFormElementProperty(object), caption, true, false));
-				leftElement = null;
-			} else {
-				leftElement = new CheckBoxFormElement(new SetElementFormElementProperty(object), caption, true, false);
+			row[pos++] = new CheckBoxFormElement(new SetElementFormElementProperty(object), caption, true, false);
+			if (pos == columns) {
+				form.line(row);
+				pos = 0;
 			}
 		}
-		if (leftElement != null) {
-			form.line(leftElement);
+		if (pos > 0) {
+			FormElement[] rest = new FormElement[pos];
+			System.arraycopy(row, 0, rest, 0, pos);
+			form.line(rest);
 		}
 		return form;
 	}
