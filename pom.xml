@@ -84,6 +84,9 @@
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
+						<configuration>
+							<excludeScope>test</excludeScope>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
