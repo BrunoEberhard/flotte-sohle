@@ -74,6 +74,9 @@ public class HappyAndMadCrawler extends DanceEventProvider {
 				int posTil = s1.indexOf("-");
 				String dateString = s1.substring(s1.indexOf(". ") + 2, posColon);
 				LocalDate date = LocalDate.parse(dateString, dateFormatter);
+				if (date.isBefore(LocalDate.now())) {
+					continue;
+				}
 
 				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
