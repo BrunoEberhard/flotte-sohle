@@ -39,6 +39,7 @@ import ch.openech.dancer.backend.SummerDanceConsumer;
 import ch.openech.dancer.backend.TanzArtImport;
 import ch.openech.dancer.backend.TanzSalonCrawler;
 import ch.openech.dancer.backend.TanzZentrumImport;
+import ch.openech.dancer.backend.TanzbarBinningenRule;
 import ch.openech.dancer.backend.TanzcenterImport;
 import ch.openech.dancer.backend.TanzclubWinterthurConsumer;
 import ch.openech.dancer.backend.TanzenMitHerzCrawler;
@@ -89,6 +90,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new HappyAndMadCrawler());
 		providers.add(new TanzclubWinterthurConsumer());
 		providers.add(new DanceVisionCrawler());
+		providers.add(new TanzbarBinningenRule());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
