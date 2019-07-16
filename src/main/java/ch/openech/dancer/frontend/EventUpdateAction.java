@@ -26,6 +26,7 @@ import ch.openech.dancer.backend.DanceInnCrawler;
 import ch.openech.dancer.backend.DancePassionCrawler;
 import ch.openech.dancer.backend.DanceToDanceImport;
 import ch.openech.dancer.backend.DanceVisionCrawler;
+import ch.openech.dancer.backend.DanceoramaCrawler;
 import ch.openech.dancer.backend.DancersRule;
 import ch.openech.dancer.backend.DukesRule;
 import ch.openech.dancer.backend.ElSocialRule;
@@ -92,6 +93,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new TanzclubWinterthurConsumer());
 		providers.add(new DanceVisionCrawler());
 		providers.add(new TanzbarBinningenRule());
+		providers.add(new DanceoramaCrawler());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
