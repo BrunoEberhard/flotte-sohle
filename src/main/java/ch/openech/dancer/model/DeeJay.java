@@ -3,6 +3,7 @@ package ch.openech.dancer.model;
 import org.minimalj.model.Keys;
 import org.minimalj.model.Rendering;
 import org.minimalj.model.annotation.NotEmpty;
+import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
 
 public class DeeJay implements Rendering {
@@ -10,7 +11,9 @@ public class DeeJay implements Rendering {
 	
 	public Object id;
 	
-	@Size(255) @NotEmpty
+	@Size(255)
+	@NotEmpty
+	@Searched
 	public String name;
 	
 	@Size(1000)
