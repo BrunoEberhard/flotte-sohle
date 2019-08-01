@@ -12,10 +12,12 @@ import org.minimalj.frontend.Frontend;
 import org.minimalj.frontend.Frontend.IContent;
 import org.minimalj.frontend.impl.json.JsonFrontend;
 import org.minimalj.frontend.page.Page;
+import org.minimalj.security.Subject;
 import org.minimalj.util.DateUtils;
 import org.minimalj.util.StringUtils;
 import org.minimalj.util.resources.Resources;
 
+import ch.openech.dancer.DancerRoles;
 import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
@@ -122,7 +124,11 @@ public class EventsPage extends Page {
 	}
 
 	private static void appendLink(DanceEvent event, StringBuilder s) {
-		s.append("<a href=\"event/").append(event.id).append("\">");
+		if (Subject.currentHasRole(DancerRoles.admin.name())) {
+			s.append("<a href=\"/event/").append(event.id).append("?embed=false\">");
+		} else {
+			s.append("<a href=\"/event/").append(event.id).append("\">");
+		}
 	}
 
 	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");

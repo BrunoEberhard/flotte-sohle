@@ -86,7 +86,12 @@ public class DancerWebServer {
 				DanceEvent event = Backend.read(DanceEvent.class, id);
 				if (event != null && event.status != EventStatus.blocked) {
 					Page page = new EventPage(id);
-					return newFixedLengthResponse(Status.OK, "text/html", getStatic(page, uri, locale));
+					if (StringUtils.equals(parms.get("embed"), "false")) {
+						String content = getHtmlContent(page);
+						return newFixedLengthResponse(Status.OK, "text/html", content);
+					} else {
+						return newFixedLengthResponse(Status.OK, "text/html", getStatic(page, uri, locale));
+					}
 				} else {
 					return newFixedLengthResponse(Status.NOT_FOUND, "text/html", "Not available");
 				}
@@ -107,15 +112,19 @@ public class DancerWebServer {
 	
 	private static String fillPlaceHolder(String html, Locale locale, Page page, String path) {
 		String result = html.replace("$NAVIGATION", createNavigation());
-		String content = "";
+		String content = getHtmlContent(page);
+		result = result.replace("$PAGE", content);
+		return JsonFrontend.fillPlaceHolder(result, locale, path);
+	}
+
+	private static String getHtmlContent(Page page) {
 		if (page != null) {
 			IContent c = page.getContent();
 			if (c instanceof JsonHtmlContent) {
-				content = (String) ((JsonHtmlContent) c).get("htmlOrUrl");
+				return (String) ((JsonHtmlContent) c).get("htmlOrUrl");
 			}
 		}
-		result = result.replace("$PAGE", content);
-		return JsonFrontend.fillPlaceHolder(result, locale, path);
+		return "";
 	}
 
 	private static CharSequence createNavigation() {
