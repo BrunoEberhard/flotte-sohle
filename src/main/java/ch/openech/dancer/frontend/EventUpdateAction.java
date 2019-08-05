@@ -36,6 +36,7 @@ import ch.openech.dancer.backend.GaswerkEventbarRule;
 import ch.openech.dancer.backend.HappyAndMadCrawler;
 import ch.openech.dancer.backend.HappyDanceRule;
 import ch.openech.dancer.backend.PasadenaCrawler;
+import ch.openech.dancer.backend.PilatusKellerRule;
 import ch.openech.dancer.backend.RyvaCrawler;
 import ch.openech.dancer.backend.SchuetzenhausRule;
 import ch.openech.dancer.backend.SummerDanceConsumer;
@@ -96,6 +97,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new TanzbarBinningenRule());
 		providers.add(new DanceoramaCrawler());
 		providers.add(new GaswerkEventbarRule());
+		providers.add(new PilatusKellerRule());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
