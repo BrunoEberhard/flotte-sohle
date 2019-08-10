@@ -96,6 +96,10 @@ public class DancerWebServer {
 					return newFixedLengthResponse(Status.NOT_FOUND, "text/html", "Not available");
 				}
 			}
+			if (uri.startsWith("/events.ics")) {
+				List<DanceEvent> events = Backend.find(DanceEvent.class, By.all());
+				return newFixedLengthResponse(Status.OK, "text/calendar", new DancerCalendar().getCalendar(events));
+			}
 			if (uri.equals("/sohle.css")) {
 				updateAccessCounter();
 			}
