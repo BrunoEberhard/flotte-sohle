@@ -52,6 +52,7 @@ import ch.openech.dancer.backend.TanzschuleBayerCrawler;
 import ch.openech.dancer.backend.Tanzwerk101Rule;
 import ch.openech.dancer.backend.TanzwerkShCrawler;
 import ch.openech.dancer.backend.Time2DanceCrawler;
+import ch.openech.dancer.backend.VerschiedeneImport.DanceAndDineImport;
 import ch.openech.dancer.backend.Werk1Rule;
 import ch.openech.dancer.backend.ZinneSargansRule;
 import ch.openech.dancer.model.AdminLog;
@@ -98,6 +99,7 @@ public class EventUpdateAction extends Editor<Set<DanceEventProvider>, List<Even
 		providers.add(new DanceoramaCrawler());
 		providers.add(new GaswerkEventbarRule());
 		providers.add(new PilatusKellerRule());
+		providers.add(new DanceAndDineImport());
 
 		Collections.sort(providers, Comparator.comparing(DanceEventProvider::getName));
 	}
