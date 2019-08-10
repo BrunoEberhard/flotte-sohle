@@ -23,7 +23,9 @@ public class DancerCalendar {
 		for (DanceEvent event : events) {
 			s.append("BEGIN:VEVENT\n");
 			s.append("DTSTART:" + formatter.format(LocalDateTime.of(event.date, event.from)) + "\n");
-			s.append("DTEND:" + formatter.format(LocalDateTime.of(event.date.plusDays(event.from.isAfter(event.until) ? 1 : 0), event.until)) + "\n");
+			if (event.until != null) {
+				s.append("DTEND:" + formatter.format(LocalDateTime.of(event.date.plusDays(event.from.isAfter(event.until) ? 1 : 0), event.until)) + "\n");
+			}
 			s.append("SUMMARY:" + event.header + "\n");
 			s.append("DESCRIPTION:" + event.description + "\n");
 			s.append("ORGANIZER:" + event.location.name + "\n");
