@@ -4,7 +4,44 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
 
-import ch.openech.dancer.backend.VerschiedeneImport.DanceAndDineImport;
+import ch.openech.dancer.backend.provider.AnlikerTanzRule;
+import ch.openech.dancer.backend.provider.BadenerTanzCenterCrawler;
+import ch.openech.dancer.backend.provider.BanditsRule;
+import ch.openech.dancer.backend.provider.BlueboxConsumer;
+import ch.openech.dancer.backend.provider.DanceCubeImport;
+import ch.openech.dancer.backend.provider.DanceInnCrawler;
+import ch.openech.dancer.backend.provider.DancePassionCrawler;
+import ch.openech.dancer.backend.provider.DanceToDanceImport;
+import ch.openech.dancer.backend.provider.DanceVisionCrawler;
+import ch.openech.dancer.backend.provider.DanceoramaCrawler;
+import ch.openech.dancer.backend.provider.DancersRule;
+import ch.openech.dancer.backend.provider.DukesRule;
+import ch.openech.dancer.backend.provider.ElSocialRule;
+import ch.openech.dancer.backend.provider.GalacticCrawler;
+import ch.openech.dancer.backend.provider.GaswerkEventbarRule;
+import ch.openech.dancer.backend.provider.HappyAndMadCrawler;
+import ch.openech.dancer.backend.provider.HappyDanceRule;
+import ch.openech.dancer.backend.provider.Meet2DanceRule;
+import ch.openech.dancer.backend.provider.PasadenaCrawler;
+import ch.openech.dancer.backend.provider.PilatusKellerRule;
+import ch.openech.dancer.backend.provider.RyvaCrawler;
+import ch.openech.dancer.backend.provider.SchuetzenhausRule;
+import ch.openech.dancer.backend.provider.SummerDanceConsumer;
+import ch.openech.dancer.backend.provider.TanzArtImport;
+import ch.openech.dancer.backend.provider.TanzSalonCrawler;
+import ch.openech.dancer.backend.provider.TanzZentrumImport;
+import ch.openech.dancer.backend.provider.TanzbarBinningenRule;
+import ch.openech.dancer.backend.provider.TanzcenterImport;
+import ch.openech.dancer.backend.provider.TanzclubWinterthurConsumer;
+import ch.openech.dancer.backend.provider.TanzenMitHerzCrawler;
+import ch.openech.dancer.backend.provider.TanzlokalSurseeCrawler;
+import ch.openech.dancer.backend.provider.TanzschuleBayerCrawler;
+import ch.openech.dancer.backend.provider.Tanzwerk101Rule;
+import ch.openech.dancer.backend.provider.TanzwerkShCrawler;
+import ch.openech.dancer.backend.provider.Time2DanceCrawler;
+import ch.openech.dancer.backend.provider.Werk1Rule;
+import ch.openech.dancer.backend.provider.ZinneSargansRule;
+import ch.openech.dancer.backend.provider.VerschiedeneImport.DanceAndDineImport;
 
 public class DanceEventProviders {
 

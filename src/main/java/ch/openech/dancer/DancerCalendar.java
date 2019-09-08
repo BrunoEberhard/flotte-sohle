@@ -8,7 +8,7 @@ import org.minimalj.application.Application;
 import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
-import ch.openech.dancer.backend.Tanzwerk101Rule;
+import ch.openech.dancer.backend.provider.Tanzwerk101Rule;
 import ch.openech.dancer.model.DanceEvent;
 
 public class DancerCalendar {
