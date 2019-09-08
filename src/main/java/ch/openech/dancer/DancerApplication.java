@@ -14,7 +14,9 @@ import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 import org.minimalj.util.resources.Resources;
 
+import ch.openech.dancer.backend.DanceEventProviders;
 import ch.openech.dancer.backend.DancerRepository;
+import ch.openech.dancer.backend.EventsUpdateTransaction;
 import ch.openech.dancer.frontend.AccessPage;
 import ch.openech.dancer.frontend.AdminLogPage;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
@@ -113,6 +115,7 @@ public class DancerApplication extends Application {
 		DancerWebServer.start(application);
 		// RestServer.start(application);
 		// MjVaadinSpringbootApplication.start(application);
+		Backend.execute(new EventsUpdateTransaction(DanceEventProviders.PROVIDER_NAMES));
 	}
 
 }
