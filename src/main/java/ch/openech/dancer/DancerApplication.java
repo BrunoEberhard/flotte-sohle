@@ -27,8 +27,8 @@ import ch.openech.dancer.frontend.EventHousekeepingAction;
 import ch.openech.dancer.frontend.EventUpdateAction;
 import ch.openech.dancer.frontend.EventsPage;
 import ch.openech.dancer.frontend.InfoPage;
+import ch.openech.dancer.frontend.LocationAdminTablePage;
 import ch.openech.dancer.frontend.LocationMapPage;
-import ch.openech.dancer.frontend.LocationTablePage;
 import ch.openech.dancer.frontend.LocationsPage;
 import ch.openech.dancer.model.AccessCounter;
 import ch.openech.dancer.model.AdminLog;
@@ -59,7 +59,7 @@ public class DancerApplication extends Application {
 			events.add(new EventUpdateAction());
 			events.add(new EventHousekeepingAction());
 			ActionGroup base = actions.addGroup(Resources.getString("Navigation.base"));
-			base.add(new LocationTablePage());
+			base.add(new LocationAdminTablePage());
 			base.add(new DeeJayTablePage());
 			ActionGroup admin = actions.addGroup(Resources.getString("Navigation.admin"));
 			admin.add(new AccessPage());
