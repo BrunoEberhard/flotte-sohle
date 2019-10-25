@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.minimal.nanohttpd.MjWebDaemon;
 import org.minimalj.application.Application;
 import org.minimalj.application.Configuration;
 import org.minimalj.backend.Backend;
@@ -15,7 +16,7 @@ import org.minimalj.frontend.Frontend.IContent;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.impl.json.JsonFrontend;
 import org.minimalj.frontend.impl.json.JsonHtmlContent;
-import org.minimalj.frontend.impl.web.MjWebDaemon;
+import org.minimalj.frontend.impl.web.MjHttpExchange;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.frontend.page.Routing;
@@ -67,7 +68,7 @@ public class DancerWebServer {
 		@Override
 		public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> parms,
 				Map<String, String> files) {
-			Locale locale = MjWebDaemon.getLocale(headers.get("accept-language"));
+			Locale locale = MjHttpExchange.getLocale(headers.get("accept-language"));
 			LocaleContext.setCurrent(locale);
 
 			if (uri.equals("/")) {
