@@ -1,6 +1,7 @@
 package ch.openech.dancer.backend.provider;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -8,8 +9,6 @@ import java.time.zone.ZoneOffsetTransition;
 import java.util.Collection;
 import java.util.Map;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.impl.json.JsonReader;
 
@@ -32,17 +31,7 @@ public class RyvaCrawler extends DanceEventProvider {
 	public EventUpdateCounter updateEvents() throws IOException {
 		EventUpdateCounter result = new EventUpdateCounter();
 
-		Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).ignoreContentType(true).get();
-		String s = doc.toString();
-
-		String startString = "window.appData = JSON.parse(htmlDecode('";
-		int index1 = s.indexOf(startString);
-		int index2 = s.indexOf("'", index1 + startString.length() + 1);
-		s = s.substring(index1 + startString.length(), index2);
-		s = Jsoup.parse(s).text();
-		s = s.replace("\\\\", "\\"); // warum? Es scheint wirklich, als ob die Daten schon so geliefert werden.
-
-		Map<String, Object> d = (Map<String, Object>) JsonReader.read(s);
+		Map<String, Object> d = (Map<String, Object>) JsonReader.read(new URL(AGENDA_URL).openStream());
 		Map<String, Object> component = (Map<String, Object>) d.get("component");
 		Collection<Object> events = (Collection<Object>) component.get("events");
 
