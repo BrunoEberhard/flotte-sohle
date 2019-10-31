@@ -39,6 +39,8 @@ public class Location implements Rendering {
 
 	public final Password password = new Password();
 
+	public SpecialDays specialDays = new SpecialDays();
+
 	@Override
 	public CharSequence render() {
 		return name;
