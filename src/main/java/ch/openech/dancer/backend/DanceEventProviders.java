@@ -21,6 +21,7 @@ import ch.openech.dancer.backend.provider.GalacticCrawler;
 import ch.openech.dancer.backend.provider.GaswerkEventbarRule;
 import ch.openech.dancer.backend.provider.HappyAndMadCrawler;
 import ch.openech.dancer.backend.provider.HappyDanceRule;
+import ch.openech.dancer.backend.provider.HasenstrickRule;
 import ch.openech.dancer.backend.provider.Meet2DanceRule;
 import ch.openech.dancer.backend.provider.PasadenaCrawler;
 import ch.openech.dancer.backend.provider.PilatusKellerRule;
@@ -39,9 +40,9 @@ import ch.openech.dancer.backend.provider.TanzschuleBayerCrawler;
 import ch.openech.dancer.backend.provider.Tanzwerk101Rule;
 import ch.openech.dancer.backend.provider.TanzwerkShCrawler;
 import ch.openech.dancer.backend.provider.Time2DanceCrawler;
+import ch.openech.dancer.backend.provider.VerschiedeneImport.DanceAndDineImport;
 import ch.openech.dancer.backend.provider.Werk1Rule;
 import ch.openech.dancer.backend.provider.ZinneSargansRule;
-import ch.openech.dancer.backend.provider.VerschiedeneImport.DanceAndDineImport;
 
 public class DanceEventProviders {
 
@@ -87,6 +88,7 @@ public class DanceEventProviders {
 		addProvider(new PilatusKellerRule());
 		addProvider(new DanceAndDineImport());
 		addProvider(new Meet2DanceRule());
+		addProvider(new HasenstrickRule());
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
