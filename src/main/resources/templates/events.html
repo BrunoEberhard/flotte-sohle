@@ -1,0 +1,55 @@
+<html th:replace="container.html :: container(~{::head}, ~{::body})">
+<head>
+<style>
+.DanceEvent {
+	display: inline-block;
+	background: lightgray;
+	padding: 0.2em 1em;
+	margin: 0.1em 1.5em;
+	width: 14em;
+	max-width: 14em;
+	height: 8em;
+	max-height: 8em;
+	border-radius: 0.6em;
+}
+
+.Header {
+	font-size: x-large;
+	margin-top: 0.4em;
+	margin-bottom: 0.4em;
+}
+
+.DayEvents {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.EventPic {
+	left: 0.5em;
+	top: 0.5em;
+	width: 1.5em;
+	height: 1em;
+}
+</style>
+</head>
+<body>
+<div style="display: flex">
+<span style="align-self: center;"><img src="/sohle_rot.png" width="48" height="32"></span>
+<div style="flex-grow: 1; align-self: flex-end; padding-left: 0.5em;" th:text="#{EventsPage.header}">Introduction</div>
+ </div>
+
+<div th:each="events : ${eventsByDay}">
+	<h1 class="Day" th:text="${events.key}">Montag, 1.2.2003</h1>
+	<div class="DayEvents">
+		<div class="DanceEvent" th:each="event : ${events.value}">
+			<div class="Header"><a th:href="'/event/' + ${event.id}" th:text="${event.header}">Header</a></div>
+			<div class="EventTitle"><a th:if="${event.line}" th:text="${event.line}">Line</a></div>
+			<div class="DeeJay"><a th:if="${event.deeJay}" th:text="${event.deeJay.name}">DJ name</a></div>
+			<div class="FromUntil"><a th:text="${event.fromUntil}">From / Until</a></div>
+			<div class="Location"><a th:if="${event.location.city}" th:text="${event.location.city}">Location city</a></div>
+		</div>	
+	</div>
+</div>
+
+</body>
+</html>

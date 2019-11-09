@@ -1,0 +1,29 @@
+<html th:replace="container.html :: container(~{}, ~{::body})">
+<body>
+
+<form action="action.html" th:action="${location.id}">
+<input type="hidden" th:value="${location.id}">
+
+<h1 th:text="${location.name}">Veranstalter</h1>
+<th:block th:each="group : ${specialDayGroups}">
+<h2 th:text="${group.name}">Weihnachten</h2>
+<table>
+<tr th:each="day : ${group.specialDays}">
+<td th:text="${day.specialDay.name}">23. Dezember</td>
+<td>
+<select th:name="${'day' + day.specialDay.id}">
+<option value="0">Normale Öffnungszeiten</option>
+<option value="1">Geschlossen</option>
+<option value="2">Spezieller Anlass</option>
+</select>
+</td>
+</tr>
+</table>
+</th:block>
+
+<input type="submit" formmethod="POST" value="Send" th-inactive:attr="value=#{subscribe.submit}"/>
+    
+</form>
+
+</body>
+</html>

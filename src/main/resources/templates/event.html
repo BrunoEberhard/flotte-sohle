@@ -1,0 +1,21 @@
+<html th:replace="container.html :: container(~{::head}, ~{::body})">
+<head>
+<script type="application/ld+json">
+${event.json}
+</script>
+</head>
+<body>
+
+<h1 th:text="${event.title}">Title</h1>
+
+<div th:text="${event.date}">Date</div>
+<div th:text="${event.fromUntil}">From/Until</div>
+<p th:utext="${event.description}">Description</p>
+
+<h2 th:text="${event.location.name}">Location</h2>
+<div th:text="${event.location.address}">Address</div>
+<div th:text="${event.location.city}">City</div>
+
+<p><a th:if="${event.location.url}" th:href="${event.location.url}" th:text="${event.location.url}" target="_blank">Link</a></p>
+</body>
+</html>

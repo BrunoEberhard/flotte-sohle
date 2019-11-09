@@ -1,6 +1,8 @@
 package ch.openech.dancer.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -39,10 +41,17 @@ public class Location implements Rendering {
 
 	public final Password password = new Password();
 
-	public SpecialDays specialDays = new SpecialDays();
+	public final List<SpecialDayInfo> specialDayInfos = new ArrayList<>();
 
 	@Override
 	public CharSequence render() {
 		return name;
+	}
+
+	public static class SpecialDayInfo {
+		@NotEmpty
+		public SpecialDay specialDay;
+
+		public Boolean closed;
 	}
 }

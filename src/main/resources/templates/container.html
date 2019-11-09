@@ -1,15 +1,17 @@
-<html>
+<html th:fragment="container(head, page)">
 <head>
 <title th:text="${application.name}">Application Name</title>
-$META
+<meta th:each="meta : ${metas}" th:name="${meta.key}" th:content="${meta.value}">
 
-<!-- $MINIMALJ-VERSION -->
-<!-- $APPLICATION-VERSION -->
-<base href="$BASE">
+<!-- Minimal-J Version: [[${MINIMALJ-VERSION}]] -->
+<!-- Application Version: [[${APPLICATION-VERSION}]] -->
+<base href="." th:href="${BASE}">
 
-<link rel="stylesheet" type="text/css" href="sohle.css" />
+<link rel="stylesheet" type="text/css" href="/sohle.css" />
 
-$ICON
+<link th:if="${application.icon != null}" rel="icon" href="application.png" type="image/png">
+
+<th:block th:replace="${head}">
 
 <script type="text/javascript">
 	"use strict";
@@ -80,7 +82,7 @@ $ICON
 		</svg>
 		<span id="pageTitle" style="padding-left: 1em; padding-bottom: 0.5em;"></span>
 		<div id="searchSpan">
-			<input type="search" id="search" onkeydown="if (event.keyCode == 13) search();" $DISABLED_SEARCH />
+			<input type="search" id="search" onkeydown="if (event.keyCode == 13) search();" th:attr="disabled=${application.hasSearchPages()}"/>
 			<svg id="searchButton" class="button headerButton" onclick="searchButtonAction();">
 				<g style="stroke-width:16%;stroke-linecap:square"> 		
 					<line x1="59%" y1="59%" x2="91%" y2="91%" />
@@ -92,12 +94,13 @@ $ICON
 	<div id="container">
 		<div id="navigationContainer" style="display: block;">
 			<div id="navigation">
-			$NAVIGATION
+				<ul>
+					<li th:each="item : ${navigation}"><a class="action" th:text="${item.key}" th:href="${item.value}">Menu Entry</a></li>
+				</ul>	
 			</div>
 		</div>
-		<noscript style="display: block; margin: 2em;">$NOSCRIPT</noscript>
-		<div id="pageContainer" class="pageContent">
-		$PAGE
+		<div id="pageContainer" class="pageContent" th:insert="${page}">
+		Inhalt der Seite
 		</div>	
 	</div>
 	<script>

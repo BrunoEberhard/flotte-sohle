@@ -1,7 +1,10 @@
 package ch.openech.dancer;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.ResourceBundle.Control;
 
 import org.minimalj.application.Application;
 import org.minimalj.application.Configuration;
@@ -9,14 +12,16 @@ import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
 import org.minimalj.frontend.impl.web.MjHttpHandler;
+import org.minimalj.frontend.impl.web.ResourcesHttpHandler;
 import org.minimalj.frontend.impl.web.WebApplication;
 import org.minimalj.frontend.impl.web.WebServer;
+import org.minimalj.frontend.page.ExternalPage;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.frontend.page.Routing;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
-import org.minimalj.thymeleaf.ThymeHttpHandler;
+import org.minimalj.thymeleaf.page.ThymePage;
 import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.backend.DanceEventProviders;
@@ -44,12 +49,22 @@ public class ThyDancerApplication extends WebApplication {
 
 	@Override
 	public List<MjHttpHandler> createHttpHandlers() {
-		return Collections.singletonList(new ThymeHttpHandler());
+		return Arrays.asList(new ThyDancerHandler(), new ResourcesHttpHandler());
 	}
 	
+	public String getMjHandlerPath() {
+		return "/admin/";
+	}
+
 	@Override
 	public Page createDefaultPage() {
-		return new EventsPage();
+		return new ExternalPage("../events.html");
+	}
+
+	@Override
+	public ResourceBundle getResourceBundle(Locale locale) {
+		String resourceBundleName = DancerApplication.class.getName();
+		return ResourceBundle.getBundle(resourceBundleName, locale, Control.getNoFallbackControl(Control.FORMAT_PROPERTIES));
 	}
 
 	@Override
@@ -60,10 +75,11 @@ public class ThyDancerApplication extends WebApplication {
 
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
 			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
-			pub.add(new EventsPage());
-			pub.add(new LocationMapPage());
-			pub.add(new LocationsPage());
-			pub.add(new InfoPage());
+			pub.add(new ThymePage("/events.html"));
+//			pub.add(new EventsPage());
+//			pub.add(new LocationMapPage());
+//			pub.add(new LocationsPage());
+//			pub.add(new InfoPage());
 			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			events.add(new DanceEventAdminTablePage());
 			events.add(new EventUpdateAction());
@@ -120,7 +136,7 @@ public class ThyDancerApplication extends WebApplication {
 		Configuration.set("MjInit", DancerInitTransaction.class.getName());
 		Application application = new ThyDancerApplication();
 		// Swing.start(application);
-		//Lanterna.start(application);
+		// Lanterna.start(application);
 		// RestServer.start(application);
 		WebServer.start(application);
 		// RestServer.start(application);

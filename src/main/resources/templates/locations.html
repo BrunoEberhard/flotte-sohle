@@ -1,0 +1,15 @@
+<html th:replace="container.html :: container(~{}, ~{::body})">
+<body>
+<h1>Veranstalter</h1>
+<ul>
+<li th:each="location : ${locations}">
+<span th:text="${location.name}">Location</span>
+<span th:text="${location.address}">Address</span>
+<span th:text="${location.city}">City</span>
+<span th:unless="${#strings.equals(location.country, 'Schweiz')}" th:text="${location.country}">Country</span>
+<a th:if="${location.url}" th:href="${location.url}" th:text="${location.url}" target="_blank">Link</a>
+	
+</li>
+
+</body>
+</html>
