@@ -15,7 +15,6 @@ import org.minimalj.frontend.impl.web.MjHttpHandler;
 import org.minimalj.frontend.impl.web.ResourcesHttpHandler;
 import org.minimalj.frontend.impl.web.WebApplication;
 import org.minimalj.frontend.impl.web.WebServer;
-import org.minimalj.frontend.page.ExternalPage;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.frontend.page.Routing;
@@ -58,7 +57,7 @@ public class ThyDancerApplication extends WebApplication {
 
 	@Override
 	public Page createDefaultPage() {
-		return new ExternalPage("../events.html");
+		return new ThymePage("/events.html");
 	}
 
 	@Override

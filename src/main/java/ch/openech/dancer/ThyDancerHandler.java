@@ -78,7 +78,7 @@ public class ThyDancerHandler extends ThymeHttpHandler {
 	}
 
 	@Override
-	public String handle(String path, Object input) {
+	public String handle(String path) {
 		if (path.endsWith(".png")) {
 			return null;
 		}
