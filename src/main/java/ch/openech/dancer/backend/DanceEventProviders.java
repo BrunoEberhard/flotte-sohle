@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import ch.openech.dancer.backend.provider.AnlikerTanzRule;
 import ch.openech.dancer.backend.provider.BadenerTanzCenterCrawler;
+import ch.openech.dancer.backend.provider.BallroomDancingImport;
 import ch.openech.dancer.backend.provider.BanditsRule;
 import ch.openech.dancer.backend.provider.BlueboxConsumer;
 import ch.openech.dancer.backend.provider.DanceCubeImport;
@@ -89,6 +90,7 @@ public class DanceEventProviders {
 		addProvider(new DanceAndDineImport());
 		addProvider(new Meet2DanceRule());
 		addProvider(new HasenstrickRule());
+		addProvider(new BallroomDancingImport());
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
