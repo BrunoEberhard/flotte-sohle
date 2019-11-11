@@ -10,7 +10,7 @@ import org.minimalj.model.annotation.Size;
 public class SpecialDay implements Code {
 	public static final SpecialDay $ = Keys.of(SpecialDay.class);
 
-	public Integer id;
+	public Object id;
 
 	public enum SpecialDayGroup {
 		Ostern, Pfingsten, Nationalfeiertag, Weihnachten;
