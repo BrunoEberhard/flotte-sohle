@@ -17,7 +17,6 @@ import org.minimalj.frontend.impl.web.WebApplication;
 import org.minimalj.frontend.impl.web.WebServer;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
-import org.minimalj.frontend.page.Routing;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 import org.minimalj.thymeleaf.page.ThymePage;
@@ -30,15 +29,10 @@ import ch.openech.dancer.frontend.AccessPage;
 import ch.openech.dancer.frontend.AdminLogPage;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
-import ch.openech.dancer.frontend.DancerRouting;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventHousekeepingAction;
 import ch.openech.dancer.frontend.EventUpdateAction;
-import ch.openech.dancer.frontend.EventsPage;
-import ch.openech.dancer.frontend.InfoPage;
 import ch.openech.dancer.frontend.LocationAdminTablePage;
-import ch.openech.dancer.frontend.LocationMapPage;
-import ch.openech.dancer.frontend.LocationsPage;
 import ch.openech.dancer.model.AccessCounter;
 import ch.openech.dancer.model.AdminLog;
 import ch.openech.dancer.model.DanceEvent;
@@ -62,7 +56,7 @@ public class ThyDancerApplication extends WebApplication {
 
 	@Override
 	public ResourceBundle getResourceBundle(Locale locale) {
-		String resourceBundleName = DancerApplication.class.getName();
+		String resourceBundleName = ThyDancerApplication.class.getName();
 		return ResourceBundle.getBundle(resourceBundleName, locale, Control.getNoFallbackControl(Control.FORMAT_PROPERTIES));
 	}
 
@@ -75,10 +69,8 @@ public class ThyDancerApplication extends WebApplication {
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
 			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
 			pub.add(new ThymePage("/events.html"));
-//			pub.add(new EventsPage());
-//			pub.add(new LocationMapPage());
-//			pub.add(new LocationsPage());
-//			pub.add(new InfoPage());
+			pub.add(new ThymePage("/location_map.html"));
+			pub.add(new ThymePage("/infos.html"));
 			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			events.add(new DanceEventAdminTablePage());
 			events.add(new EventUpdateAction());
@@ -94,29 +86,14 @@ public class ThyDancerApplication extends WebApplication {
 			Location location = Backend.find(Location.class, By.field(Location.$.name, Subject.getCurrent().getName())).get(0);
 			actions.add(new PageAction(new DanceEventLocationTablePage(location)));
 		} else {
-			actions.add(new EventsPage());
-			actions.add(new LocationMapPage());
-			actions.add(new LocationsPage());
-			actions.add(new InfoPage());
-			// noch zu wenig in einzelnen Regionen
-			// ActionGroup regions = actions.addGroup("Regionen");
-			// for (Region region : Region.values()) {
-			// regions.add(new EventsPage(region), region.name());
-			// }
+			actions.add(new ThymePage("/events.html"));
+			actions.add(new ThymePage("/location_map.html"));
+			actions.add(new ThymePage("/locations.html"));
+			actions.add(new ThymePage("/infos.html"));
 		}
 		return actions.getItems();
 	}
 	
-	@Override
-	public Page createSearchPage(String query) {
-		return new EventsPage(query);
-	}
-	
-	@Override
-	public Routing createRouting() {
-		return new DancerRouting();
-	}
-
 	@Override
 	public Class<?>[] getEntityClasses() {
 		return new Class<?>[] { DanceEvent.class, AccessCounter.class, AdminLog.class };

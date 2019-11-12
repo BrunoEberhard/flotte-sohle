@@ -71,7 +71,7 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1, user-scalable=no" />
 </head>
 <body id="body">
-	<div id="header">
+	<div id="header" th:unless="${thymePage}">
 		<svg class="button headerButton" style="margin-left: 1.0em;" onclick="toggleNavigation()">
               <g style="stroke-width:0px"> 		
   				<title>Show or hide navigation</title>
@@ -91,11 +91,14 @@
 			</svg>
 		</div>			
 	</div>
-	<div id="container">
-		<div id="navigationContainer" style="display: block;">
+	<div th:id="(${thymePage} ? '' : 'container')">
+		<div id="navigationContainer" style="display: block;" th:unless="${thymePage}">
 			<div id="navigation">
 				<ul>
-					<li th:each="item : ${navigation}"><a class="action" th:text="${item.key}" th:href="${item.value}">Menu Entry</a></li>
+					<li><a class="action" href="/events.html" th:text="#{EventsPage}">Anlässe</a></li>
+					<li><a class="action" href="/location_map.html" th:text="#{LocationMapPage}">Tanzkarte</a></li>
+					<li><a class="action" href="/locations.html" th:text="#{LocationsPage}">Veranstalter</a></li>
+					<li><a class="action" href="/infos.html" th:text="#{InfoPage}">Infos</a></li>
 				</ul>	
 			</div>
 		</div>

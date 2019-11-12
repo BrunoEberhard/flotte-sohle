@@ -25,19 +25,6 @@ public class ThyDancerHandler extends ThymeHttpHandler {
 
 	@Override
 	public void fillContext(String path, Context context) {
-		LinkedHashMap<String, String> navigation = new LinkedHashMap<>();
-//		for (Action action : Application.getInstance().getNavigation()) {
-//			PageAction pageAction = (PageAction) action;
-//			navigation.put(pageAction.getName(), Routing.getRouteSafe(pageAction.getPage()));
-//		}
-		navigation.put("Anlässe", "/events.html");
-		navigation.put("Tanzkarte", "/location_map.html");
-		navigation.put("Veranstalter", "/locations.html");
-		navigation.put("Info", "/infos.html");
-		navigation.put("Special", "/specialDays.html");
-
-		context.setVariable("navigation", navigation);
-
 		if (StringUtils.equals(path, "/events.html")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
 			Map<String, List<DanceEvent>> eventsByDay = new LinkedHashMap<>();

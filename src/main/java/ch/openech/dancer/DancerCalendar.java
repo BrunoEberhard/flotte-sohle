@@ -39,7 +39,7 @@ public class DancerCalendar {
 	}
 
 	public static void main(String[] args) {
-		DancerApplication application = new DancerApplication();
+		ThyDancerApplication application = new ThyDancerApplication();
 		Application.setInstance(application);
 		Backend.execute(new Tanzwerk101Rule());
 		DancerCalendar calendar = new DancerCalendar();
