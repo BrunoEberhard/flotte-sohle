@@ -6,12 +6,9 @@
 <!-- Minimal-J Version: [[${MINIMALJ-VERSION}]] -->
 <!-- Application Version: [[${APPLICATION-VERSION}]] -->
 <base href="." th:href="${BASE}">
-
 <link rel="stylesheet" type="text/css" href="/sohle.css" />
-
 <link th:if="${application.icon != null}" rel="icon" href="application.png" type="image/png">
-
-<th:block th:replace="${head}">
+<th:block th:include="${head}" />
 
 <script type="text/javascript">
 	"use strict";
@@ -102,7 +99,7 @@
 				</ul>	
 			</div>
 		</div>
-		<div id="pageContainer" class="pageContent" th:insert="${page}">
+		<div class="pageContent" th:insert="${page}">
 		Inhalt der Seite
 		</div>	
 	</div>
