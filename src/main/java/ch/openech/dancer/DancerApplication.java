@@ -38,7 +38,7 @@ import ch.openech.dancer.model.AdminLog;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
 
-public class ThyDancerApplication extends WebApplication {
+public class DancerApplication extends WebApplication {
 
 	@Override
 	public List<MjHttpHandler> createHttpHandlers() {
@@ -56,7 +56,7 @@ public class ThyDancerApplication extends WebApplication {
 
 	@Override
 	public ResourceBundle getResourceBundle(Locale locale) {
-		String resourceBundleName = ThyDancerApplication.class.getName();
+		String resourceBundleName = DancerApplication.class.getName();
 		return ResourceBundle.getBundle(resourceBundleName, locale, Control.getNoFallbackControl(Control.FORMAT_PROPERTIES));
 	}
 
@@ -110,7 +110,7 @@ public class ThyDancerApplication extends WebApplication {
 		Configuration.set("MjAuthentication", DancerAuthentication.class.getName());
 		Configuration.set("MjLoginAtStart", "true");
 		Configuration.set("MjInit", DancerInitTransaction.class.getName());
-		Application application = new ThyDancerApplication();
+		Application application = new DancerApplication();
 		// Swing.start(application);
 		// Lanterna.start(application);
 		// RestServer.start(application);
