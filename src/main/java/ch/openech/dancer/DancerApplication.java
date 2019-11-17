@@ -51,7 +51,7 @@ public class DancerApplication extends WebApplication {
 
 	@Override
 	public Page createDefaultPage() {
-		return new ThymePage("/events.html");
+		return new ThymePage("/events.html", Resources.getString("EventsPage"));
 	}
 
 	@Override
@@ -68,9 +68,10 @@ public class DancerApplication extends WebApplication {
 
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
 			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
-			pub.add(new ThymePage("/events.html"));
-			pub.add(new ThymePage("/location_map.html"));
-			pub.add(new ThymePage("/infos.html"));
+			pub.add(new ThymePage("/events.html", Resources.getString("EventsPage")));
+			pub.add(new ThymePage("/location_map.html", Resources.getString("LocationMapPage")));
+			pub.add(new ThymePage("/locations.html", Resources.getString("LocationsPage")));
+			pub.add(new ThymePage("/infos.html", Resources.getString("InfoPage")));
 			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			events.add(new DanceEventAdminTablePage());
 			events.add(new EventUpdateAction());
@@ -86,10 +87,10 @@ public class DancerApplication extends WebApplication {
 			Location location = Backend.find(Location.class, By.field(Location.$.name, Subject.getCurrent().getName())).get(0);
 			actions.add(new PageAction(new DanceEventLocationTablePage(location)));
 		} else {
-			actions.add(new ThymePage("/events.html"));
-			actions.add(new ThymePage("/location_map.html"));
-			actions.add(new ThymePage("/locations.html"));
-			actions.add(new ThymePage("/infos.html"));
+			actions.add(new ThymePage("/events.html", Resources.getString("EventsPage")));
+			actions.add(new ThymePage("/location_map.html", Resources.getString("LocationMapPage")));
+			actions.add(new ThymePage("/locations.html", Resources.getString("LocationsPage")));
+			actions.add(new ThymePage("/infos.html", Resources.getString("InfoPage")));
 		}
 		return actions.getItems();
 	}
