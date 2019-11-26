@@ -12,11 +12,14 @@ import org.minimalj.backend.Backend;
 import org.minimalj.frontend.impl.web.MjHttpExchange;
 import org.minimalj.repository.query.By;
 import org.minimalj.thymeleaf.ThymeHttpHandler;
+import org.minimalj.util.Codes;
 import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.backend.DancerRepository;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.Location.SpecialDayInfo;
+import ch.openech.dancer.model.SpecialDay;
 import ch.openech.dancer.model.SpecialDayGroupViewModel;
 
 public class ThyDancerHandler extends ThymeHttpHandler {
@@ -55,6 +58,31 @@ public class ThyDancerHandler extends ThymeHttpHandler {
 		}
 
 		if (path.startsWith("/specialDays/")) {
+			Map<String, List<String>> parameters = (Map<String, List<String>>) variables.get("parameters");
+
+			if (parameters.containsKey("locationId")) {
+				Object locationId = parameters.get("locationId").get(0);
+				Location location = Backend.read(Location.class, locationId);
+				for (String p : parameters.keySet()) {
+					if (p.startsWith("day")) {
+						Integer specialDayId = Integer.parseInt(p.substring(3));
+						boolean found = false;
+						for (SpecialDayInfo s : location.specialDayInfos) {
+							if (s.specialDay.id.equals(specialDayId)) {
+								s.closed = Integer.parseInt(parameters.get(p).get(0)) == 1;
+								found = true;
+							}
+						}
+						if (!found) {
+							SpecialDayInfo s = new SpecialDayInfo();
+							s.specialDay = Codes.findCode(SpecialDay.class, specialDayId);
+							s.closed = Integer.parseInt(parameters.get(p).get(0)) == 1;
+							location.specialDayInfos.add(s);
+						}
+					}
+				}
+				Backend.update(location);
+			}
 			// String id = path.substring("/specialDays/".length());
 			// Location location = Backend.read(Location.class, id);
 			Location location = Backend.find(Location.class, By.ALL).get(0);

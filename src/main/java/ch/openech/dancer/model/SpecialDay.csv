@@ -1,2 +1,13 @@
-group, name, date
-"Weihnachten", "23. Dezember", 2019-12-23
+id, group, name, date
+20191223, "Weihnachten", "23. Dezember", 2019-12-23
+20191224, "Weihnachten", "24. Dezember", 2019-12-24
+20191225, "Weihnachten", "25. Dezember", 2019-12-25
+20191226, "Weihnachten", "26. Dezember", 2019-12-26
+20191227, "Weihnachten", "27. Dezember", 2019-12-27
+20191228, "Weihnachten", "28. Dezember", 2019-12-28
+20191229, "Weihnachten", "29. Dezember", 2019-12-29
+20191230, "Weihnachten", "30. Dezember", 2019-12-30
+20191231, "Weihnachten", "31. Dezember", 2019-12-31
+20200101, "Weihnachten", "1. Janaur", 2020-01-01
+20200102, "Weihnachten", "2. Janaur", 2020-01-02
+20200402, "Ostern", "2. April", 2020-04-02
