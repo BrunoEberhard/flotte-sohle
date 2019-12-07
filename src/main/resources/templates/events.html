@@ -24,32 +24,83 @@
 	flex-wrap: wrap;
 }
 
-.EventPic {
-	left: 0.5em;
-	top: 0.5em;
-	width: 1.5em;
-	height: 1em;
+@media ( min-width : 992px) {
+	.DanceEventSmall {
+		display: none;
+	}
+}
+
+@media ( max-width : 991px) {
+	.DanceEvent {
+		display: none;
+	}
+	.pageContent {
+		padding-left: 0.3em;
+	}
+	.DayEvents {
+		display: block;
+	}
+	.DanceEventSmall {
+		display: grid;
+		background: lightgray;
+		position: relative;
+		padding: 0.3em;
+		margin: 0.5em;
+		left: 0.1em;
+		right: 0.5em;
+		width: unset;
+		max-width: unset;
+		max-height: unset;
+		height: unset;
+		border-radius: 0.3em;
+	}
+	.HeaderSmall {
+		grid-column: 1;
+	}
+	.FromSmall {
+		grid-column: 2;
+		justify-self: end;
+	}
+	.LocationSmall {
+		grid-column: 3;
+		justify-self: end;
+	}
 }
 </style>
 </head>
 <body>
-<div style="display: flex">
-<span style="align-self: center;"><img src="/sohle_rot.png" width="48" height="32"></span>
-<div style="flex-grow: 1; align-self: flex-end; padding-left: 0.5em;" th:text="#{EventsPage.header}">Introduction</div>
- </div>
-
-<div th:each="events : ${eventsByDay}">
-	<h1 class="Day" th:text="${events.key}">Montag, 1.2.2003</h1>
-	<div class="DayEvents">
-		<div class="DanceEvent" th:each="event : ${events.value}">
-			<div class="Header"><a th:href="'/event/' + ${event.id}" th:text="${event.header}">Header</a></div>
-			<div class="EventTitle"><a th:if="${event.line}" th:text="${event.line}">Line</a></div>
-			<div class="DeeJay"><a th:if="${event.deeJay}" th:text="${event.deeJay.name}">DJ name</a></div>
-			<div class="FromUntil"><a th:text="${event.fromUntil}">From / Until</a></div>
-			<div class="Location"><a th:if="${event.location.city}" th:text="${event.location.city}">Location city</a></div>
-		</div>	
+	<div style="display: flex">
+		<span style="align-self: center;"><img src="/sohle_rot.png" width="48" height="32"></span>
+		<div style="flex-grow: 1; align-self: flex-end; padding-left: 0.5em;" th:text="#{EventsPage.header}">Introduction</div>
 	</div>
-</div>
+
+	<div th:each="events : ${eventsByDay}">
+		<h1 class="Day" th:text="${events.key}">Montag, 1.2.2003</h1>
+		<div class="DayEvents">
+			<div class="DanceEvent" th:each="event : ${events.value}">
+				<div class="Header">
+					<a th:href="'/event/' + ${event.id}" th:text="${event.header}">Header</a>
+				</div>
+				<div class="EventTitle">
+					<a th:if="${event.line}" th:text="${event.line}">Line</a>
+				</div>
+				<div class="DeeJay">
+					<a th:if="${event.deeJay}" th:text="${event.deeJay.name}">DJ name</a>
+				</div>
+				<div class="FromUntil">
+					<a th:text="${event.fromUntil}">From / Until</a>
+				</div>
+				<div class="Location">
+					<a th:if="${event.location.city}" th:text="${event.location.city}">Location city</a>
+				</div>
+			</div>
+
+			<div class="DanceEventSmall" th:each="event : ${events.value}">
+				<span class="HeaderSmall"><a th:href="'/event/' + ${event.id}" th:text="${event.header}">Header</a></span> <span class="LocationSmall"><a
+					th:if="${event.location.city}" th:text="${event.location.city}">Location city</a></span>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>
