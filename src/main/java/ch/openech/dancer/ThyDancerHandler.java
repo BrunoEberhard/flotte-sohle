@@ -32,7 +32,7 @@ public class ThyDancerHandler extends ThymeHttpHandler {
 		Map<String, Object> variables = super.createContext(exchange);
 		String path = exchange.getPath();
 
-		if (StringUtils.equals(path, "/events.html")) {
+		if (StringUtils.equals(path, "/", "/events.html")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
 			Map<String, List<DanceEvent>> eventsByDay = new LinkedHashMap<>();
 			List<DanceEvent> currentDay = null;
@@ -90,7 +90,7 @@ public class ThyDancerHandler extends ThymeHttpHandler {
 			variables.put("specialDayGroups", SpecialDayGroupViewModel.toViewModel(location));
 		}
 
-		if (StringUtils.equals(path, "/locations.html")) {
+		if (StringUtils.equals(path, "/locations.html", "/location_map.html")) {
 			List<Location> locations = Backend.find(Location.class, By.ALL.order(Location.$.name));
 			variables.put("locations", locations);
 		}
@@ -99,14 +99,16 @@ public class ThyDancerHandler extends ThymeHttpHandler {
 	}
 
 	@Override
-	public String resolveTemplate(MjHttpExchange exchange) {
-		if (exchange.getPath().startsWith("/event/")) {
+	public String getTemplateName(MjHttpExchange exchange) {
+		if (exchange.getPath().equals("/")) {
+			return "events.html";
+		} else if (exchange.getPath().startsWith("/event/")) {
 			return "event.html";
 		} else if (exchange.getPath().startsWith("/specialDays/")) {
 			return "specialDays.html";
 		}
 
-		return super.resolveTemplate(exchange);
+		return super.getTemplateName(exchange);
 	}
 
 }
