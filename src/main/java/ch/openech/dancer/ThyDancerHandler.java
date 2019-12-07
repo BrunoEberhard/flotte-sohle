@@ -26,6 +26,7 @@ public class ThyDancerHandler extends ThymeHttpHandler {
 
 	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
 
+	private static final LocationMapDataProvider locationMapDataProvider = new LocationMapDataProvider();
 
 	@Override
 	public Map<String, Object> createContext(MjHttpExchange exchange) {
@@ -90,13 +91,18 @@ public class ThyDancerHandler extends ThymeHttpHandler {
 			variables.put("specialDayGroups", SpecialDayGroupViewModel.toViewModel(location));
 		}
 
-		if (StringUtils.equals(path, "/locations.html", "/location_map.html")) {
+		if (StringUtils.equals(path, "/locations.html")) {
 			List<Location> locations = Backend.find(Location.class, By.ALL.order(Location.$.name));
 			variables.put("locations", locations);
 		}
 
+		if (StringUtils.equals(path, "/location_map.html")) {
+			variables.put("locations", locationMapDataProvider.getLocationMapData());
+		}
+
 		return variables;
 	}
+
 
 	@Override
 	public String getTemplateName(MjHttpExchange exchange) {
