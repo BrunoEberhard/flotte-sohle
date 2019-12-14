@@ -2,13 +2,8 @@ package ch.openech.dancer.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import org.minimalj.backend.Backend;
-import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.model.Location.SpecialDayInfo;
-import ch.openech.dancer.model.SpecialDay.SpecialDayGroup;
 
 public class SpecialDayGroupViewModel {
 
@@ -23,24 +18,24 @@ public class SpecialDayGroupViewModel {
 	public static List<SpecialDayGroupViewModel> toViewModel(Location location) {
 		List<SpecialDayGroupViewModel> result = new ArrayList<>();
 
-		SpecialDayGroup group = null;
-		SpecialDayGroupViewModel groupViewModel = null;
-
-		List<SpecialDay> specialDays = Backend.find(SpecialDay.class, By.all().order(SpecialDay.$.date));
-		for (SpecialDay day : specialDays) {
-			if (day.group != group) {
-				group = day.group;
-				groupViewModel = new SpecialDayGroupViewModel(day.group.name());
-				result.add(groupViewModel);
-			}
-			Optional<SpecialDayInfo> info = location.specialDayInfos.stream().filter(i -> i.specialDay.id.equals(day.id)).findFirst();
-			groupViewModel.specialDays.add(info.orElseGet(() -> {
-				SpecialDayInfo i = new SpecialDayInfo();
-				i.specialDay = day;
-				i.closed = false;
-				return i;
-			}));
-		}
+//		SpecialDayGroup group = null;
+//		SpecialDayGroupViewModel groupViewModel = null;
+//
+//		List<SpecialDay> specialDays = Backend.find(SpecialDay.class, By.all().order(SpecialDay.$.date));
+//		for (SpecialDay day : specialDays) {
+//			if (day.group != group) {
+//				group = day.group;
+//				groupViewModel = new SpecialDayGroupViewModel(day.group.name());
+//				result.add(groupViewModel);
+//			}
+//			Optional<SpecialDayInfo> info = location.specialDayInfos.stream().filter(i -> i.specialDay.id.equals(day.id)).findFirst();
+//			groupViewModel.specialDays.add(info.orElseGet(() -> {
+//				SpecialDayInfo i = new SpecialDayInfo();
+//				i.specialDay = day;
+//				i.closed = false;
+//				return i;
+//			}));
+//		}
 
 		return result;
 	}
