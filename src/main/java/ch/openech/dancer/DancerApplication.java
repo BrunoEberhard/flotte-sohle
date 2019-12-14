@@ -1,6 +1,5 @@
 package ch.openech.dancer;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -12,11 +11,11 @@ import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
 import org.minimalj.frontend.impl.web.MjHttpHandler;
-import org.minimalj.frontend.impl.web.ResourcesHttpHandler;
 import org.minimalj.frontend.impl.web.WebApplication;
 import org.minimalj.frontend.impl.web.WebServer;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
+import org.minimalj.frontend.page.Routing;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 import org.minimalj.thymeleaf.page.ThymePage;
@@ -41,10 +40,10 @@ import ch.openech.dancer.model.Location;
 public class DancerApplication extends WebApplication {
 
 	@Override
-	public List<MjHttpHandler> createHttpHandlers() {
-		return Arrays.asList(new ThyDancerHandler(), new ResourcesHttpHandler());
+	public MjHttpHandler createHttpHandler() {
+		return new ThyDancerHandler();
 	}
-	
+
 	public String getMjHandlerPath() {
 		return "/admin/";
 	}
@@ -94,7 +93,7 @@ public class DancerApplication extends WebApplication {
 		}
 		return actions.getItems();
 	}
-	
+
 	@Override
 	public Class<?>[] getEntityClasses() {
 		return new Class<?>[] { DanceEvent.class, AccessCounter.class, AdminLog.class };
@@ -115,10 +114,36 @@ public class DancerApplication extends WebApplication {
 		// Swing.start(application);
 		// Lanterna.start(application);
 		// RestServer.start(application);
+		// MinimalTow.start(application);
 		WebServer.start(application);
+		// NanoServer.start(application);
 		// RestServer.start(application);
 		// MjVaadinSpringbootApplication.start(application);
 		Backend.execute(new EventsUpdateTransaction(DanceEventProviders.PROVIDER_NAMES));
+	}
+
+	@Override
+	public Routing createRouting() {
+		return new DancerRouting();
+	}
+
+	private static class DancerRouting extends Routing {
+
+		@Override
+		protected String getRoute(Page page) {
+			return page.getClass().getSimpleName();
+		}
+
+		@Override
+		protected Page createPage(String route) {
+			if (route.equals("AccessPage")) {
+				return new AccessPage();
+			} else if (route.equals("AdminLogPage")) {
+				return new AdminLogPage();
+			} else
+				return null;
+		}
+
 	}
 
 }
