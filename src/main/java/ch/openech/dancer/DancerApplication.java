@@ -41,7 +41,7 @@ public class DancerApplication extends WebApplication {
 
 	@Override
 	public MjHttpHandler createHttpHandler() {
-		return new ThyDancerHandler();
+		return new ThymeDancerHandler();
 	}
 
 	public String getMjHandlerPath() {

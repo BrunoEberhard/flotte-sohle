@@ -22,7 +22,7 @@ import ch.openech.dancer.model.Location.SpecialDayInfo;
 import ch.openech.dancer.model.SpecialDay;
 import ch.openech.dancer.model.SpecialDayGroupViewModel;
 
-public class ThyDancerHandler extends ThymeHttpHandler {
+public class ThymeDancerHandler extends ThymeHttpHandler {
 
 	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
 
