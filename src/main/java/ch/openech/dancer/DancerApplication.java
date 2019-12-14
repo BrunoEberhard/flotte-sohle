@@ -15,7 +15,6 @@ import org.minimalj.frontend.impl.web.WebApplication;
 import org.minimalj.frontend.impl.web.WebServer;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
-import org.minimalj.frontend.page.Routing;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 import org.minimalj.thymeleaf.page.ThymePage;
@@ -120,30 +119,6 @@ public class DancerApplication extends WebApplication {
 		// RestServer.start(application);
 		// MjVaadinSpringbootApplication.start(application);
 		Backend.execute(new EventsUpdateTransaction(DanceEventProviders.PROVIDER_NAMES));
-	}
-
-	@Override
-	public Routing createRouting() {
-		return new DancerRouting();
-	}
-
-	private static class DancerRouting extends Routing {
-
-		@Override
-		protected String getRoute(Page page) {
-			return page.getClass().getSimpleName();
-		}
-
-		@Override
-		protected Page createPage(String route) {
-			if (route.equals("AccessPage")) {
-				return new AccessPage();
-			} else if (route.equals("AdminLogPage")) {
-				return new AdminLogPage();
-			} else
-				return null;
-		}
-
 	}
 
 }
