@@ -29,6 +29,11 @@ public class HasenstrickRule extends DanceEventProvider {
 
 		for (int i = 0; i < 12; i++) {
 			LocalDate date = start.plusWeeks(i);
+			if (date.isBefore(LocalDate.of(2020, 4, 1))) {
+				// Danach gehen wir bis Ende März in den Tanz-Winterschlaf und freuen uns auf
+				// den April 2020!
+				continue;
+			}
 
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
