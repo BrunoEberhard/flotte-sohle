@@ -79,7 +79,7 @@ body {
 
 #navigation {
 	position: relative;
-	width: calc(10em - 1px);
+	width: calc(9em - 1px);
 	max-height: calc(100% - 2em);
 	bottom: 0;
 	overflow: auto;
