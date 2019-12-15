@@ -31,21 +31,12 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 
 		if (StringUtils.equals(path, "/", "/events.html")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
-			Map<String, List<DanceEvent>> eventsByDay = new LinkedHashMap<>();
-			List<DanceEvent> currentDay = null;
-			LocalDate lastDate = null;
-			Iterator<DanceEvent> i = events.iterator();
-			while (i.hasNext()) {
-				DanceEvent event = i.next();
-				if (!event.date.equals(lastDate)) {
-					currentDay = new ArrayList<>();
-					String day = event.getDayOfWeek() + ", " + shortFormat.format(event.date);
-					eventsByDay.put(day, currentDay);
-					lastDate = event.date;
-				}
-				currentDay.add(event);
-			}
-			variables.put("eventsByDay", eventsByDay);
+			variables.put("eventsByDay", viewEvents(events));
+		}
+
+		if (StringUtils.equals(path, "/query")) {
+			List<DanceEvent> events = Backend.find(DanceEvent.class, By.search(exchange.getParameters().get("query").get(0)));
+			variables.put("eventsByDay", viewEvents(events));
 		}
 
 		if (path.startsWith("/event/")) {
@@ -100,9 +91,28 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 	}
 
 
+	public Map<String, List<DanceEvent>> viewEvents(List<DanceEvent> events) {
+		Map<String, List<DanceEvent>> eventsByDay = new LinkedHashMap<>();
+		List<DanceEvent> currentDay = null;
+		LocalDate lastDate = null;
+		Iterator<DanceEvent> i = events.iterator();
+		while (i.hasNext()) {
+			DanceEvent event = i.next();
+			if (!event.date.equals(lastDate)) {
+				currentDay = new ArrayList<>();
+				String day = event.getDayOfWeek() + ", " + shortFormat.format(event.date);
+				eventsByDay.put(day, currentDay);
+				lastDate = event.date;
+			}
+			currentDay.add(event);
+		}
+		return eventsByDay;
+	}
+
+
 	@Override
 	public String getTemplateName(MjHttpExchange exchange) {
-		if (exchange.getPath().equals("/")) {
+		if (exchange.getPath().equals("/") || exchange.getPath().equals("/query")) {
 			return "events.html";
 		} else if (exchange.getPath().startsWith("/event/")) {
 			return "event.html";
