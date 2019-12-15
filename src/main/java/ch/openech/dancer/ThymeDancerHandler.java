@@ -35,7 +35,7 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 		}
 
 		if (StringUtils.equals(path, "/query")) {
-			List<DanceEvent> events = Backend.find(DanceEvent.class, By.search(exchange.getParameters().get("query").get(0)));
+			List<DanceEvent> events = Backend.find(DanceEvent.class, By.search(exchange.getParameters().get("query").get(0)).order(DanceEvent.$.date));
 			variables.put("eventsByDay", viewEvents(events));
 		}
 
