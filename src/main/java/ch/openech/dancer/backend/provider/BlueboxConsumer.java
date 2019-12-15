@@ -71,8 +71,8 @@ public class BlueboxConsumer extends DanceEventProvider {
 
 					danceEvent.header = "BlueBox";
 					danceEvent.title = title;
-					if (!StringUtils.equals(title, "Disco Tanznacht", "Party Tanznacht")) {
-						danceEvent.line = title;
+					if (!StringUtils.equals(title.toLowerCase(), "disco", "disco tanznacht", "party tanznacht")) {
+						danceEvent.line = formatLine(title);
 					}
 					String excerpt = (String) event.get("excerpt");
 					index = excerpt.indexOf("</p>");
@@ -98,6 +98,16 @@ public class BlueboxConsumer extends DanceEventProvider {
 		httpConn.disconnect();
 
 		return result;
+	}
+
+	private String formatLine(String title) {
+		StringBuilder s = new StringBuilder(title.length());
+		boolean lower = false;
+		for (char c : title.toCharArray()) {
+			s.append(lower ? Character.toLowerCase(c) : c);
+			lower = !Character.isWhitespace(c);
+		}
+		return s.toString();
 	}
 
 	@Override
