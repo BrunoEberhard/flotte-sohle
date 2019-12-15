@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,8 @@ import org.minimalj.util.LocaleContext;
 
 public class DanceEvent {
 	public static final DanceEvent $ = Keys.of(DanceEvent.class);
-	
+	private static final DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
+
 	public Object id;
 	
 	@NotEmpty
@@ -61,6 +63,10 @@ public class DanceEvent {
 		} else {
 			return null;
 		}
+	}
+
+	public String getDateFormatted() {
+		return shortFormat.format(date);
 	}
 
 	@Size(100)
