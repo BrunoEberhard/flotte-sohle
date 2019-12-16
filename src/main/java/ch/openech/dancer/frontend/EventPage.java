@@ -113,7 +113,7 @@ public class EventPage extends HtmlPage {
 		}
 		values.put("image", "https://www.flotte-sohle.ch/sohle_rot.png");
 		values.put("url", "https://www.flotte-sohle.ch/event/" + event.id);
-		return writer.write(values);
+		return "\n" + writer.write(values) + "\n";
 	}
 	
 	private static Map<String, Object> createJsonOrganization(Location location) {
