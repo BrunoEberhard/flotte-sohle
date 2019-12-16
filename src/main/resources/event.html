@@ -1,7 +1,7 @@
 <html th:replace="container.html :: container(~{::head}, ~{::body})">
 <head>
-<script type="application/ld+json">
-${event.json}
+<script type="application/ld+json" th:utext="${event.json}">
+
 </script>
 </head>
 <body>

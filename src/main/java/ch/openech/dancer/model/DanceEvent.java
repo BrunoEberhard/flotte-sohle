@@ -2,15 +2,19 @@ package ch.openech.dancer.model;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.minimalj.frontend.impl.json.JsonWriter;
 import org.minimalj.model.Keys;
 import org.minimalj.model.Rendering;
 import org.minimalj.model.annotation.Decimal;
@@ -98,4 +102,81 @@ public class DanceEvent {
 	public final Set<EventTag> tags = new TreeSet<>();
 	
 	public final List<DanceFloor> floors = new ArrayList<>();
+
+	public String getJson() {
+		JsonWriter writer = new JsonWriter();
+		Map<String, Object> values = new LinkedHashMap<>();
+		values.put("@context", "http://schema.org");
+		values.put("@type", "DanceEvent");
+		if (location != null) {
+			values.put("organizer", createJsonOrganization(location));
+			values.put("location", createJsonPlace(location));
+		}
+		values.put("name", title);
+		if (price != null) {
+			values.put("offers", createJsonOffer(price));
+		}
+		values.put("startDate", date.toString());
+		values.put("endDate", date.toString());
+		if (description != null) {
+			values.put("description", description);
+		}
+		values.put("doorTime", from.toString());
+		if (until != null) {
+			Duration duration = Duration.between(from, until);
+			if (duration.isNegative()) {
+				duration = duration.plusDays(1);
+			}
+			values.put("duration", duration.toString());
+		}
+		if (deeJay != null) {
+			values.put("performer", createJsonPerson(deeJay));
+		}
+		values.put("image", "https://www.flotte-sohle.ch/sohle_rot.png");
+		values.put("url", "https://www.flotte-sohle.ch/event/" + id);
+		return writer.write(values);
+	}
+
+	private static Map<String, Object> createJsonOrganization(Location location) {
+		Map<String, Object> values = new LinkedHashMap<>();
+		values.put("@type", "Organization");
+		values.put("name", location.name);
+		values.put("url", location.url);
+		return values;
+	}
+
+	private static Map<String, Object> createJsonPlace(Location location) {
+		Map<String, Object> values = new LinkedHashMap<>();
+		values.put("@type", "Place");
+		values.put("name", location.name);
+		values.put("address", createJsonPostalAddress(location));
+		return values;
+	}
+
+	private static Map<String, Object> createJsonPostalAddress(Location location) {
+		Map<String, Object> values = new LinkedHashMap<>();
+		values.put("@type", "PostalAddress");
+		values.put("addressLocality", location.city);
+		values.put("streetAddress", location.address);
+		values.put("addressCountry", location.country);
+		return values;
+	}
+
+	private static Map<String, Object> createJsonOffer(BigDecimal price) {
+		Map<String, Object> values = new LinkedHashMap<>();
+		values.put("@type", "Offer");
+		values.put("price", price.toPlainString());
+		values.put("priceCurrency", "CHF");
+		return values;
+	}
+
+	private static Map<String, Object> createJsonPerson(DeeJay deeJay) {
+		Map<String, Object> values = new LinkedHashMap<>();
+		values.put("@type", "Person");
+		values.put("name", deeJay.name);
+		if (deeJay.url != null) {
+			values.put("url", deeJay.url);
+		}
+		return values;
+	}
 }
