@@ -122,8 +122,12 @@ public class PasadenaCrawler extends DanceEventProvider {
 		index = text.indexOf(' ', index + 1);
 		text = text.substring(0, index);
 		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd. MMMM", Locale.GERMAN);
-		final int currentYear = LocalDate.now().getYear();
-		return MonthDay.parse(text, formatter).atYear(currentYear);
+		MonthDay monthDay = MonthDay.parse(text, formatter);
+		int year = LocalDate.now().getYear();
+		if (monthDay.getMonth().getValue() < LocalDate.now().getMonth().getValue()) {
+			year++;
+		}
+		return monthDay.atYear(year);
 	}
 
 	private String extractDj(String text) {
