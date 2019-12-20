@@ -1,8 +1,9 @@
 <html th:replace="container.html :: container(~{::head}, ~{::body})">
 <head>
-<script type="application/ld+json" th:utext="${event.json}">
-
-</script>
+<th:block th:if="${event} != null">
+	<script type="application/ld+json" th:utext="${event.json}">
+		</script>
+</th:block>
 </head>
 <body>
 
