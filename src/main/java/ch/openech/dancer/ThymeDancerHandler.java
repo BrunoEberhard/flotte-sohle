@@ -16,6 +16,7 @@ import org.minimalj.thymeleaf.ThymeRequest;
 import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.backend.DancerRepository;
+import ch.openech.dancer.model.AccessCounter;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
 
@@ -27,6 +28,10 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 
 	@Override
 	protected void handle(ThymeRequest request) {
+		if (StringUtils.equals(request.getPath(), "/sohle.css")) {
+			updateAccessCounter();
+		}
+		
 		if (StringUtils.equals(request.getPath(), "/events.html", "/")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
 			request.put("eventsByDay", viewEvents(events));
@@ -106,4 +111,19 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 		return eventsByDay;
 	}
 
+	private static void updateAccessCounter() {
+		LocalDate now = LocalDate.now();
+		List<AccessCounter> counterList = Backend.find(AccessCounter.class, By.field(AccessCounter.$.date, now));
+		AccessCounter counter;
+		if (counterList.isEmpty()) {
+			counter = new AccessCounter();
+			counter.date = now;
+			counter.count = 1;
+			Backend.insert(counter);
+		} else {
+			counter = counterList.get(0);
+			counter.count += 1;
+			Backend.update(counter);
+		}
+	}
 }
