@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.minimalj.backend.Backend;
-import org.minimalj.frontend.impl.web.MjHttpExchange;
 import org.minimalj.repository.query.By;
+import org.minimalj.repository.query.FieldOperator;
 import org.minimalj.thymeleaf.ThymeHttpHandler;
+import org.minimalj.thymeleaf.ThymeRequest;
 import org.minimalj.util.StringUtils;
 
 import ch.openech.dancer.backend.DancerRepository;
@@ -25,28 +26,35 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 	private static final LocationMapDataProvider locationMapDataProvider = new LocationMapDataProvider();
 
 	@Override
-	public Map<String, Object> createContext(MjHttpExchange exchange) {
-		Map<String, Object> variables = super.createContext(exchange);
-		String path = exchange.getPath();
-
-		if (StringUtils.equals(path, "/", "/events.html")) {
+	protected String handle(ThymeRequest request) {
+		if (StringUtils.equals(request.getPath(), "/events.html", "/")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
-			variables.put("eventsByDay", viewEvents(events));
-		}
+			request.put("eventsByDay", viewEvents(events));
+			return "events.html";
 
-		if (StringUtils.equals(path, "/query")) {
-			List<DanceEvent> events = Backend.find(DanceEvent.class, By.search(exchange.getParameters().get("query").get(0)).order(DanceEvent.$.date));
-			variables.put("eventsByDay", viewEvents(events));
-		}
-
-		if (path.startsWith("/event/")) {
-			String id = path.substring("/event/".length());
+		} else if (request.getPath().startsWith("/event/")) {
+			String id = request.getPath().substring("/event/".length());
 			DanceEvent event = Backend.read(DanceEvent.class, id);
-			variables.put("event", event);
-		}
+			request.put("event", event);
+			return "event.html";
 
-//		if (path.startsWith("/specialDays/")) {
-//			Map<String, List<String>> parameters = (Map<String, List<String>>) variables.get("parameters");
+		} else if (request.getPath().equals("/query")) {
+			List<DanceEvent> events = Backend.find(DanceEvent.class,
+					By.search(request.getParameters().get("query").get(0)).and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1))).order(DanceEvent.$.date));
+			request.put("eventsByDay", viewEvents(events));
+			return "events.html";
+
+		} else if (StringUtils.equals(request.getPath(), "/locations.html")) {
+			List<Location> locations = Backend.find(Location.class, By.ALL.order(Location.$.name));
+			request.put("locations", locations);
+			return DEFAULT_PATH;
+
+		} else if (StringUtils.equals(request.getPath(), "/location_map.html")) {
+			request.put("locations", locationMapDataProvider.getLocationMapData());
+			return DEFAULT_PATH;
+
+//		} else if (request.getPath().startsWith("/specialDays/")) {
+//			Map<String, List<String>> parameters = request.getParameters();
 //
 //			if (parameters.containsKey("locationId")) {
 //				Object locationId = parameters.get("locationId").get(0);
@@ -74,22 +82,14 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 //			// String id = path.substring("/specialDays/".length());
 //			// Location location = Backend.read(Location.class, id);
 //			Location location = Backend.find(Location.class, By.ALL).get(0);
-//			variables.put("location", location);
-//			variables.put("specialDayGroups", SpecialDayGroupViewModel.toViewModel(location));
-//		}
+//			request.put("location", location);
+//			request.put("specialDayGroups", SpecialDayGroupViewModel.toViewModel(location));
+//			return "specialDays.html";
 
-		if (StringUtils.equals(path, "/locations.html")) {
-			List<Location> locations = Backend.find(Location.class, By.ALL.order(Location.$.name));
-			variables.put("locations", locations);
 		}
 
-		if (StringUtils.equals(path, "/location_map.html")) {
-			variables.put("locations", locationMapDataProvider.getLocationMapData());
-		}
-
-		return variables;
+		return DEFAULT_PATH;
 	}
-
 
 	public Map<String, List<DanceEvent>> viewEvents(List<DanceEvent> events) {
 		Map<String, List<DanceEvent>> eventsByDay = new LinkedHashMap<>();
@@ -107,20 +107,6 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 			currentDay.add(event);
 		}
 		return eventsByDay;
-	}
-
-
-	@Override
-	public String getTemplateName(MjHttpExchange exchange) {
-		if (exchange.getPath().equals("/") || exchange.getPath().equals("/query")) {
-			return "events.html";
-		} else if (exchange.getPath().startsWith("/event/")) {
-			return "event.html";
-		} else if (exchange.getPath().startsWith("/specialDays/")) {
-			return "specialDays.html";
-		}
-
-		return super.getTemplateName(exchange);
 	}
 
 }
