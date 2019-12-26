@@ -26,32 +26,32 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 	private static final LocationMapDataProvider locationMapDataProvider = new LocationMapDataProvider();
 
 	@Override
-	protected String handle(ThymeRequest request) {
+	protected void handle(ThymeRequest request) {
 		if (StringUtils.equals(request.getPath(), "/events.html", "/")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
 			request.put("eventsByDay", viewEvents(events));
-			return "events.html";
+			request.sendResponse("events.html");
 
 		} else if (request.getPath().startsWith("/event/")) {
 			String id = request.getPath().substring("/event/".length());
 			DanceEvent event = Backend.read(DanceEvent.class, id);
 			request.put("event", event);
-			return "event.html";
+			request.sendResponse("event.html");
 
 		} else if (request.getPath().equals("/query")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class,
 					By.search(request.getParameters().get("query").get(0)).and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1))).order(DanceEvent.$.date));
 			request.put("eventsByDay", viewEvents(events));
-			return "events.html";
+			request.sendResponse("events.html");
 
 		} else if (StringUtils.equals(request.getPath(), "/locations.html")) {
 			List<Location> locations = Backend.find(Location.class, By.ALL.order(Location.$.name));
 			request.put("locations", locations);
-			return DEFAULT_PATH;
+			request.sendResponse();
 
 		} else if (StringUtils.equals(request.getPath(), "/location_map.html")) {
 			request.put("locations", locationMapDataProvider.getLocationMapData());
-			return DEFAULT_PATH;
+			request.sendResponse();
 
 //		} else if (request.getPath().startsWith("/specialDays/")) {
 //			Map<String, List<String>> parameters = request.getParameters();
@@ -84,11 +84,8 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 //			Location location = Backend.find(Location.class, By.ALL).get(0);
 //			request.put("location", location);
 //			request.put("specialDayGroups", SpecialDayGroupViewModel.toViewModel(location));
-//			return "specialDays.html";
-
+//			request.sendResponse("specialDays.html");
 		}
-
-		return DEFAULT_PATH;
 	}
 
 	public Map<String, List<DanceEvent>> viewEvents(List<DanceEvent> events) {
