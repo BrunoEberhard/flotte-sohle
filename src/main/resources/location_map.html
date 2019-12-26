@@ -54,9 +54,6 @@
         var popupInfo =  marker.name +
             '<br/>' + marker.address +
             '<br/>' + marker.city;
-        if (marker.upcoming) {
-            popupInfo += '<br/>' + marker.upcoming;
-        }
         return popupInfo + '<br/><a href="' + marker.url + '" target="_top">' + marker.url + '</a>';
     }
 

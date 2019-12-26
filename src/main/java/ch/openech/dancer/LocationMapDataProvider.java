@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,6 @@ import org.minimalj.frontend.impl.json.JsonReader;
 import org.minimalj.frontend.impl.json.JsonWriter;
 import org.minimalj.repository.query.By;
 
-import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.Location;
 
 public class LocationMapDataProvider {
@@ -30,17 +28,11 @@ public class LocationMapDataProvider {
 		List<Map<String, Object>> locs = new ArrayList<>();
 		for (Location location : locations) {
 
-
-			List<DanceEvent> events = Backend.find(DanceEvent.class, By.field(DanceEvent.$.location, location).order(DanceEvent.$.date));
 			Map<String, Object> lMap = new HashMap<>();
 			lMap.put("name", location.name);
 			lMap.put("address", location.address);
 			lMap.put("city", location.city);
 			lMap.put("url", location.url);
-			if (!events.isEmpty()) {
-				DanceEvent upcomingEvent = events.get(0);
-				lMap.put("upcoming", createUpcomingEvent(upcomingEvent));
-			}
 
 			if (location.latitude == null) {
 				location = getPosition(location);
@@ -54,12 +46,6 @@ public class LocationMapDataProvider {
 
 		String json = new JsonWriter().write(locs);
 		return json;
-	}
-
-	private static DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
-
-	private String createUpcomingEvent(DanceEvent event) {
-		return String.format("%s %s %s %s %s", shortFormat.format(event.date), event.title, event.description, event.getDayOfWeek(), event.getFromUntil());
 	}
 
 	private Location getPosition(Location location) {
