@@ -3,9 +3,7 @@ package ch.openech.dancer.backend.provider;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneOffsetTransition;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Map;
 
@@ -23,7 +21,7 @@ import ch.openech.dancer.model.Region;
 public class RyvaCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "https://www.ecken.ch/_api/wix-one-events-server/html/widget-data?instance=dqvXR_J07Mjjv451Yg_dthBYVPTllpmBBkhlb1-mSYQ.eyJpbnN0YW5jZUlkIjoiYTcxMTE2MDEtZGM2Ni00NTFjLWEzYzItZTRjZmE4YWIzZDdmIiwiYXBwRGVmSWQiOiIxNDA2MDNhZC1hZjhkLTg0YTUtMmM4MC1hMGY2MGNiNDczNTEiLCJtZXRhU2l0ZUlkIjoiYmE4NmUzYjctMjFlYi00ZDQ1LTg0YTctZDYzOWNiODhhM2NkIiwic2lnbkRhdGUiOiIyMDE5LTEwLTI5VDE2OjEyOjQ0LjQzMloiLCJ1aWQiOm51bGwsInBlcm1pc3Npb25zIjpudWxsLCJpcEFuZFBvcnQiOiI5My4yMjUuMjU0LjE3Mi8yNjQzMCIsInZlbmRvclByb2R1Y3RJZCI6bnVsbCwiZGVtb01vZGUiOmZhbHNlLCJhaWQiOiJjYzBiYjdkNi02NTkzLTQ4OWQtODFmZi1lMTY5OGVhYzAzNmMiLCJiaVRva2VuIjoiMWQ5N2Y1YjYtZmQ4ZC0wODU5LTI3NjUtMzJmNjYzMjM5ZWIyIiwic2l0ZU93bmVySWQiOiIwMDRhNWUxOS02ZjM3LTQ0MjgtODg0Zi1kZGM3ZDdhMTI3YTMifQ"
+	private static final String AGENDA_URL = "https://www.ecken.ch/_api/wix-one-events-server/html/widget-data?instance=VQH7COR647CWcwTL5uIn-AUqiIhuhdb8VwejlOJjuRQ.eyJpbnN0YW5jZUlkIjoiYTcxMTE2MDEtZGM2Ni00NTFjLWEzYzItZTRjZmE4YWIzZDdmIiwiYXBwRGVmSWQiOiIxNDA2MDNhZC1hZjhkLTg0YTUtMmM4MC1hMGY2MGNiNDczNTEiLCJtZXRhU2l0ZUlkIjoiYmE4NmUzYjctMjFlYi00ZDQ1LTg0YTctZDYzOWNiODhhM2NkIiwic2lnbkRhdGUiOiIyMDE5LTEyLTI2VDA2OjIwOjUxLjEzOVoiLCJkZW1vTW9kZSI6ZmFsc2UsImFpZCI6ImNjMGJiN2Q2LTY1OTMtNDg5ZC04MWZmLWUxNjk4ZWFjMDM2YyIsImJpVG9rZW4iOiIxZDk3ZjViNi1mZDhkLTA4NTktMjc2NS0zMmY2NjMyMzllYjIiLCJzaXRlT3duZXJJZCI6IjAwNGE1ZTE5LTZmMzctNDQyOC04ODRmLWRkYzdkN2ExMjdhMyJ9"
 			+ "&compId=comp-jcs3jzsw&locale=de&viewMode=site&members=false";
 
 	@SuppressWarnings("unchecked")
@@ -44,13 +42,13 @@ public class RyvaCrawler extends DanceEventProvider {
 			Map<String, Object> config = (Map<String, Object>) scheduling.get("config");
 
 			LocalDateTime start = LocalDateTime.parse(((String) config.get("startDate")).substring(0, 19));
-			LocalDateTime end = LocalDateTime.parse(((String) config.get("endDate")).substring(0, 19));
-
-			String timeZoneString = (String) config.get("timeZoneId");
-			ZoneId zoneId = ZoneId.of(timeZoneString);
-			ZoneOffset offset = zoneId.getRules().getOffset(start);
-			start = ZoneOffsetTransition.of(start, ZoneOffset.UTC, offset).getDateTimeAfter();
-			end = ZoneOffsetTransition.of(end, ZoneOffset.UTC, offset).getDateTimeAfter();
+//			LocalDateTime end = LocalDateTime.parse(((String) config.get("endDate")).substring(0, 19));
+//
+//			String timeZoneString = (String) config.get("timeZoneId");
+//			ZoneId zoneId = ZoneId.of(timeZoneString);
+//			ZoneOffset offset = zoneId.getRules().getOffset(start);
+//			start = ZoneOffsetTransition.of(start, ZoneOffset.UTC, offset).getDateTimeAfter();
+//			end = ZoneOffsetTransition.of(end, ZoneOffset.UTC, offset).getDateTimeAfter();
 
 			String title = (String) event.get("title");
 			String description = (String) event.get("description");
@@ -82,8 +80,11 @@ public class RyvaCrawler extends DanceEventProvider {
 			danceEvent.header = "Ryva";
 			danceEvent.title = title;
 
-			danceEvent.from = start.toLocalTime();
-			danceEvent.until = end.toLocalTime();
+//			danceEvent.from = start.toLocalTime();
+//			danceEvent.until = end.toLocalTime();
+			danceEvent.from = LocalTime.of(20, 30);
+			danceEvent.until = LocalTime.of(2, 0);
+
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = start.toLocalDate();
 			danceEvent.location = location;
