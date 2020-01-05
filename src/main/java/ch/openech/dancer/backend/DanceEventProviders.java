@@ -16,6 +16,7 @@ import ch.openech.dancer.backend.provider.DanceToDanceImport;
 import ch.openech.dancer.backend.provider.DanceVisionCrawler;
 import ch.openech.dancer.backend.provider.DanceoramaCrawler;
 import ch.openech.dancer.backend.provider.DancersRule;
+import ch.openech.dancer.backend.provider.DancersWorldImport;
 import ch.openech.dancer.backend.provider.DieTanzHalleImport;
 import ch.openech.dancer.backend.provider.DukesRule;
 import ch.openech.dancer.backend.provider.ElSocialRule;
@@ -95,6 +96,7 @@ public class DanceEventProviders {
 		addProvider(new BallroomDancingImport());
 		addProvider(new DieTanzHalleImport());
 		addProvider(new HomeOfDanceRule());
+		addProvider(new DancersWorldImport());
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
