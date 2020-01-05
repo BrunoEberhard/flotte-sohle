@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.minimalj.application.Configuration;
 import org.minimalj.backend.Backend;
 import org.minimalj.transaction.Transaction;
 
@@ -26,6 +27,10 @@ public class EventsUpdateTransaction implements Transaction<List<EventUpdateCoun
 		List<EventUpdateCounter> counters = new ArrayList<EventUpdateCounter>();
 		for (String providerName : providerNames) {
 			DanceEventProvider provider = DanceEventProviders.PROVIDERS.get(providerName);
+			if (Configuration.isDevModeActive() && !provider.getClass().getName().endsWith("Rule") && !provider.getClass().getName().endsWith("Import")) {
+				// im Dev - Modus nicht alle Veranstalter Seiten abfragen
+				continue;
+			}
 			EventUpdateCounter counter = Backend.execute(provider);
 			counter.provider = provider.getName();
 			counters.add(counter);
