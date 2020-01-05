@@ -2,6 +2,7 @@ package ch.openech.dancer;
 
 import java.util.List;
 
+import org.minimalj.application.Configuration;
 import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.UserPasswordAuthentication;
@@ -21,7 +22,13 @@ public class DancerAuthentication extends UserPasswordAuthentication {
 		admin.name = "admin";
 		admin.roles.add(new UserRole(DancerRoles.admin.name()));
 		String password = System.getProperty("ADMIN_PASSWORD", "");
-		admin.password.setPassword(password.toCharArray());
+		if (!Configuration.isDevModeActive()) {
+			admin.password.setPassword(password.toCharArray());
+		} else {
+			// damit funktioniert das token basierte remember me auch
+			// noch nach einen Neustart
+			admin.password.setPasswordWithoutSalt(password.toCharArray());
+		}
 	}
 
 	@Override
