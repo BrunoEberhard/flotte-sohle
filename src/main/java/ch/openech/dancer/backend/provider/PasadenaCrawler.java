@@ -24,6 +24,9 @@ import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
+// Nach zu vielen Änderungen auf der Pasi Seite habe ich den Crawler
+// vorläufig aufgegeben und einen Rule - Provider erstellt.
+@Deprecated
 public class PasadenaCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
