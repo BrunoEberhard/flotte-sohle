@@ -13,6 +13,7 @@ import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
+@Deprecated // Momentan gilt die Rule
 public class TanzcenterImport extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 

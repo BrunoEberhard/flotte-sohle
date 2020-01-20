@@ -36,7 +36,7 @@ import ch.openech.dancer.backend.provider.TanzArtImport;
 import ch.openech.dancer.backend.provider.TanzSalonCrawler;
 import ch.openech.dancer.backend.provider.TanzZentrumImport;
 import ch.openech.dancer.backend.provider.TanzbarBinningenRule;
-import ch.openech.dancer.backend.provider.TanzcenterImport;
+import ch.openech.dancer.backend.provider.TanzcenterRule;
 import ch.openech.dancer.backend.provider.TanzclubWinterthurConsumer;
 import ch.openech.dancer.backend.provider.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.provider.TanzlokalSurseeCrawler;
@@ -65,7 +65,6 @@ public class DanceEventProviders {
 		addProvider(new BanditsRule());
 		addProvider(new Werk1Rule());
 		addProvider(new TanzZentrumImport());
-		addProvider(new TanzcenterImport());
 		addProvider(new GalacticCrawler());
 		addProvider(new ZinneSargansRule());
 		addProvider(new BadenerTanzCenterCrawler());
@@ -97,6 +96,7 @@ public class DanceEventProviders {
 		addProvider(new HomeOfDanceRule());
 		addProvider(new DancersWorldImport());
 		addProvider(new PasadenaRule());
+		addProvider(new TanzcenterRule());
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
