@@ -58,6 +58,9 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 			request.put("locations", locationMapDataProvider.getLocationMapData());
 			request.sendResponse();
 
+		} else if (StringUtils.equals(request.getPath(), "/infos.html")) {
+			request.sendResponse();
+
 //		} else if (request.getPath().startsWith("/specialDays/")) {
 //			Map<String, List<String>> parameters = request.getParameters();
 //
