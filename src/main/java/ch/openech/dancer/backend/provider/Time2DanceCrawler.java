@@ -76,7 +76,7 @@ public class Time2DanceCrawler extends DanceEventProvider {
 	public Location createLocation() {
 		Location location = new Location();
 		location.country = "Schweiz";
-		location.address = "Binzstrasse 9";
+		location.address = "Räffelstrasse 25";
 		location.city = "8045 Zürich";
 		location.name = "time2dance";
 		location.url = "http://www.time2dance.ch";
