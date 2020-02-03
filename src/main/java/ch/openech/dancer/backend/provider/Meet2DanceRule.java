@@ -61,8 +61,8 @@ public class Meet2DanceRule extends DanceEventProvider {
 
 			danceEvent.header = location.name;
 			danceEvent.title = "Friday Dancing";
-			danceEvent.from = LocalTime.of(21, 0);
-			danceEvent.until = LocalTime.of(0, 0);
+			danceEvent.from = LocalTime.of(20, 30);
+			danceEvent.until = LocalTime.of(23, 0);
 			danceEvent.description = "Tanzmusik ab CD in allen Tanzrichtungen, von Disco Fox, West coast Swing, ChaChaCha bis Tango Argentino. "
 					+ "Natürlich können auch Wünsche angebracht werden und wer es gerne möchte kann bei Figurenproblemen auch die anwesenden Tanzlehrer um Rat fragen.";
 			danceEvent.location = location;
