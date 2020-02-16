@@ -10,9 +10,9 @@ import org.minimalj.application.Configuration;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
+import org.minimalj.frontend.impl.swing.Swing;
 import org.minimalj.frontend.impl.web.MjHttpHandler;
 import org.minimalj.frontend.impl.web.WebApplication;
-import org.minimalj.frontend.impl.web.WebServer;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.repository.query.By;
@@ -49,7 +49,7 @@ public class DancerApplication extends WebApplication {
 
 	@Override
 	public Page createDefaultPage() {
-		return new ThymePage("/events.html", Resources.getString("EventsPage"));
+		return new ThymePage("/eventsApplication.html").title("EventsPage");
 	}
 
 	@Override
@@ -66,10 +66,10 @@ public class DancerApplication extends WebApplication {
 
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
 			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
-			pub.add(new ThymePage("/events.html", Resources.getString("EventsPage")));
-			pub.add(new ThymePage("/location_map.html", Resources.getString("LocationMapPage")));
-			pub.add(new ThymePage("/locations.html", Resources.getString("LocationsPage")));
-			pub.add(new ThymePage("/infos.html", Resources.getString("InfoPage")));
+			pub.add(new ThymePage("/eventsApplication.html").title("EventsPage"));
+			pub.add(new ThymePage("/location_mapApplication.html").title("LocationMapPage"));
+			pub.add(new ThymePage("/locationsApplication.html").title("LocationsPage"));
+			pub.add(new ThymePage("/infosApplication.html").title("InfoPage"));
 			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			events.add(new DanceEventAdminTablePage());
 			events.add(new EventUpdateAction());
@@ -85,10 +85,10 @@ public class DancerApplication extends WebApplication {
 			Location location = Backend.find(Location.class, By.field(Location.$.name, Subject.getCurrent().getName())).get(0);
 			actions.add(new PageAction(new DanceEventLocationTablePage(location)));
 		} else {
-			actions.add(new ThymePage("/events.html", Resources.getString("EventsPage")));
-			actions.add(new ThymePage("/location_map.html", Resources.getString("LocationMapPage")));
-			actions.add(new ThymePage("/locations.html", Resources.getString("LocationsPage")));
-			actions.add(new ThymePage("/infos.html", Resources.getString("InfoPage")));
+			actions.add(new ThymePage("/eventsApplication.html").title("EventsPage"));
+			actions.add(new ThymePage("/location_mapApplication.html").title("LocationMapPage"));
+			actions.add(new ThymePage("/locationsApplication.html").title("LocationsPage"));
+			actions.add(new ThymePage("/infosApplication.html").title("InfoPage"));
 		}
 		return actions.getItems();
 	}
@@ -110,11 +110,11 @@ public class DancerApplication extends WebApplication {
 		Configuration.set("MjLoginAtStart", "true");
 		Configuration.set("MjInit", DancerInitTransaction.class.getName());
 		Application application = new DancerApplication();
-		// Swing.start(application);
+		Swing.start(application);
 		// Lanterna.start(application);
 		// RestServer.start(application);
 		// MinimalTow.start(application);
-		WebServer.start(application);
+		// WebServer.start(application);
 		// NanoServer.start(application);
 		// RestServer.start(application);
 		// MjVaadinSpringbootApplication.start(application);

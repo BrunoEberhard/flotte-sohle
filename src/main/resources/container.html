@@ -1,6 +1,8 @@
 <html th:fragment="container(head, page)">
 <head>
-<title th:text="${application.name}">Application Name</title>
+<title th:if="${title}" th:text="${title}">Application Name</title>
+<title th:unless="${title}" th:text="${application.name}">Title</title>
+
 <meta th:each="meta : ${metas}" th:name="${meta.key}" th:content="${meta.value}">
 
 <!-- Minimal-J Version: [[${MINIMALJ-VERSION}]] -->
@@ -68,7 +70,7 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1, user-scalable=no" />
 </head>
 <body id="body">
-	<div id="header" th:unless="${thymePage}">
+	<div id="header" th:unless="${isApplication}">
 		<svg class="button headerButton" style="margin-left: 1.0em;" onclick="toggleNavigation()">
               <g style="stroke-width:0px"> 		
   				<title>Show or hide navigation</title>
@@ -88,8 +90,8 @@
 			</svg>
 		</div>			
 	</div>
-	<div th:id="(${thymePage} ? '' : 'container')">
-		<div id="navigationContainer" style="display: block;" th:unless="${thymePage}">
+	<div th:id="(${isApplication} ? '' : 'container')">
+		<div id="navigationContainer" style="display: block;" th:unless="${isApplication}">
 			<div id="navigation">
 				<ul>
 					<li><a class="action" href="/events.html" th:text="#{EventsPage}">Anlässe</a></li>

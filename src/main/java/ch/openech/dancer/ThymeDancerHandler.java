@@ -28,38 +28,50 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 
 	@Override
 	protected void handle(ThymeRequest request) {
-		if (StringUtils.equals(request.getPath(), "/sohle.css")) {
+		String path = request.getPath();
+		if (StringUtils.equals(path, "/sohle.css")) {
 			updateAccessCounter();
 		}
-		
-		if (StringUtils.equals(request.getPath(), "/events.html", "/")) {
+
+		int index = path.indexOf("Application");
+		if (index > 0) {
+			request.put("isApplication", true);
+			path = path.substring(0, index) + path.substring(index + "Application".length());
+		}
+
+		if (StringUtils.equals(path, "/events.html", "/")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
 			request.put("eventsByDay", viewEvents(events));
 			request.sendResponse("events.html");
 
-		} else if (request.getPath().startsWith("/event/")) {
-			String id = request.getPath().substring("/event/".length());
+		} else if (path.startsWith("/event/")) {
+			String id = path.substring("/event/".length());
 			DanceEvent event = Backend.read(DanceEvent.class, id);
 			request.put("event", event);
+			if (event != null) {
+				request.put("title", event.location.name + " " + shortFormat.format(event.date));
+			} else {
+				request.put("title", "Anlass nicht gefunden");
+			}
 			request.sendResponse("event.html");
 
-		} else if (request.getPath().equals("/query")) {
+		} else if (path.equals("/query")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class,
 					By.search(request.getParameters().get("query").get(0)).and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1))).order(DanceEvent.$.date));
 			request.put("eventsByDay", viewEvents(events));
 			request.sendResponse("events.html");
 
-		} else if (StringUtils.equals(request.getPath(), "/locations.html")) {
+		} else if (StringUtils.equals(path, "/locations.html")) {
 			List<Location> locations = Backend.find(Location.class, By.ALL.order(Location.$.name));
 			request.put("locations", locations);
-			request.sendResponse();
+			request.sendResponse(path);
 
-		} else if (StringUtils.equals(request.getPath(), "/location_map.html")) {
+		} else if (StringUtils.equals(path, "/location_map.html")) {
 			request.put("locations", locationMapDataProvider.getLocationMapData());
-			request.sendResponse();
+			request.sendResponse(path);
 
-		} else if (StringUtils.equals(request.getPath(), "/infos.html")) {
-			request.sendResponse();
+		} else if (StringUtils.equals(path, "/infos.html")) {
+			request.sendResponse(path);
 
 //		} else if (request.getPath().startsWith("/specialDays/")) {
 //			Map<String, List<String>> parameters = request.getParameters();
