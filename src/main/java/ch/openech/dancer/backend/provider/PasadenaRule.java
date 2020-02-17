@@ -30,15 +30,6 @@ public class PasadenaRule extends DanceEventProvider {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
-			if (danceEvent.status == EventStatus.edited) {
-				result.skippedEditedEvents++;
-				date = date.plusDays(1);
-				continue;
-			} else if (danceEvent.status == EventStatus.blocked) {
-				result.skippedBlockedEvents++;
-				date = date.plusDays(1);
-				continue;
-			}
 
 			// Mo/Di wieder geschlossen. Falls schon erzeugt blockieren, sonst mit nächstem
 			// Tag weiterfahren. Kann Mai 2020 wieder entfernt werden.
@@ -46,6 +37,16 @@ public class PasadenaRule extends DanceEventProvider {
 				if (danceEvent.id != null) {
 					Backend.delete(danceEvent);
 				}
+				date = date.plusDays(1);
+				continue;
+			}
+
+			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				date = date.plusDays(1);
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
 				date = date.plusDays(1);
 				continue;
 			}
