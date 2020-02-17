@@ -32,9 +32,11 @@ public class PasadenaRule extends DanceEventProvider {
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
 				result.skippedEditedEvents++;
+				date = date.plusDays(1);
 				continue;
 			} else if (danceEvent.status == EventStatus.blocked) {
 				result.skippedBlockedEvents++;
+				date = date.plusDays(1);
 				continue;
 			}
 
@@ -44,6 +46,7 @@ public class PasadenaRule extends DanceEventProvider {
 				if (danceEvent.id != null) {
 					Backend.delete(danceEvent);
 				}
+				date = date.plusDays(1);
 				continue;
 			}
 
@@ -58,6 +61,7 @@ public class PasadenaRule extends DanceEventProvider {
 			switch (date.getDayOfWeek()) {
 			case MONDAY:
 			case TUESDAY:
+				date = date.plusDays(1);
 				continue;
 			case WEDNESDAY:
 				danceEvent.from = LocalTime.of(19, 30);
