@@ -6,13 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.backend.DanceEventProvider;
 import ch.openech.dancer.backend.EventUpdateCounter;
 import ch.openech.dancer.model.DanceEvent;
-import ch.openech.dancer.model.DeeJay;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
@@ -29,7 +27,8 @@ public class Werk1Rule extends DanceEventProvider {
 			start = start.plusDays(1);
 		}
 
-		DeeJay deeJayJanosch = Backend.find(DeeJay.class, By.field(DeeJay.$.name, "DJ Janosch")).get(0);
+		// DeeJay deeJayJanosch = Backend.find(DeeJay.class, By.field(DeeJay.$.name, "DJ
+		// Janosch")).get(0);
 
 		for (int i = 0; i < 12; i++) {
 			LocalDate date = start.plusWeeks(i);
@@ -57,7 +56,8 @@ public class Werk1Rule extends DanceEventProvider {
 			danceEvent.location = location;
 			danceEvent.price = BigDecimal.valueOf(9);
 			danceEvent.priceReduced = BigDecimal.valueOf(7);
-			danceEvent.deeJay = deeJayJanosch;
+			// danceEvent.deeJay = deeJayJanosch;
+			danceEvent.deeJay = null;
 
 			save(danceEvent, result);
 		}
