@@ -41,9 +41,8 @@ public class PasadenaRule extends DanceEventProvider {
 			// Mo/Di wieder geschlossen. Falls schon erzeugt blockieren, sonst mit nächstem
 			// Tag weiterfahren. Kann Mai 2020 wieder entfernt werden.
 			if (date.getDayOfWeek() == DayOfWeek.MONDAY || date.getDayOfWeek() == DayOfWeek.TUESDAY) {
-				if (danceEvent.status != null) {
-					danceEvent.status = EventStatus.blocked;
-					Backend.update(danceEvent);
+				if (danceEvent.id != null) {
+					Backend.delete(danceEvent);
 				}
 				continue;
 			}
