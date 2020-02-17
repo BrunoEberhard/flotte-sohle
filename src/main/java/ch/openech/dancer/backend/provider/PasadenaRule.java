@@ -1,10 +1,12 @@
 package ch.openech.dancer.backend.provider;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
+import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 
 import ch.openech.dancer.backend.DanceEventProvider;
@@ -36,6 +38,16 @@ public class PasadenaRule extends DanceEventProvider {
 				continue;
 			}
 
+			// Mo/Di wieder geschlossen. Falls schon erzeugt blockieren, sonst mit nächstem
+			// Tag weiterfahren. Kann Mai 2020 wieder entfernt werden.
+			if (date.getDayOfWeek() == DayOfWeek.MONDAY || date.getDayOfWeek() == DayOfWeek.TUESDAY) {
+				if (danceEvent.status != null) {
+					danceEvent.status = EventStatus.blocked;
+					Backend.update(danceEvent);
+				}
+				continue;
+			}
+
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 			danceEvent.header = location.name;
@@ -46,17 +58,8 @@ public class PasadenaRule extends DanceEventProvider {
 			int week = (date.getDayOfMonth() - 1) / 7 + 1;
 			switch (date.getDayOfWeek()) {
 			case MONDAY:
-				danceEvent.from = LocalTime.of(19, 30);
-				danceEvent.until = LocalTime.of(0, 0);
-				danceEvent.price = BigDecimal.valueOf(10);
-				danceEvent.line = "Musik-Wunschabend";
-				break;
 			case TUESDAY:
-				danceEvent.from = LocalTime.of(19, 30);
-				danceEvent.until = LocalTime.of(0, 0);
-				danceEvent.price = BigDecimal.valueOf(10);
-				danceEvent.line = "La vie en rose";
-				break;
+				continue;
 			case WEDNESDAY:
 				danceEvent.from = LocalTime.of(19, 30);
 				danceEvent.until = LocalTime.of(0, 0);
