@@ -22,8 +22,15 @@ public class DukesRule extends DanceEventProvider {
 	public EventUpdateCounter updateEvents() {
 		EventUpdateCounter result = new EventUpdateCounter();
 
+		updateEvents(DayOfWeek.THURSDAY, result);
+		updateEvents(DayOfWeek.SUNDAY, result);
+
+		return result;
+	}
+
+	private void updateEvents(DayOfWeek dayOfWeek, EventUpdateCounter result) {
 		LocalDate start = LocalDate.now();
-		while (start.getDayOfWeek() != DayOfWeek.THURSDAY) {
+		while (start.getDayOfWeek() != dayOfWeek) {
 			start = start.plusDays(1);
 		}
 
@@ -46,18 +53,27 @@ public class DukesRule extends DanceEventProvider {
 			danceEvent.date = date;
 
 			danceEvent.header = location.name;
-			danceEvent.title = "Schlager Party";
-			danceEvent.line = "Schlager & Charts";
-			danceEvent.from = LocalTime.of(20, 30);
-			danceEvent.until = LocalTime.of(1, 0);
-			danceEvent.description = "50/50 Schlager & Charts. Mit dem Dukestänzer. Für alle Ladies: 1 Getränk gratis bis 21.45 (ausser Spirituosen).";
 			danceEvent.location = location;
-			danceEvent.tags.add(EventTag.Taxidancer);
+
+			if (dayOfWeek == DayOfWeek.THURSDAY) {
+				danceEvent.title = "Schlager Party";
+				danceEvent.line = "Schlager & Charts";
+				danceEvent.from = LocalTime.of(20, 30);
+				danceEvent.until = LocalTime.of(1, 0);
+				danceEvent.description = "50/50 Schlager & Charts. Mit dem Dukestänzer. Für alle Ladies: 1 Getränk gratis bis 21.45 (ausser Spirituosen).";
+				danceEvent.tags.add(EventTag.Taxidancer);
+			} else if (dayOfWeek == DayOfWeek.SUNDAY) {
+				danceEvent.title = "Party Tanznacht";
+				danceEvent.from = LocalTime.of(20, 00);
+				danceEvent.until = LocalTime.of(0, 30);
+				danceEvent.description = "Für die Damen ein Freigetränk von 20.00 bis 21.00 (ausser Spirituosen).";
+				danceEvent.tags.add(EventTag.Taxidancer);
+			} else {
+				throw new IllegalArgumentException("" + dayOfWeek);
+			}
 
 			save(danceEvent, result);
 		}
-
-		return result;
 	}
 
 	@Override
