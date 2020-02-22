@@ -97,7 +97,7 @@
 		<dependency>
 			<groupId>org.minimalj</groupId>
 			<artifactId>minimalj</artifactId>
-			<version>[1.23.0.5-SNAPSHOT,)</version>
+			<version>1.23.0.6-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.minimalj</groupId>
