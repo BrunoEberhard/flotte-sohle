@@ -103,12 +103,17 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 	}
 
 	protected DeeJay getDeeJay(String djText) {
+		return getDeeJay(djText, null);
+	}
+
+	protected DeeJay getDeeJay(String djText, String url) {
 		Optional<DeeJay> deeJay = findOne(DeeJay.class, By.field(DeeJay.$.name, djText));
 		if (deeJay.isPresent()) {
 			return deeJay.get();
 		} else {
 			DeeJay newDeeJay = new DeeJay();
 			newDeeJay.name = djText;
+			newDeeJay.url = url;
 			return Backend.save(newDeeJay);
 		}
 	}

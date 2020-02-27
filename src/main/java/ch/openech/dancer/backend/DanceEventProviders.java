@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
 
+import ch.openech.dancer.backend.provider.AllmendhofBrochImport;
 import ch.openech.dancer.backend.provider.AnlikerTanzRule;
 import ch.openech.dancer.backend.provider.BadenerTanzCenterCrawler;
 import ch.openech.dancer.backend.provider.BallroomDancingImport;
@@ -99,6 +100,7 @@ public class DanceEventProviders {
 		addProvider(new PasadenaRule());
 		addProvider(new TanzcenterRule());
 		addProvider(new TanzclubAcademiaRule());
+		addProvider(new AllmendhofBrochImport());
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
