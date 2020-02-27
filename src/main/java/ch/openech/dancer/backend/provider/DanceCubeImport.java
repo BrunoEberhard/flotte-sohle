@@ -21,7 +21,7 @@ public class DanceCubeImport extends DanceEventProvider {
 	public EventUpdateCounter updateEvents() {
 		EventUpdateCounter result = new EventUpdateCounter();
 
-		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/dancer/data/dance_cube_2019.csv"));
+		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/dancer/data/dance_cube.csv"));
 		for (DanceEvent event : reader.readValues(DanceEvent.class)) {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, event.date)));
