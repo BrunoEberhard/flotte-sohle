@@ -103,6 +103,10 @@ public class DanceEvent {
 	
 	public final List<DanceFloor> floors = new ArrayList<>();
 
+	public boolean isCancelled() {
+		return status == EventStatus.cancelled;
+	}
+
 	public String getJson() {
 		JsonWriter writer = new JsonWriter();
 		Map<String, Object> values = new LinkedHashMap<>();

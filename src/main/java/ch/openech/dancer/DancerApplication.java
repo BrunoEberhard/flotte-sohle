@@ -117,7 +117,7 @@ public class DancerApplication extends WebApplication {
 		WebServer.start(application);
 		// NanoServer.start(application);
 		// RestServer.start(application);
-		// MjVaadinSpringbootApplication.start(application);
+		// VaadinSpringboot.start(application);
 		Backend.execute(new EventsUpdateTransaction(DanceEventProviders.PROVIDER_NAMES));
 	}
 

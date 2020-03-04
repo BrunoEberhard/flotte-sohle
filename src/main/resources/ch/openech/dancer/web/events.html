@@ -13,6 +13,10 @@
 	border-radius: 0.6em;
 }
 
+.Cancelled {
+	background: #d88;
+}
+
 .Header {
 	font-size: x-large;
 	margin-top: 0.4em;
@@ -77,7 +81,7 @@
 	<div th:each="events : ${eventsByDay}">
 		<h1 class="Day" th:text="${events.key}">Montag, 1.2.2003</h1>
 		<div class="DayEvents">
-			<div class="DanceEvent" th:each="event : ${events.value}">
+			<div th:class="${event.cancelled ? 'DanceEvent Cancelled' : 'DanceEvent'}" th:each="event : ${events.value}">
 				<div class="Header">
 					<a th:href="(${isApplication} ? '/eventApplication/' : '/event/') + ${event.id}" th:text="${event.header}">Header</a>
 				</div>
