@@ -28,7 +28,6 @@ import ch.openech.dancer.backend.provider.HappyDanceRule;
 import ch.openech.dancer.backend.provider.HasenstrickRule;
 import ch.openech.dancer.backend.provider.HomeOfDanceRule;
 import ch.openech.dancer.backend.provider.Meet2DanceRule;
-import ch.openech.dancer.backend.provider.PasadenaRule;
 import ch.openech.dancer.backend.provider.PilatusKellerRule;
 import ch.openech.dancer.backend.provider.RyvaCrawler;
 import ch.openech.dancer.backend.provider.SchuetzenhausRule;
@@ -97,7 +96,6 @@ public class DanceEventProviders {
 		addProvider(new DieTanzHalleImport());
 		addProvider(new HomeOfDanceRule());
 		addProvider(new DancersWorldImport());
-		addProvider(new PasadenaRule());
 		addProvider(new TanzcenterRule());
 		addProvider(new TanzclubAcademiaRule());
 		addProvider(new AllmendhofBrochImport());
