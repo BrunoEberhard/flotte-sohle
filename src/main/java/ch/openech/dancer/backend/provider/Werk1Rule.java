@@ -32,7 +32,10 @@ public class Werk1Rule extends DanceEventProvider {
 
 		for (int i = 0; i < 12; i++) {
 			LocalDate date = start.plusWeeks(i);
-
+			if (date.isBefore(LocalDate.of(2020, 06, 29))) {
+				continue;
+			}
+			
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
