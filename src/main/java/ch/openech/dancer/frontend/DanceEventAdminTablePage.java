@@ -51,6 +51,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 		protected DanceEvent createObject() {
 			DanceEvent event = new DanceEvent();
 			CloneHelper.deepCopy(super.createObject(), event);
+			event.id = null;
 			event.status = EventStatus.edited;
 			return event;
 		}
