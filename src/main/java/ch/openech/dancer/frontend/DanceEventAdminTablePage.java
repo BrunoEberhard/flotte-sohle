@@ -16,6 +16,7 @@ import org.minimalj.model.validation.ValidationMessage;
 import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.Criteria;
 import org.minimalj.repository.query.Order;
+import org.minimalj.util.CloneHelper;
 import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.model.DanceEvent;
@@ -31,7 +32,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 
 	@Override
 	public List<Action> getTableActions() {
-		return Arrays.asList(new TableNewObjectEditor(), new DanceEventTableEditor(), new DeleteDetailAction());
+		return Arrays.asList(new TableNewObjectEditor(), new DanceEventTableEditor(), new DeleteDetailAction(), new DanceEventCopyEditor());
 	}
 
 	private class DanceEventTableEditor extends TableEditor {
@@ -45,6 +46,16 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 		}
 	}
 
+	private class DanceEventCopyEditor extends TableEditor {
+		@Override
+		protected DanceEvent createObject() {
+			DanceEvent event = new DanceEvent();
+			CloneHelper.deepCopy(super.createObject(), event);
+			event.status = EventStatus.edited;
+			return event;
+		}
+	}
+	
 	private final EventFilter filter = new EventFilter();
 
 	@Override
