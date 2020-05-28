@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Optional;
 
 import org.minimalj.repository.query.By;
@@ -14,6 +13,7 @@ import ch.openech.dancer.backend.DanceEventProvider;
 import ch.openech.dancer.backend.EventUpdateCounter;
 import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
+import ch.openech.dancer.model.EventTag;
 import ch.openech.dancer.model.Location;
 import ch.openech.dancer.model.Region;
 
@@ -23,29 +23,20 @@ public class Meet2DanceRule extends DanceEventProvider {
 	@Override
 	public EventUpdateCounter updateEvents() {
 		EventUpdateCounter result = new EventUpdateCounter();
-
+		
 		LocalDate start = LocalDate.now();
-		while (start.getDayOfWeek() != DayOfWeek.FRIDAY) {
-			start = start.plusDays(1);
+		LocalDate lastSaturday = start.with(TemporalAdjusters.lastInMonth(DayOfWeek.SATURDAY));
+		if (lastSaturday.isBefore(start)) {
+			start = start.plusMonths(1);
 		}
 
-		List<LocalDate> exceptions = new ArrayList<>();
-		exceptions.add(LocalDate.of(2019, 8, 30));
-		exceptions.add(LocalDate.of(2019, 9, 20));
-		exceptions.add(LocalDate.of(2019, 9, 27));
-		exceptions.add(LocalDate.of(2019, 10, 25));
-		exceptions.add(LocalDate.of(2019, 11, 22));
-		exceptions.add(LocalDate.of(2019, 12, 6));
-		exceptions.add(LocalDate.of(2019, 12, 13));
-
-		for (int i = 0; i < 12; i++) {
-			LocalDate date = start.plusWeeks(i);
-			if (exceptions.contains(date)) {
+		for (int i = 0; i < 4; i++) {
+			LocalDate date = start.plusMonths(i).with(TemporalAdjusters.lastInMonth(DayOfWeek.SATURDAY));
+			if (date.isBefore(LocalDate.of(2020, 06, 06))) {
 				continue;
 			}
-
-			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
+			
+			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
@@ -55,18 +46,22 @@ public class Meet2DanceRule extends DanceEventProvider {
 				result.skippedBlockedEvents++;
 				continue;
 			}
-
+			
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
 			danceEvent.header = location.name;
 			danceEvent.title = "Friday Dancing";
 			danceEvent.from = LocalTime.of(20, 30);
-			danceEvent.until = LocalTime.of(23, 0);
-			danceEvent.description = "Tanzmusik ab CD in allen Tanzrichtungen, von Disco Fox, West coast Swing, ChaChaCha bis Tango Argentino. "
-					+ "Natürlich können auch Wünsche angebracht werden und wer es gerne möchte kann bei Figurenproblemen auch die anwesenden Tanzlehrer um Rat fragen.";
+			danceEvent.until = LocalTime.of(0, 0);
+			danceEvent.description = "Mit den unvergänglichen Dance Hits \n" + 
+					"von den 80er Jahren bis Heute! \n" + 
+					"Und das alles im Paartanz-Rhythmus \n" + 
+					"von Walzer über Tango, Rumba, ChaChaCha, \n" + 
+					"Jive bis zum Disco-Fox!";
 			danceEvent.location = location;
-			danceEvent.price = BigDecimal.valueOf(8);
+			danceEvent.price = BigDecimal.valueOf(10);
+			danceEvent.tags.add(EventTag.Workshop);
 
 			save(danceEvent, result);
 		}
