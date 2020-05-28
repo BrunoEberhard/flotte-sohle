@@ -51,7 +51,7 @@ public class Meet2DanceRule extends DanceEventProvider {
 			danceEvent.date = date;
 
 			danceEvent.header = location.name;
-			danceEvent.title = "Friday Dancing";
+			danceEvent.title = "Tanzparty mit RoMa";
 			danceEvent.from = LocalTime.of(20, 30);
 			danceEvent.until = LocalTime.of(0, 0);
 			danceEvent.description = "Mit den unvergänglichen Dance Hits \n" + 
