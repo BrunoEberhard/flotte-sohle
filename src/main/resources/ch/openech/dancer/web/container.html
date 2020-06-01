@@ -12,11 +12,12 @@
 <link th:if="${application.icon != null}" rel="icon" href="application.png" type="image/png">
 <th:block th:include="${head}" />
 
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 	"use strict";
 
 	function toggleNavigation(openOrClose) {
-		if ([[${isApplication} ? false : true]]) {
+		var isApplication = /*[[${isApplication} ? false : true]]*/ true;
+		if (isApplication) {
 			var navigationElement = document.getElementById("navigationContainer");
 			var isClosed = navigationElement.style.display === "none";
 			if (isClosed && (openOrClose == undefined || openOrClose === "open")) {

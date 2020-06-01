@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,7 +17,6 @@ import javax.net.ssl.HttpsURLConnection;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.impl.json.JsonReader;
 import org.minimalj.util.StringUtils;
-import org.postgresql.util.Base64;
 
 import ch.openech.dancer.backend.DanceEventProvider;
 import ch.openech.dancer.backend.EventUpdateCounter;
@@ -71,7 +71,7 @@ public class SummerDanceConsumer extends DanceEventProvider {
 						continue;
 					}
 					idString = idString.substring("event_".length());
-					byte[] idBytes = Base64.decode(idString);
+					byte[] idBytes = Base64.getDecoder().decode(idString);
 					String id = UUID.nameUUIDFromBytes(idBytes).toString();
 
 					DanceEvent danceEvent = Backend.read(DanceEvent.class, id);
