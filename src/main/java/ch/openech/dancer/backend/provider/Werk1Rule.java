@@ -64,7 +64,7 @@ public class Werk1Rule extends DanceEventProvider {
 
 			save(danceEvent, result);
 		}
-		DanceInnCrawler.handleWerk1InDanceInn();
+//		DanceInnCrawler.handleWerk1InDanceInn();
 
 		return result;
 	}
