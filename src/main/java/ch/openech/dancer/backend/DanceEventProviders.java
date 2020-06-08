@@ -23,7 +23,7 @@ import ch.openech.dancer.backend.provider.DukesRule;
 import ch.openech.dancer.backend.provider.ElSocialRule;
 import ch.openech.dancer.backend.provider.GalacticCrawler;
 import ch.openech.dancer.backend.provider.GaswerkEventbarRule;
-import ch.openech.dancer.backend.provider.HappyAndMadCrawler;
+import ch.openech.dancer.backend.provider.HappyAndMadRule;
 import ch.openech.dancer.backend.provider.HappyDanceRule;
 import ch.openech.dancer.backend.provider.HasenstrickRule;
 import ch.openech.dancer.backend.provider.HomeOfDanceRule;
@@ -82,7 +82,7 @@ public class DanceEventProviders {
 		addProvider(new TanzschuleBayerCrawler());
 		addProvider(new HappyDanceRule());
 		addProvider(new SummerDanceConsumer());
-		addProvider(new HappyAndMadCrawler());
+		addProvider(new HappyAndMadRule());
 		addProvider(new TanzclubWinterthurConsumer());
 		addProvider(new DanceVisionCrawler());
 		addProvider(new TanzbarBinningenRule());
