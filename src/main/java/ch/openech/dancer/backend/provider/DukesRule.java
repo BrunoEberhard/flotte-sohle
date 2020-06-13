@@ -55,21 +55,22 @@ public class DukesRule extends DanceEventProvider {
 			danceEvent.header = location.name;
 			danceEvent.location = location;
 
-			if (dayOfWeek == DayOfWeek.THURSDAY) {
-				danceEvent.title = "Schlager Party";
-				danceEvent.line = "Schlager & Charts";
-				danceEvent.from = LocalTime.of(20, 30);
-				danceEvent.until = LocalTime.of(1, 0);
-				danceEvent.description = "50/50 Schlager & Charts. Mit dem Dukestänzer. Für alle Ladies: 1 Getränk gratis bis 21.45 (ausser Spirituosen).";
-				danceEvent.tags.add(EventTag.Taxidancer);
-			} else if (dayOfWeek == DayOfWeek.SUNDAY) {
+//			if (dayOfWeek == DayOfWeek.THURSDAY) {
+//				danceEvent.title = "Schlager Party";
+//				danceEvent.line = "Schlager & Charts";
+//				danceEvent.from = LocalTime.of(20, 30);
+//				danceEvent.until = LocalTime.of(1, 0);
+//				danceEvent.description = "50/50 Schlager & Charts. Mit dem Dukestänzer. Für alle Ladies: 1 Getränk gratis bis 21.45 (ausser Spirituosen).";
+//				danceEvent.tags.add(EventTag.Taxidancer);
+//			} else 
+				if (dayOfWeek == DayOfWeek.SUNDAY) {
 				danceEvent.title = "Party Tanznacht";
 				danceEvent.from = LocalTime.of(20, 00);
 				danceEvent.until = LocalTime.of(0, 30);
 				danceEvent.description = "Für die Damen ein Freigetränk von 20.00 bis 21.00 (ausser Spirituosen).";
 				danceEvent.tags.add(EventTag.Taxidancer);
 			} else {
-				throw new IllegalArgumentException("" + dayOfWeek);
+				continue;
 			}
 
 			save(danceEvent, result);
