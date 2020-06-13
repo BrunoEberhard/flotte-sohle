@@ -1,6 +1,5 @@
 package ch.openech.dancer;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -21,8 +20,9 @@ import org.minimalj.security.Subject;
 import org.minimalj.thymeleaf.page.ThymePage;
 import org.minimalj.util.resources.Resources;
 
+import ch.openech.dancer.backend.DanceEventProviders;
 import ch.openech.dancer.backend.DancerRepository;
-import ch.openech.dancer.backend.EventsDeleteTransaction;
+import ch.openech.dancer.backend.EventsUpdateTransaction;
 import ch.openech.dancer.frontend.AccessPage;
 import ch.openech.dancer.frontend.AdminLogPage;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
@@ -122,8 +122,7 @@ public class DancerApplication extends WebApplication {
 		// NanoServer.start(application);
 		// RestServer.start(application);
 		// VaadinSpringboot.start(application);
-		// Backend.execute(new EventsUpdateTransaction(DanceEventProviders.PROVIDER_NAMES));
-		Backend.execute(new EventsDeleteTransaction(LocalDate.of(2020, 06, 05)));
+		Backend.execute(new EventsUpdateTransaction(DanceEventProviders.UPDATED_PROVIDER_NAMES));
 	}
 
 }

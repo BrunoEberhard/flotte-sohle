@@ -53,27 +53,28 @@ public class DanceEventProviders {
 
 	public static final Map<String, DanceEventProvider> PROVIDERS = new HashMap<>();
 	public static final TreeSet<String> PROVIDER_NAMES = new TreeSet<>();
+	public static final TreeSet<String> UPDATED_PROVIDER_NAMES = new TreeSet<>();
 
 	static {
 		addProvider(new DanceCubeImport());
-		addProvider(new DanceInnCrawler());
-		addProvider(new DancersRule());
+		addProvider(new DanceInnCrawler(), true);
+		addProvider(new DancersRule(), true);
 		addProvider(new ElSocialRule());
 		addProvider(new TanzenMitHerzCrawler());
 		addProvider(new Tanzwerk101Rule());
 		addProvider(new Time2DanceCrawler());
 		addProvider(new AnlikerTanzRule());
-		addProvider(new BanditsRule());
+		addProvider(new BanditsRule(), true);
 		addProvider(new Werk1Rule());
 		addProvider(new TanzZentrumImport());
 		addProvider(new GalacticCrawler());
 		addProvider(new ZinneSargansRule());
 		addProvider(new BadenerTanzCenterCrawler());
 		addProvider(new SchuetzenhausRule());
-		addProvider(new BlueboxConsumer());
+		addProvider(new BlueboxConsumer(), true);
 		addProvider(new TanzSalonCrawler());
 		addProvider(new DanceToDanceImport());
-		addProvider(new DukesRule());
+		addProvider(new DukesRule(), true);
 		addProvider(new TanzlokalSurseeCrawler());
 		addProvider(new TanzArtImport());
 		addProvider(new TanzwerkShCrawler());
@@ -81,8 +82,8 @@ public class DanceEventProviders {
 		addProvider(new DancePassionCrawler());
 		addProvider(new TanzschuleBayerCrawler());
 		addProvider(new HappyDanceRule());
-		addProvider(new SummerDanceConsumer());
-		addProvider(new HappyAndMadRule());
+		addProvider(new SummerDanceConsumer(), true);
+		addProvider(new HappyAndMadRule(), true);
 		addProvider(new TanzclubWinterthurConsumer());
 		addProvider(new DanceVisionCrawler());
 		addProvider(new TanzbarBinningenRule());
@@ -95,16 +96,23 @@ public class DanceEventProviders {
 		addProvider(new BallroomDancingImport());
 		addProvider(new DieTanzHalleImport());
 		addProvider(new HomeOfDanceRule());
-		addProvider(new DancersWorldImport());
-		addProvider(new TanzcenterRule());
+		addProvider(new DancersWorldImport(), true);
+		addProvider(new TanzcenterRule(), true);
 		addProvider(new TanzclubAcademiaRule());
 		addProvider(new AllmendhofBrochImport());
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
+		addProvider(provider, false);
+	}
+	
+	private static void addProvider(DanceEventProvider provider, boolean updated) {
 		String name = provider.getName();
 		PROVIDER_NAMES.add(name);
 		PROVIDERS.put(name, provider);
+		if (updated) {
+			UPDATED_PROVIDER_NAMES.add(name);
+		}
 	}
 
 }
