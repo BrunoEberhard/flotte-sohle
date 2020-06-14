@@ -33,7 +33,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 	@Override
 	protected Form<Location> createForm(boolean editable, boolean newObject) {
-		Form<Location> form = new Form<>(editable, 2);
+		Form<Location> form = new Form<>(editable);
 		form.line(Location.$.name);
 		form.line(Location.$.address);
 		form.line(Location.$.city);
