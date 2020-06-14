@@ -23,7 +23,7 @@ public class DeeJayTablePage extends SimpleTableEditorPage<DeeJay> {
 
 	@Override
 	protected Form<DeeJay> createForm(boolean editable, boolean newObject) {
-		Form<DeeJay> form = new Form<>(editable, 2);
+        Form<DeeJay> form = new Form<>(editable);
 		form.line(DeeJay.$.name);
 		form.line(DeeJay.$.url);
 		return form;

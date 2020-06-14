@@ -17,7 +17,7 @@ public class EventHousekeepingAction extends NewObjectEditor<EventHousekeepingVi
 
 	@Override
 	public Form<EventHousekeepingViewModel> createForm() {
-		Form<EventHousekeepingViewModel> form = new Form<>(Form.EDITABLE, 1);
+        Form<EventHousekeepingViewModel> form = new Form<>(Form.EDITABLE);
 		form.line(EventHousekeepingViewModel.$.date);
 		form.line(EventHousekeepingViewModel.$.getCount());
 		return form;
