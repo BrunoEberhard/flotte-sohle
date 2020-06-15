@@ -47,6 +47,7 @@ import ch.openech.dancer.backend.provider.TanzwerkShCrawler;
 import ch.openech.dancer.backend.provider.Time2DanceCrawler;
 import ch.openech.dancer.backend.provider.VerschiedeneImport.DanceAndDineImport;
 import ch.openech.dancer.backend.provider.Werk1Rule;
+import ch.openech.dancer.backend.provider.WirTanzenRule;
 import ch.openech.dancer.backend.provider.ZinneSargansRule;
 
 public class DanceEventProviders {
@@ -100,6 +101,7 @@ public class DanceEventProviders {
 		addProvider(new TanzcenterRule(), true);
 		addProvider(new TanzclubAcademiaRule());
 		addProvider(new AllmendhofBrochImport());
+		addProvider(new WirTanzenRule(), true); // bis 12.8.2020
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
