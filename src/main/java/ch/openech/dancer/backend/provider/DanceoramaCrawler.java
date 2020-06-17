@@ -26,7 +26,7 @@ import ch.openech.dancer.model.Region;
 public class DanceoramaCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder().appendPattern("d. MMMM yyyy").toFormatter(Locale.GERMAN);
+	private static DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder().appendPattern("d. MMMM yy").toFormatter(Locale.GERMAN);
 
 	static final String AGENDA_URL = "https://www.danceorama.ch/friday-night.html";
 
@@ -38,16 +38,16 @@ public class DanceoramaCrawler extends DanceEventProvider {
 
 	EventUpdateCounter updateEvents(Document doc) {
 		EventUpdateCounter result = new EventUpdateCounter();
-		Element col2 = doc.selectFirst(".col_2");
+		Element datenElement = doc.getElementsContainingOwnText("Daten").first().parent();
 
-		Elements elements = col2.select("strong");
+		Elements elements = datenElement.getElementsContainingOwnText(" 20");
 		for (Element element : elements) {
 			String text = element.text();
 			int pos = text.indexOf(" 20");
 			while (pos > -1) {
-				createEvent(result, text.substring(0, pos + 5));
+				createEvent(result, text.substring(0, pos + 3));
 
-				text = text.substring(pos + 5).trim();
+				text = text.substring(pos + 3).trim();
 				pos = text.indexOf(" 20");
 			}
 		}
