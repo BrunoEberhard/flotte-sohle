@@ -64,9 +64,9 @@ public class DanceEventProviders {
 		addProvider(new TanzenMitHerzCrawler());
 		addProvider(new Tanzwerk101Rule());
 		addProvider(new Time2DanceCrawler());
-		addProvider(new AnlikerTanzRule());
+		addProvider(new AnlikerTanzRule(), true);
 		addProvider(new BanditsRule(), true);
-		addProvider(new Werk1Rule());
+		addProvider(new Werk1Rule(), true);
 		addProvider(new TanzZentrumImport());
 		addProvider(new GalacticCrawler());
 		addProvider(new ZinneSargansRule());
@@ -80,13 +80,13 @@ public class DanceEventProviders {
 		addProvider(new TanzArtImport());
 		addProvider(new TanzwerkShCrawler());
 		addProvider(new RyvaCrawler());
-		addProvider(new DancePassionCrawler());
+		addProvider(new DancePassionCrawler(), true);
 		addProvider(new TanzschuleBayerCrawler());
 		addProvider(new HappyDanceRule());
 		addProvider(new SummerDanceConsumer(), true);
 		addProvider(new HappyAndMadRule(), true);
 		addProvider(new TanzclubWinterthurConsumer());
-		addProvider(new DanceVisionCrawler());
+		addProvider(new DanceVisionCrawler(), true);
 		addProvider(new TanzbarBinningenRule());
 		addProvider(new DanceoramaCrawler());
 		addProvider(new GaswerkEventbarRule());
