@@ -42,6 +42,7 @@ import ch.openech.dancer.backend.provider.TanzclubWinterthurConsumer;
 import ch.openech.dancer.backend.provider.TanzenMitHerzCrawler;
 import ch.openech.dancer.backend.provider.TanzlokalSurseeCrawler;
 import ch.openech.dancer.backend.provider.TanzschuleBayerCrawler;
+import ch.openech.dancer.backend.provider.TanzschuleLaederachImport;
 import ch.openech.dancer.backend.provider.Tanzwerk101Rule;
 import ch.openech.dancer.backend.provider.TanzwerkShCrawler;
 import ch.openech.dancer.backend.provider.Time2DanceCrawler;
@@ -102,6 +103,7 @@ public class DanceEventProviders {
 		addProvider(new TanzclubAcademiaRule());
 		addProvider(new AllmendhofBrochImport());
 		addProvider(new WirTanzenRule(), true); // bis 12.8.2020
+		addProvider(new TanzschuleLaederachImport(), true);
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
