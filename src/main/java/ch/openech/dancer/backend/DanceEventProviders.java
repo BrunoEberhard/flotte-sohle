@@ -78,7 +78,7 @@ public class DanceEventProviders {
 		addProvider(new DanceToDanceImport());
 		addProvider(new DukesRule(), true);
 		addProvider(new TanzlokalSurseeCrawler());
-		addProvider(new TanzArtImport());
+		addProvider(new TanzArtImport(), true);
 		addProvider(new TanzwerkShCrawler());
 		addProvider(new RyvaCrawler());
 		addProvider(new DancePassionCrawler(), true);

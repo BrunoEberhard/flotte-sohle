@@ -29,9 +29,10 @@ public class TanzArtImport extends DanceEventProvider {
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
 				event.header = location.name;
-				event.title = "Tanz Abend";
+				event.title = "Tanzparty";
 				event.from = LocalTime.of(20, 0);
 				event.until = LocalTime.of(23, 0);
+				event.description = "Eine Anmeldung ist aktuell gemäss Schutzkonzept notwendig.";
 				event.status = EventStatus.generated;
 
 				save(event, result);
