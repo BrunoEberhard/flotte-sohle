@@ -86,7 +86,7 @@ public class DanceEventProviders {
 		addProvider(new HappyDanceRule());
 		addProvider(new SummerDanceConsumer(), true);
 		addProvider(new HappyAndMadRule(), true);
-		addProvider(new TanzclubWinterthurConsumer());
+		addProvider(new TanzclubWinterthurConsumer(), true);
 		addProvider(new DanceVisionCrawler(), true);
 		addProvider(new TanzbarBinningenRule());
 		addProvider(new DanceoramaCrawler());
