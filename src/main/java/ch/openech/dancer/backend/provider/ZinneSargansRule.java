@@ -52,10 +52,14 @@ public class ZinneSargansRule extends DanceEventProvider {
 			danceEvent.header = location.name;
 			danceEvent.title = "Dancing zur Zinne";
 			danceEvent.description = "Livemusik zum Tanzen";
-			danceEvent.from = LocalTime.of(20, 30);
+			danceEvent.from = LocalTime.of(20, 00);
 			danceEvent.until = LocalTime.of(0, 0);
 			danceEvent.location = location;
-			danceEvent.tags.add(EventTag.LiveBand);
+			if (day == DayOfWeek.FRIDAY || day == DayOfWeek.SATURDAY) {
+				danceEvent.tags.add(EventTag.LiveBand);
+			} else {
+				danceEvent.tags.remove(EventTag.LiveBand);
+			}
 
 			save(danceEvent, result);
 		}

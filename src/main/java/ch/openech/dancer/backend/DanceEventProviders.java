@@ -70,7 +70,7 @@ public class DanceEventProviders {
 		addProvider(new Werk1Rule(), true);
 		addProvider(new TanzZentrumImport());
 		addProvider(new GalacticCrawler());
-		addProvider(new ZinneSargansRule());
+		addProvider(new ZinneSargansRule(), true);
 		addProvider(new BadenerTanzCenterCrawler());
 		addProvider(new SchuetzenhausRule());
 		addProvider(new BlueboxConsumer(), true);
