@@ -32,9 +32,6 @@ public class Meet2DanceRule extends DanceEventProvider {
 
 		for (int i = 0; i < 4; i++) {
 			LocalDate date = start.plusMonths(i).with(TemporalAdjusters.lastInMonth(DayOfWeek.SATURDAY));
-			if (date.isBefore(LocalDate.of(2020, 06, 06))) {
-				continue;
-			}
 			
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
