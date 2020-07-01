@@ -88,7 +88,7 @@ public class DanceEventProviders {
 		addProvider(new HappyAndMadRule(), true);
 		addProvider(new TanzclubWinterthurConsumer(), true);
 		addProvider(new DanceVisionCrawler(), true);
-		addProvider(new TanzbarBinningenRule());
+		addProvider(new TanzbarBinningenRule(), true);
 		addProvider(new DanceoramaCrawler());
 		addProvider(new GaswerkEventbarRule());
 		addProvider(new PilatusKellerRule());
