@@ -78,7 +78,7 @@ public class DanceInnCrawler extends DanceEventProvider {
 				line = headerElement.text();
 			}
 			
-			if (date != null && saal != null) {
+			if (date != null && saal != null && !(line != null && line.toLowerCase().contains("salsa"))) {
 				String header = saal == SAAL.MAIN ? "Dance Inn" : "Schlosshof";
 
 				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
@@ -86,18 +86,24 @@ public class DanceInnCrawler extends DanceEventProvider {
 
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-				danceEvent.header = header;
-				danceEvent.title = header;
-				danceEvent.description = description;
-				danceEvent.line = line;
+				if (danceEvent.status == EventStatus.edited) {
+					result.skippedEditedEvents++;
+				} else if (danceEvent.status == EventStatus.blocked) {
+					result.skippedBlockedEvents++;
+				} else {
+					danceEvent.header = header;
+					danceEvent.title = header;
+					danceEvent.description = description;
+					danceEvent.line = line;
 
-				danceEvent.from = from;
-				danceEvent.until = null;
-				danceEvent.status = geschlossen ? EventStatus.blocked : EventStatus.generated;
-				danceEvent.date = date;
-				danceEvent.location = location;
+					danceEvent.from = from;
+					danceEvent.until = null;
+					danceEvent.status = geschlossen ? EventStatus.blocked : EventStatus.generated;
+					danceEvent.date = date;
+					danceEvent.location = location;
 
-				save(danceEvent, result);
+					save(danceEvent, result);
+				}
 			}
 		});
 //		handleWerk1InDanceInn();
