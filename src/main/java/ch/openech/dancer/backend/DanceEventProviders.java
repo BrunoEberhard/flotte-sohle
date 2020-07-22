@@ -61,14 +61,14 @@ public class DanceEventProviders {
 		addProvider(new DanceCubeImport());
 		addProvider(new DanceInnCrawler(), true);
 		addProvider(new DancersRule(), true);
-		addProvider(new ElSocialRule());
+		addProvider(new ElSocialRule(), true);
 		addProvider(new TanzenMitHerzCrawler());
-		addProvider(new Tanzwerk101Rule());
-		addProvider(new Time2DanceCrawler());
+		addProvider(new Tanzwerk101Rule(), true);
+		addProvider(new Time2DanceCrawler(), true);
 		addProvider(new AnlikerTanzRule(), true);
 		addProvider(new BanditsRule(), true);
 		addProvider(new Werk1Rule(), true);
-		addProvider(new TanzZentrumImport());
+		addProvider(new TanzZentrumImport(), true);
 		addProvider(new GalacticCrawler());
 		addProvider(new ZinneSargansRule(), true);
 		addProvider(new BadenerTanzCenterCrawler());
@@ -89,7 +89,7 @@ public class DanceEventProviders {
 		addProvider(new TanzclubWinterthurConsumer(), true);
 		addProvider(new DanceVisionCrawler(), true);
 		addProvider(new TanzbarBinningenRule(), true);
-		addProvider(new DanceoramaCrawler());
+		addProvider(new DanceoramaCrawler(), true);
 		addProvider(new GaswerkEventbarRule());
 		addProvider(new PilatusKellerRule(), true);
 		addProvider(new DanceAndDineImport());
