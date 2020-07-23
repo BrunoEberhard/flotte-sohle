@@ -31,7 +31,7 @@ public class HasenstrickRule extends DanceEventProvider {
 		for (int i = 0; i < 12; i++) {
 			LocalDate date = start.plusWeeks(i);
 			Month month = date.getMonth();
-			if (month.getValue() < 3 || month.getValue() > 8) {
+			if (month.getValue() < 4 || month.getValue() > 9) {
 				continue;
 			}
 
