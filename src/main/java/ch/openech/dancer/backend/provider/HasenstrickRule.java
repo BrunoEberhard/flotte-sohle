@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.Optional;
 
 import org.minimalj.repository.query.By;
@@ -29,9 +30,8 @@ public class HasenstrickRule extends DanceEventProvider {
 
 		for (int i = 0; i < 12; i++) {
 			LocalDate date = start.plusWeeks(i);
-			if (date.isBefore(LocalDate.of(2020, 4, 1))) {
-				// Danach gehen wir bis Ende März in den Tanz-Winterschlaf und freuen uns auf
-				// den April 2020!
+			Month month = date.getMonth();
+			if (month.getValue() < 3 || month.getValue() > 8) {
 				continue;
 			}
 
@@ -51,11 +51,11 @@ public class HasenstrickRule extends DanceEventProvider {
 
 			danceEvent.header = location.name;
 			danceEvent.title = "Tanz im Hasenstrick";
-			danceEvent.from = LocalTime.of(19, 30);
-			danceEvent.until = LocalTime.of(0, 1);
+			danceEvent.from = LocalTime.of(19, 0);
+			danceEvent.until = LocalTime.of(23, 59);
 			danceEvent.price = BigDecimal.valueOf(10);
 			
-			danceEvent.description = "Immer Donnerstags wird im Hasenstrick in der Schüür getanzt – vielleicht können wir sogar nochmals Open-Air tanzen, dies hängt aber vom Wetter und den Temperaturen ab.";
+			danceEvent.description = "Wir sind bereit für einen tollen Sommer im Hasenstrick, bei gutem Wetter wie gewohnt Draussen mit atemberaubender Aussicht , bei schlechtem Wetter in der schönen Schür. Deejays Janosch , Bär & Sigi spielen beliebte Tanzmusik.";
 			danceEvent.location = location;
 
 			save(danceEvent, result);

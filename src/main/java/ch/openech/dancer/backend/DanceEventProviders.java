@@ -94,7 +94,7 @@ public class DanceEventProviders {
 		addProvider(new PilatusKellerRule(), true);
 		addProvider(new DanceAndDineImport());
 		addProvider(new Meet2DanceRule(), true);
-		addProvider(new HasenstrickRule());
+		addProvider(new HasenstrickRule(), true);
 		addProvider(new BallroomDancingImport());
 		addProvider(new DieTanzHalleImport());
 		addProvider(new HomeOfDanceRule());
