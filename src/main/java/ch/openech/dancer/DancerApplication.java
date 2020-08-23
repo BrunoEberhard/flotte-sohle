@@ -12,12 +12,12 @@ import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
 import org.minimalj.frontend.impl.web.MjHttpHandler;
 import org.minimalj.frontend.impl.web.WebApplication;
+import org.minimalj.frontend.impl.web.WebApplicationPage;
 import org.minimalj.frontend.impl.web.WebServer;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
-import org.minimalj.thymeleaf.page.ThymePage;
 import org.minimalj.util.resources.Resources;
 
 import ch.openech.dancer.backend.DanceEventProviders;
@@ -47,13 +47,14 @@ public class DancerApplication extends WebApplication {
 		return "/admin/";
 	}
 
+	@Override
 	public String getMjPath() {
 		return "/admin/";
 	}
 
 	@Override
 	public Page createDefaultPage() {
-		return new ThymePage("/eventsApplication.html").title("EventsPage");
+		return new WebApplicationPage("/events.html").title("EventsPage");
 	}
 
 	@Override
@@ -70,10 +71,10 @@ public class DancerApplication extends WebApplication {
 
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
 			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
-			pub.add(new ThymePage("/eventsApplication.html").title("EventsPage"));
-			pub.add(new ThymePage("/location_mapApplication.html").title("LocationMapPage"));
-			pub.add(new ThymePage("/locationsApplication.html").title("LocationsPage"));
-			pub.add(new ThymePage("/infosApplication.html").title("InfoPage"));
+			pub.add(new WebApplicationPage("/events.html").title("EventsPage"));
+			pub.add(new WebApplicationPage("/location_map.html").title("LocationMapPage"));
+			pub.add(new WebApplicationPage("/locations.html").title("LocationsPage"));
+			pub.add(new WebApplicationPage("/infos.html").title("InfoPage"));
 			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			events.add(new DanceEventAdminTablePage());
 			events.add(new EventUpdateAction());
@@ -89,10 +90,10 @@ public class DancerApplication extends WebApplication {
 			Location location = Backend.find(Location.class, By.field(Location.$.name, Subject.getCurrent().getName())).get(0);
 			actions.add(new PageAction(new DanceEventLocationTablePage(location)));
 		} else {
-			actions.add(new ThymePage("/eventsApplication.html").title("EventsPage"));
-			actions.add(new ThymePage("/location_mapApplication.html").title("LocationMapPage"));
-			actions.add(new ThymePage("/locationsApplication.html").title("LocationsPage"));
-			actions.add(new ThymePage("/infosApplication.html").title("InfoPage"));
+			actions.add(new WebApplicationPage("/events.html").title("EventsPage"));
+			actions.add(new WebApplicationPage("/location_map.html").title("LocationMapPage"));
+			actions.add(new WebApplicationPage("/locations.html").title("LocationsPage"));
+			actions.add(new WebApplicationPage("/infos.html").title("InfoPage"));
 		}
 		return actions.getItems();
 	}
