@@ -23,7 +23,7 @@ public class TanzclubAcademiaRule extends DanceEventProvider {
 	public EventUpdateCounter updateEvents() {
 		EventUpdateCounter result = new EventUpdateCounter();
 
-		for (int i = 0; i <= 3; i++) {
+		for (int i = 0; i <= 15; i++) {
 			LocalDate date = LocalDate.now().plusMonths(i);
 			date = date.with(TemporalAdjusters.dayOfWeekInMonth(2, DayOfWeek.SATURDAY));
 			if (date.isBefore(LocalDate.now())) {
