@@ -27,6 +27,7 @@ import ch.openech.dancer.frontend.AccessPage;
 import ch.openech.dancer.frontend.AdminLogPage;
 import ch.openech.dancer.frontend.DanceEventAdminTablePage;
 import ch.openech.dancer.frontend.DanceEventLocationTablePage;
+import ch.openech.dancer.frontend.DancerWebApplicationPage;
 import ch.openech.dancer.frontend.DeeJayTablePage;
 import ch.openech.dancer.frontend.EventHousekeepingAction;
 import ch.openech.dancer.frontend.EventUpdateAction;
@@ -54,7 +55,7 @@ public class DancerApplication extends WebApplication {
 
 	@Override
 	public Page createDefaultPage() {
-		return new WebApplicationPage("/events.html").title("EventsPage");
+		return new DancerWebApplicationPage("/events.html").title("EventsPage");
 	}
 
 	@Override
