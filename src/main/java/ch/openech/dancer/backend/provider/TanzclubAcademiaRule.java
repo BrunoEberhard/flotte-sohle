@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Optional;
 
@@ -27,6 +28,9 @@ public class TanzclubAcademiaRule extends DanceEventProvider {
 			LocalDate date = LocalDate.now().plusMonths(i);
 			date = date.with(TemporalAdjusters.dayOfWeekInMonth(2, DayOfWeek.SATURDAY));
 			if (date.isBefore(LocalDate.now())) {
+				continue;
+			}
+			if (date.getMonth() == Month.AUGUST) {
 				continue;
 			}
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));

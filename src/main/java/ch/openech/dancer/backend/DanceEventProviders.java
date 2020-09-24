@@ -100,7 +100,7 @@ public class DanceEventProviders {
 		addProvider(new HomeOfDanceRule());
 		addProvider(new DancersWorldImport(), true);
 		addProvider(new TanzcenterRule(), true);
-		addProvider(new TanzclubAcademiaRule());
+		addProvider(new TanzclubAcademiaRule(), true);
 		addProvider(new AllmendhofBrochImport());
 		addProvider(new WirTanzenRule(), true); // bis 12.8.2020
 		addProvider(new TanzschuleLaederachImport(), true);
