@@ -79,7 +79,7 @@ public class DanceEventProviders {
 		addProvider(new DukesRule(), true);
 		addProvider(new TanzlokalSurseeCrawler());
 		addProvider(new TanzArtImport(), true);
-		addProvider(new TanzwerkShCrawler());
+		addProvider(new TanzwerkShCrawler(), true);
 		addProvider(new RyvaCrawler());
 		addProvider(new DancePassionCrawler(), true);
 		addProvider(new TanzschuleBayerCrawler());

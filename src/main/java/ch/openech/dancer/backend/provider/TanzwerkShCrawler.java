@@ -25,14 +25,20 @@ import ch.openech.dancer.model.Location;
 public class TanzwerkShCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL_1 = "https://www.tanzzentrum-sh.ch/index.php?option=com_icagenda&view=list&Itemid=552";
-	private static final String AGENDA_URL_2 = "https://www.tanzzentrum-sh.ch/index.php?option=com_icagenda&view=list&Itemid=553";
+	private static final String AGENDA_URL_1 = "https://www.tanzzentrum-sh.ch/index.php?option=com_icagenda&view=list&Itemid=1932";
+	private static final String AGENDA_URL_2 = "https://www.tanzzentrum-sh.ch/index.php?option=com_icagenda&view=list&Itemid=1933";
+	private static final String AGENDA_URL_3 = "https://www.tanzzentrum-sh.ch/index.php?option=com_icagenda&view=list&Itemid=553";
+	private static final String AGENDA_URL_4 = "https://www.tanzzentrum-sh.ch/index.php?option=com_icagenda&view=list&Itemid=1801";
+	private static final String AGENDA_URL_5 = "https://www.tanzzentrum-sh.ch/index.php?option=com_icagenda&view=list&Itemid=552";
 
 	@Override
 	public EventUpdateCounter updateEvents() throws IOException {
 		EventUpdateCounter result = new EventUpdateCounter();
 		updateEvents(AGENDA_URL_1, result);
 		updateEvents(AGENDA_URL_2, result);
+		updateEvents(AGENDA_URL_3, result);
+		updateEvents(AGENDA_URL_4, result);
+		updateEvents(AGENDA_URL_5, result);
 		return result;
 	}
 
@@ -43,7 +49,6 @@ public class TanzwerkShCrawler extends DanceEventProvider {
 		DeeJay deeJayMany = Backend.find(DeeJay.class, By.field(DeeJay.$.name, "DJ Many")).get(0);
 
 		for (Element event : doc.select(".event")) {
-
 
 			Element nextdate = event.selectFirst(".nextdate");
 			String datestring = nextdate.select(".ic-single-next").text();
