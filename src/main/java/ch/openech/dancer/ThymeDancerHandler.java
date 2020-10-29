@@ -33,7 +33,9 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 			updateAccessCounter();
 		}
 
-		if (StringUtils.equals(path, "/events.html", "/")) {
+		if (StringUtils.equals(path, "/")) {
+			request.sendResponse("corona.html");
+		} else if (StringUtils.equals(path, "/events.html")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
 			request.put("eventsByDay", viewEvents(events));
 			request.sendResponse("events.html");
