@@ -71,6 +71,7 @@ public class DancerApplication extends WebApplication {
 		// actions.add(new EntityTablePage());
 
 		if (Subject.currentHasRole(DancerRoles.admin.name())) {
+			actions.add(Backend.create().getAuthentication().getLogoutAction(null));
 			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
 			pub.add(new WebApplicationPage("/events.html").title("EventsPage"));
 			pub.add(new WebApplicationPage("/location_map.html").title("LocationMapPage"));
