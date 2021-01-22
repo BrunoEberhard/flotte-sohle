@@ -73,7 +73,7 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1, user-scalable=no" />
 </head>
 <body id="body">
-	<div id="header" th:unless="${isApplication}">
+	<div th:unless="${isApplication}" id="header">
 		<svg class="button headerButton" style="margin-left: 1.0em;" onclick="toggleNavigation();">
               <g style="stroke-width:0px"> 		
   				<title>Show or hide navigation</title>
@@ -93,7 +93,7 @@
 			</svg>
 		</div>			
 	</div>
-	<div th:id="(${isApplication} ? '' : 'container')">
+	<div th:unless="${isApplication}" id="container">
 		<div id="navigationContainer" style="display: block;" th:unless="${isApplication}">
 			<div id="navigation">
 				<ul>
@@ -105,9 +105,14 @@
 			</div>
 		</div>
 		<div class="pageContent" th:insert="${page}">
-		Inhalt der Seite
+			Inhalt der Seite
 		</div>	
 	</div>
+
+	<div th:if="${isApplication}" class="pageContent" th:insert="${page}" style="height: 100%">
+		Inhalt der Seite
+	</div>	
+
 	<script>
 	    if (window.innerWidth < 800) {
      	   toggleNavigation("close");
