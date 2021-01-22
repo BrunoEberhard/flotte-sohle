@@ -16,6 +16,7 @@ import org.minimalj.model.validation.ValidationMessage;
 import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.Criteria;
 import org.minimalj.repository.query.Order;
+import org.minimalj.transaction.Role;
 import org.minimalj.util.CloneHelper;
 import org.minimalj.util.resources.Resources;
 
@@ -23,6 +24,7 @@ import ch.openech.dancer.model.DanceEvent;
 import ch.openech.dancer.model.EventStatus;
 import ch.openech.dancer.model.Location;
 
+@Role("admin")
 public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> {
 
 	@Override

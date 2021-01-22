@@ -11,10 +11,12 @@ import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.page.TablePage;
 import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.FieldOperator;
+import org.minimalj.transaction.Role;
 
 import ch.openech.dancer.model.AdminLog;
 import ch.openech.dancer.model.AdminLog.AdminLogType;
 
+@Role("admin")
 public class AdminLogPage extends TablePage<AdminLog> {
 
 	@Override

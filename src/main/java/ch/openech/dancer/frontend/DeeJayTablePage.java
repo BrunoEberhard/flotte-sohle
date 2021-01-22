@@ -6,9 +6,11 @@ import org.minimalj.backend.Backend;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
 import org.minimalj.repository.query.By;
+import org.minimalj.transaction.Role;
 
 import ch.openech.dancer.model.DeeJay;
 
+@Role("admin")
 public class DeeJayTablePage extends SimpleTableEditorPage<DeeJay> {
 
 	@Override

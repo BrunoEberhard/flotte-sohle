@@ -8,10 +8,12 @@ import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
 import org.minimalj.repository.query.By;
+import org.minimalj.transaction.Role;
 import org.minimalj.util.CloneHelper;
 
 import ch.openech.dancer.model.Location;
 
+@Role("admin")
 public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 	@Override

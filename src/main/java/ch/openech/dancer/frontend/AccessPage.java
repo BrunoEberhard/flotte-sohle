@@ -7,9 +7,11 @@ import org.minimalj.backend.Backend;
 import org.minimalj.frontend.page.TablePage;
 import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.FieldOperator;
+import org.minimalj.transaction.Role;
 
 import ch.openech.dancer.model.AccessCounter;
 
+@Role("admin")
 public class AccessPage extends TablePage<AccessCounter> {
 
 	@Override

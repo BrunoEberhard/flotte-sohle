@@ -12,12 +12,14 @@ import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.CheckBoxFormElement;
 import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElementProperty;
 import org.minimalj.frontend.form.element.FormElement;
+import org.minimalj.transaction.Role;
 
 import ch.openech.dancer.backend.DanceEventProvider;
 import ch.openech.dancer.backend.DanceEventProviders;
 import ch.openech.dancer.backend.EventUpdateCounter;
 import ch.openech.dancer.backend.EventsUpdateTransaction;
 
+@Role("admin")
 public class EventUpdateAction extends Editor<TreeSet<String>, List<EventUpdateCounter>> {
 
 	@Override

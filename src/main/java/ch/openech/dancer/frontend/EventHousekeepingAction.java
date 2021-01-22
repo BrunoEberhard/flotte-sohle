@@ -9,10 +9,12 @@ import org.minimalj.model.Keys;
 import org.minimalj.model.validation.InvalidValues;
 import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.FieldOperator;
+import org.minimalj.transaction.Role;
 
 import ch.openech.dancer.frontend.EventHousekeepingAction.EventHousekeepingViewModel;
 import ch.openech.dancer.model.DanceEvent;
 
+@Role("admin")
 public class EventHousekeepingAction extends NewObjectEditor<EventHousekeepingViewModel> {
 
 	@Override
