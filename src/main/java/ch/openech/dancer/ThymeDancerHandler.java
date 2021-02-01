@@ -29,9 +29,9 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 	@Override
 	protected void handle(ThymeRequest request) {
 		String path = request.getPath();
-//		if (StringUtils.equals(path, "/sohle.css")) {
-//			updateAccessCounter();
-//		}
+		if (StringUtils.equals(path, "/sohle.css")) {
+			updateAccessCounter();
+		}
 
 		if (StringUtils.equals(path, "/")) {
 			request.sendResponse("corona.html");
