@@ -1,9 +1,57 @@
 <html th:replace="container.html :: container(~{::head}, ~{::body})">
 <head>
+<style>
+.DanceEvent {
+	display: inline-block;
+	background: lightgray;
+	padding: 0.2em 1em;
+	margin: 0.1em 1.5em;
+	width: 14em;
+	max-width: 14em;
+	border-radius: 0.6em;
+}
+
+.Header {
+	font-size: x-large;
+	margin-top: 0.4em;
+	margin-bottom: 0.4em;
+}
+
+.Description {
+	margin-top: 0.6em;
+	margin-bottom: 0.6em;
+	font-size: small;
+}
+
+.DayEvents {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+</style>
 </head>
 <body>
-	<h1>Schlappe Sohle</h1>
-	<span style="align-self: center;"><img src="/sohle_rot.png" width="48" height="32"></span>
-	<span>Zur Zeit macht eine Tanzagenda der Schweiz wenig Sinn. Wir bleiben aber dran...</span>
+	<div style="display: flex">
+		<span style="align-self: center;"><img src="/sohle_rot.png" width="48" height="32"></span>
+		<div style="flex-grow: 1; align-self: flex-end; padding-left: 0.5em;">Zur Zeit macht eine Tanzagenda der Schweiz wenig Sinn, aber auf eine Sache möchten wir hinweisen:</div>
+	</div>
+	
+	<h1 class="Day">Samstag, 20.3.2021</h1>
+	<div class="DayEvents">
+		<div class="DanceEvent">
+			<div class="Header">
+				<a href="https://www.ghost-ball.ch/">Ghost-Ball</a>
+			</div>
+			<div>
+				Die rauschende Ballnacht, die nicht stattfinden wird.
+			</div>
+			
+			<div class="Description">
+				Ein Charity Ticket-Event für den Paartanz. Initiiert vom Verband swissdance für seine Tanzschulen
+			</div>
+
+		</div>
+	</div>
+		
 </body>
 </html>
