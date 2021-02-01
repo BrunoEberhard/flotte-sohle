@@ -6,12 +6,12 @@ import java.io.InputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.minimalj.application.Application;
 import org.minimalj.application.ThreadLocalApplication;
 
 import ch.openech.dancer.DancerApplication;
-import ch.openech.dancer.backend.provider.DanceoramaCrawler;
 
 public class DanceoramaCrawlerTest {
 
@@ -23,6 +23,7 @@ public class DanceoramaCrawlerTest {
 	}
 
 	@Test
+	@Ignore
 	public void test() throws IOException {
 		DanceoramaCrawler crawler = new DanceoramaCrawler();
 		InputStream s = getClass().getResourceAsStream("danceorama.html");
