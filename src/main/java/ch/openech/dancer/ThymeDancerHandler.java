@@ -35,7 +35,7 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 
 		if (StringUtils.equals(path, "/")) {
 			request.sendResponse("corona.html");
-		} else if (StringUtils.equals(path, "/events.html")) {
+		} else if (StringUtils.equals(path, "/", "/events.html")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, DancerRepository.EventsQuery.instance);
 			request.put("eventsByDay", viewEvents(events));
 			request.sendResponse("events.html");
@@ -53,7 +53,7 @@ public class ThymeDancerHandler extends ThymeHttpHandler {
 
 		} else if (path.equals("/query")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class,
-					By.search(request.getParameters().get("query").get(0)).and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1))).order(DanceEvent.$.date));
+					By.search(request.getParameter("query")).and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1))).order(DanceEvent.$.date));
 			request.put("eventsByDay", viewEvents(events));
 			request.sendResponse("events.html");
 

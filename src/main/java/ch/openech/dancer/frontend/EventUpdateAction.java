@@ -60,7 +60,7 @@ public class EventUpdateAction extends Editor<TreeSet<String>, List<EventUpdateC
 
 	private class AllNoneAction extends Action {
 		@Override
-		public void action() {
+		public void run() {
 			TreeSet<String> set = getObject();
 			if (set.size() < DanceEventProviders.PROVIDER_NAMES.size() / 2) {
 				set.addAll(DanceEventProviders.PROVIDER_NAMES);
