@@ -101,8 +101,6 @@ public class DanceEvent {
 
 	public final Set<EventTag> tags = new TreeSet<>();
 	
-	public final List<DanceFloor> floors = new ArrayList<>();
-
 	public boolean isCancelled() {
 		return status == EventStatus.cancelled;
 	}

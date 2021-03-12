@@ -12,7 +12,7 @@ import org.minimalj.util.CloneHelper;
 
 import ch.openech.dancer.model.AdminLog;
 import ch.openech.dancer.model.AdminLog.AdminLogType;
-import ch.openech.dancer.model.Location;
+import ch.openech.dancer.model.FlotteSohleUser;
 
 public class DancerAuthentication extends UserPasswordAuthentication {
 	private static final long serialVersionUID = 1L;
@@ -20,7 +20,7 @@ public class DancerAuthentication extends UserPasswordAuthentication {
 	private static final User admin = new User();
 	static {
 		admin.name = "admin";
-		admin.roles.add(new UserRole(DancerRoles.admin.name()));
+		admin.roles.add(new UserRole(FlotteSohleRoles.admin.name()));
 		String password = System.getProperty("ADMIN_PASSWORD", "");
 		if (!Configuration.isDevModeActive()) {
 			admin.password.setPassword(password.toCharArray());
@@ -45,15 +45,17 @@ public class DancerAuthentication extends UserPasswordAuthentication {
 		if ("admin".equals(userName)) {
 			return admin;
 		}
-		List<Location> locations = Backend.find(Location.class, By.field(Location.$.name, userName));
-		if (locations.isEmpty()) {
+		List<FlotteSohleUser> users = Backend.find(FlotteSohleUser.class, By.field(FlotteSohleUser.$.email, userName));
+		if (users.isEmpty()) {
 			return null;
 		}
-		Location location = locations.get(0);
+		FlotteSohleUser flotteSohleUser = users.get(0);
 		User user = new User();
-		user.name = location.name;
-		user.roles.add(new UserRole(DancerRoles.location.name()));
-		CloneHelper.deepCopy(location.password, user.password);
+		user.name = flotteSohleUser.email;
+		if (flotteSohleUser.multiLocation) {
+			user.roles.add(new UserRole(FlotteSohleRoles.multiLocation.name()));
+		}
+		CloneHelper.deepCopy(flotteSohleUser.password, user.password);
 		return user;
 	}
 

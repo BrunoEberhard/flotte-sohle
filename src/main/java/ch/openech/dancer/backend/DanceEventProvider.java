@@ -29,7 +29,6 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 
 	protected void initData() {
 		location = createLocation();
-		location.password.setPassword(location.name.toCharArray());
 
 		Optional<Location> existingLocation = findOne(Location.class, new FieldCriteria(Location.$.name, location.name));
 		location = existingLocation.orElseGet(() -> Backend.save(location));

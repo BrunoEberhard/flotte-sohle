@@ -1,100 +1,94 @@
 package ch.openech.dancer.frontend;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.form.Form;
-import org.minimalj.frontend.form.element.CheckBoxFormElement;
-import org.minimalj.frontend.form.element.CheckBoxFormElement.CheckBoxProperty;
 import org.minimalj.frontend.form.element.PasswordFormElement;
-import org.minimalj.frontend.form.element.TextFormElement;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
-import org.minimalj.model.EnumUtils;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.model.User;
-import org.minimalj.security.model.UserRole;
 
-import ch.openech.dancer.DancerRoles;
+import ch.openech.dancer.model.FlotteSohleUser;
 
-public class UserTablePage extends SimpleTableEditorPage<User> {
+public class UserTablePage extends SimpleTableEditorPage<FlotteSohleUser> {
 
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { User.$.name };
+		return new Object[] { FlotteSohleUser.$.email, FlotteSohleUser.$.name, FlotteSohleUser.$.vorname };
 	}
 	
 	@Override
-	protected List<User> load() {
-		return Backend.find(User.class, By.all());
+	protected List<FlotteSohleUser> load() {
+		return Backend.find(FlotteSohleUser.class, By.all());
 	}
 
 	@Override
-	public void action(User user) {
+	public void action(FlotteSohleUser user) {
 		// don't show detail on double click just open editor
 		openEditor(user);
 	}
 	
 	@Override
-	protected Form<User> createForm(boolean editable, boolean newObject) {
-		Form<User> form = new Form<>(editable, 2);
+	protected Form<FlotteSohleUser> createForm(boolean editable, boolean newObject) {
+		Form<FlotteSohleUser> form = new Form<>(editable, 2);
+		form.line(FlotteSohleUser.$.email);
+		form.line(FlotteSohleUser.$.vorname, FlotteSohleUser.$.name);
 		if (editable && newObject) {
-			form.line(User.$.name);
 			form.line(new PasswordFormElement(User.$.password));
-		} else {
-			form.line(new TextFormElement(User.$.name));
 		}
-		form.line("Rollen");
-		for (DancerRoles r : DancerRoles.values()) {
-			form.line(new CheckBoxFormElement(new EnumSetFormElementProperty(r), EnumUtils.getText(r), true, false));
-		}
+		form.line(FlotteSohleUser.$.multiLocation);
+//		form.line("Rollen");
+//		for (FlotteSohleRoles r : FlotteSohleRoles.values()) {
+//			form.line(new CheckBoxFormElement(new EnumSetFormElementProperty(r), EnumUtils.getText(r), true, false));
+//		}
 		return form;
 	}
-	
-	private class EnumSetFormElementProperty extends CheckBoxProperty {
-		private final DancerRoles r;
-
-		public EnumSetFormElementProperty(DancerRoles r) {
-			this.r = Objects.requireNonNull(r);
-		}
-
-		@Override
-		public Class<?> getDeclaringClass() {
-			return User.class;
-		}
-
-		@Override
-		public String getName() {
-			return r.name();
-		}
-
-		@Override
-		public String getPath() {
-			return r.name();
-		}
-
-		@Override
-		public Class<?> getClazz() {
-			return User.class;
-		}
-
-		@Override
-		public Boolean getValue(Object object) {
-			User user = (User) object;
-			return user.roles.stream().anyMatch(userRole -> r.name().equals(userRole.name));
-		}
-
-		@Override
-		public void setValue(Object object, Object newValue) {
-			User user = (User) object;
-			if (Boolean.TRUE.equals(newValue)) {
-				if (!getValue(object)) {
-					user.roles.add(new UserRole(r.name()));
-				}
-			} else {
-				user.roles.removeIf(userRole -> r.name().equals(userRole.name));
-			}
-		}
-	}
+//	
+//	private class EnumSetFormElementProperty extends CheckBoxProperty {
+//		private final FlotteSohleRoles r;
+//
+//		public EnumSetFormElementProperty(FlotteSohleRoles r) {
+//			this.r = Objects.requireNonNull(r);
+//		}
+//
+//		@Override
+//		public Class<?> getDeclaringClass() {
+//			return User.class;
+//		}
+//
+//		@Override
+//		public String getName() {
+//			return r.name();
+//		}
+//
+//		@Override
+//		public String getPath() {
+//			return r.name();
+//		}
+//
+//		@Override
+//		public Class<?> getClazz() {
+//			return User.class;
+//		}
+//
+//		@Override
+//		public Boolean getValue(Object object) {
+//			User user = (User) object;
+//			return user.roles.stream().anyMatch(userRole -> r.name().equals(userRole.name));
+//		}
+//
+//		@Override
+//		public void setValue(Object object, Object newValue) {
+//			User user = (User) object;
+//			if (Boolean.TRUE.equals(newValue)) {
+//				if (!getValue(object)) {
+//					user.roles.add(new UserRole(r.name()));
+//				}
+//			} else {
+//				user.roles.removeIf(userRole -> r.name().equals(userRole.name));
+//			}
+//		}
+//	}
 	
 }

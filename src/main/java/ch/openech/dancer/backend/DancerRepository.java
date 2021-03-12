@@ -46,16 +46,18 @@ public class DancerRepository implements Repository {
 
 	public <T> List<T> find(Class<T> clazz, Query query) {
 		if (query == EventsQuery.instance) {
+			LocalDate now = LocalDate.now();
 			if (events == null || lastLoad < System.currentTimeMillis() - 2 * 60 * 60 * 1000) {
 				events = repository.find(DanceEvent.class, By //
 						.field(DanceEvent.$.status, FieldOperator.notEqual, EventStatus.blocked) //
-						.and(By.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, LocalDate.now())) //
-						.and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1)))
+						.and(By.field(DanceEvent.$.date, FieldOperator.greaterOrEqual, now)) //
+						.and(By.field(DanceEvent.$.date, FieldOperator.less, now.plusMonths(1)))
 						.order(DanceEvent.$.date));
 				// load completely in one transaction
 				events = events.subList(0, events.size());
 				lastLoad = System.currentTimeMillis();
 			}
+			events.removeIf(event -> event.location != null && event.location.isClosed(event.date));
 			return (List<T>) events;
 		} else {
 			return repository.find(clazz, query);
