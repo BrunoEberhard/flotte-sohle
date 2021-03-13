@@ -81,7 +81,7 @@ public class TanzSalonCrawler extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 			danceEvent.header = location.name;
-			danceEvent.title = "Tanzabend";
+			danceEvent.line = "Tanzabend";
 			if (title.contains("Sommertanzfest")) {
 				danceEvent.line = "Sommertanzfest";
 			}

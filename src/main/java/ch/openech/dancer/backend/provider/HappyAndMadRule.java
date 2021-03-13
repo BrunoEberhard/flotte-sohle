@@ -29,8 +29,7 @@ public class HappyAndMadRule extends HappyAndMadCrawler {
 
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-				danceEvent.header = "Happy and Mad";
-				danceEvent.title = location.name;
+				danceEvent.header = location.name;
 				if (dayOfWeek == DayOfWeek.FRIDAY) {
 					danceEvent.description = "Paartanz mit Discofox, Schlager, Rock´n´Roll und Standardtänze. Floor 2 Latino Musik.";
 				} else {

@@ -31,7 +31,6 @@ public class BallroomDancingImport extends DanceEventProvider {
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
 				event.header = "Ballroom Dancing";
-				event.title = "Ballroom Dancing";
 				event.from = LocalTime.of(20, 00);
 				event.until = LocalTime.of(0, 30);
 				event.price = BigDecimal.valueOf(15);

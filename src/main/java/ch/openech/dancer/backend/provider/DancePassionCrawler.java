@@ -48,7 +48,7 @@ public class DancePassionCrawler extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 			danceEvent.header = location.name;
-			danceEvent.title = title;
+			danceEvent.line = title;
 			danceEvent.from = LocalTime.of(19, 30);
 			danceEvent.until = LocalTime.of(23, 0);
 			danceEvent.description = "Einmal im Monat, meistens an jedem ersten Samstag des Monats, gibt es bei uns eine Dance Party.<p>"

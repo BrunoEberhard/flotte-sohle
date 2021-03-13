@@ -54,7 +54,6 @@ public class PasadenaRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 			danceEvent.header = location.name;
-			danceEvent.title = location.name;
 			danceEvent.location = location;
 			danceEvent.priceReduced = BigDecimal.ZERO;
 

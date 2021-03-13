@@ -92,7 +92,6 @@ public class DanceInnCrawler extends DanceEventProvider {
 					result.skippedBlockedEvents++;
 				} else {
 					danceEvent.header = header;
-					danceEvent.title = header;
 					danceEvent.description = description;
 					danceEvent.line = line;
 

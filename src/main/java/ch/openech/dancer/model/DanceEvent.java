@@ -76,7 +76,7 @@ public class DanceEvent {
 	@Size(100)
 	@NotEmpty
 	@Searched
-	public String header, title;
+	public String header;
 
 	@Size(100)
 	@Searched
@@ -114,7 +114,7 @@ public class DanceEvent {
 			values.put("organizer", createJsonOrganization(location));
 			values.put("location", createJsonPlace(location));
 		}
-		values.put("name", title);
+		values.put("name", location.name);
 		if (price != null) {
 			values.put("offers", createJsonOffer(price));
 		}

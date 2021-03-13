@@ -50,7 +50,7 @@ public class HasenstrickRule extends DanceEventProvider {
 			danceEvent.date = date;
 
 			danceEvent.header = location.name;
-			danceEvent.title = "Tanz im Hasenstrick";
+			danceEvent.line = "Tanz im Hasenstrick";
 			danceEvent.from = LocalTime.of(19, 0);
 			danceEvent.until = LocalTime.of(23, 59);
 			danceEvent.price = BigDecimal.valueOf(10);

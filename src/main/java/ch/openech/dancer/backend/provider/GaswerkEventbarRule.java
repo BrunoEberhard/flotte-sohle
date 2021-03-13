@@ -55,7 +55,6 @@ public class GaswerkEventbarRule extends DanceEventProvider {
 			danceEvent.date = date;
 
 			danceEvent.header = "Gaswerk";
-			danceEvent.title = "Gaswerk";
 			danceEvent.from = LocalTime.of(19, 30);
 			danceEvent.until = LocalTime.of(0, 0);
 			danceEvent.price = BigDecimal.ZERO;

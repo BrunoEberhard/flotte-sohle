@@ -29,7 +29,6 @@ public class TanzschuleLaederachImport extends DanceEventProvider {
 
 			if (!danceEventOptional.isPresent() && !event.date.isBefore(LocalDate.now())) {
 				event.location = this.location;
-				event.title = location.name;
 				event.header = location.name;
 				event.status = EventStatus.generated;
 				event.from = LocalTime.of(20, 30);

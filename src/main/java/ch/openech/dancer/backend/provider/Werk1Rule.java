@@ -52,7 +52,7 @@ public class Werk1Rule extends DanceEventProvider {
 			danceEvent.date = date;
 
 			danceEvent.header = location.name;
-			danceEvent.title = "Tanz mit mir";
+			danceEvent.line = "Tanz mit mir";
 			danceEvent.from = LocalTime.of(21, 00);
 			danceEvent.until = LocalTime.of(0, 30);
 			danceEvent.description = "DiscoSwing, West Coast Swing, Jive, Schlager, Walzer. Findet an Feiertagen im DanceINN (Münchwilen) statt.";

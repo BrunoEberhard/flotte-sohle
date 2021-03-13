@@ -54,8 +54,8 @@ public class AnlikerTanzRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = "Anliker";
-			danceEvent.title = "Tanz Café";
+			danceEvent.header = location.name;
+			danceEvent.line = "Tanz Café";
 
 			if (WINTER.contains(date.getMonth())) {
 				danceEvent.from = LocalTime.of(20, 0);

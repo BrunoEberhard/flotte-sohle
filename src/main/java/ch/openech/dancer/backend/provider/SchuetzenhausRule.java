@@ -51,7 +51,6 @@ public class SchuetzenhausRule extends DanceEventProvider {
 			danceEvent.date = date;
 
 			danceEvent.header = "Schützenhaus";
-			danceEvent.title = "Stubete";
 			danceEvent.line = "Stubete";
 			danceEvent.from = LocalTime.of(19, 0);
 			danceEvent.until = LocalTime.of(23, 0);

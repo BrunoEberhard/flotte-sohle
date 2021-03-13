@@ -78,7 +78,7 @@ public class RyvaCrawler extends DanceEventProvider {
 			}
 
 			danceEvent.header = "Ryva";
-			danceEvent.title = title;
+			danceEvent.line = title;
 
 //			danceEvent.from = start.toLocalTime();
 //			danceEvent.until = end.toLocalTime();

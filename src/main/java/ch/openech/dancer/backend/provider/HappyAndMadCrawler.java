@@ -84,8 +84,7 @@ public class HappyAndMadCrawler extends DanceEventProvider {
 
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-				danceEvent.header = "Happy and Mad";
-				danceEvent.title = location.name;
+				danceEvent.header = location.name;
 				danceEvent.description = strings.get(2);
 
 				danceEvent.from = LocalTime.parse(s1.substring(posColon + 1, posTil).trim().replace(".", ":"));

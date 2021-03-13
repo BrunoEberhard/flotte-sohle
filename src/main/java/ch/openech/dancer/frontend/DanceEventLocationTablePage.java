@@ -25,7 +25,7 @@ public class DanceEventLocationTablePage extends SimpleTableEditorPage<DanceEven
 
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { DanceEvent.$.date, DanceEvent.$.title, DanceEvent.$.status };
+		return new Object[] { DanceEvent.$.date, DanceEvent.$.line, DanceEvent.$.status };
 	}
 
 	@Override

@@ -75,7 +75,7 @@ public class TanzwerkShCrawler extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 			danceEvent.header = location.name;
-			danceEvent.title = title;
+			danceEvent.line = title;
 			danceEvent.description = description;
 			danceEvent.from = time;
 			danceEvent.location = location;

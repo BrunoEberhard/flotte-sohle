@@ -47,7 +47,6 @@ public class ElSocialRule extends DanceEventProvider {
 			danceEvent.date = date;
 
 			danceEvent.header = location.name;
-			danceEvent.title = "Tanz-Boge";
 			danceEvent.from = LocalTime.of(20, 0);
 			danceEvent.until = LocalTime.of(23, 0);
 			danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";

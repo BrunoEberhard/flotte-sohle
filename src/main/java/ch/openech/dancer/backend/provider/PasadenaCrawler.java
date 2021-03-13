@@ -71,7 +71,6 @@ public class PasadenaCrawler extends DanceEventProvider {
 				danceEvent.status = EventStatus.generated;
 				danceEvent.date = date;
 				danceEvent.header = location.name;
-				danceEvent.title = elementTitle.text();
 				danceEvent.from = period[0];
 				danceEvent.until = period[1];
 				danceEvent.description = text;
@@ -85,14 +84,14 @@ public class PasadenaCrawler extends DanceEventProvider {
 				}
 
 				// Normalerweise den Titel verwenden
-				danceEvent.line = danceEvent.title;
-				if (StringUtils.equals(danceEvent.title, "Dancing Night", "Tanzabig", "Hit Dance Night")) {
+				danceEvent.line = elementTitle.text();
+				if (StringUtils.equals(danceEvent.line, "Dancing Night", "Tanzabig", "Hit Dance Night")) {
 					// Diese Titel sind nichtssagend, da muss nichts angezeigt werden
 					danceEvent.line = null;
-				} else if (!StringUtils.isEmpty(danceEvent.title)) {
+				} else if (!StringUtils.isEmpty(danceEvent.line)) {
 					// bei diesen Titeln nur das Stichwort anzeigen
 					for (String title : TITLES) {
-						if (danceEvent.title.contains(title)) {
+						if (danceEvent.line.contains(title)) {
 							danceEvent.line = title;
 						}
 					}

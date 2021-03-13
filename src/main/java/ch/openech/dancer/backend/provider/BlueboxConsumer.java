@@ -58,7 +58,7 @@ public class BlueboxConsumer extends DanceEventProvider {
 					String title = index > 0 ? titleComplete.substring(0, index) : titleComplete;
 
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, start.toLocalDate())).and(By.field(DanceEvent.$.title, title)));
+							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, start.toLocalDate())).and(By.field(DanceEvent.$.line, title)));
 
 					DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 					if (danceEvent.status == EventStatus.edited) {
@@ -70,7 +70,7 @@ public class BlueboxConsumer extends DanceEventProvider {
 					}
 
 					danceEvent.header = "BlueBox";
-					danceEvent.title = title;
+					danceEvent.line = title;
 					if (!StringUtils.equals(title.toLowerCase(), "disco", "disco tanznacht", "party tanznacht")) {
 						danceEvent.line = formatLine(title);
 					}

@@ -46,7 +46,6 @@ public class TanzcenterRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 			danceEvent.header = location.name;
-			danceEvent.title = location.name;
 			danceEvent.location = location;
 			danceEvent.price = BigDecimal.valueOf(10);
 			danceEvent.from = LocalTime.of(20, 30);

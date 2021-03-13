@@ -34,7 +34,6 @@ public class AllmendhofBrochImport extends DanceEventProvider {
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
 				event.header = location.name;
-				event.title = location.name;
 				event.from = LocalTime.of(19, 30);
 				event.until = LocalTime.of(0, 0);
 				event.description = "Unsere fröhlichen Tanzabende. Essen ab 18.30h, Tanzen ab 19.30h, Live Musik mit Erwin";

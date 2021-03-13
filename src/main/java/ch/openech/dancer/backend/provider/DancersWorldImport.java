@@ -29,7 +29,7 @@ public class DancersWorldImport extends DanceEventProvider {
 
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
-				event.title = "Dancer’s Night";
+				event.line = "Dancer’s Night";
 				event.header = location.name;
 				event.status = EventStatus.generated;
 				event.description = "Ein stilvolles, klimatisiertes Ambiente lädt dich zum Verweilen ein. Dank gutem Mix von modernen Songs und klassischer Tanzmusik ist für alle Teilnehmer/innen das Passende dabei. "

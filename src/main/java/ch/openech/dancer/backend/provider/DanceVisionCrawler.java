@@ -112,7 +112,7 @@ public class DanceVisionCrawler extends DanceEventProvider {
 						danceEvent.status = EventStatus.generated;
 						danceEvent.date = date;
 						danceEvent.header = location.name;
-						danceEvent.title = headline;
+						danceEvent.line = headline;
 						danceEvent.from = from;
 						danceEvent.until = until;
 						danceEvent.description = description;

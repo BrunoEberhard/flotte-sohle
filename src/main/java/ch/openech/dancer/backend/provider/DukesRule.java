@@ -64,7 +64,7 @@ public class DukesRule extends DanceEventProvider {
 //				danceEvent.tags.add(EventTag.Taxidancer);
 //			} else 
 				if (dayOfWeek == DayOfWeek.SUNDAY) {
-				danceEvent.title = "Party Tanznacht";
+				danceEvent.line = "Party Tanznacht";
 				danceEvent.from = LocalTime.of(20, 00);
 				danceEvent.until = LocalTime.of(0, 30);
 				danceEvent.description = "Für die Damen ein Freigetränk von 20.00 bis 21.00 (ausser Spirituosen).";

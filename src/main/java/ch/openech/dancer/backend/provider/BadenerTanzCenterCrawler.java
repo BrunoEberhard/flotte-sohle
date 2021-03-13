@@ -65,7 +65,7 @@ public class BadenerTanzCenterCrawler extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 			danceEvent.header = "BTC Baden";
-			danceEvent.title = event;
+			danceEvent.line = event;
 			danceEvent.from = time;
 			danceEvent.location = location;
 			danceEvent.deeJay = getDeeJay(dj);

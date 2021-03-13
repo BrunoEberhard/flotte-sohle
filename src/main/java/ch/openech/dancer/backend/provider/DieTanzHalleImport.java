@@ -30,7 +30,6 @@ public class DieTanzHalleImport extends DanceEventProvider {
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
 				event.header = "Die TanzHalle";
-				event.title = "Die TanzHalle";
 				event.from = LocalTime.of(20, 00);
 				event.until = LocalTime.of(0, 0);
 				event.price = BigDecimal.valueOf(15);

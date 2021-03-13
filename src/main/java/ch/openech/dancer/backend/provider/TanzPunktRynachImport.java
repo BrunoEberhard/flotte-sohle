@@ -31,7 +31,7 @@ public class TanzPunktRynachImport extends DanceEventProvider {
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
 				event.header = location.name;
-				event.title = "Tanzabend";
+				event.line = "Tanzabend";
 				event.from = LocalTime.of(20, 00);
 				event.until = LocalTime.of(2, 00);
 				event.price = BigDecimal.valueOf(20);

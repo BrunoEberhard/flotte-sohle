@@ -54,7 +54,6 @@ public class TanzlokalSurseeCrawler extends DanceEventProvider {
 				DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 
 				danceEvent.header = location.name;
-				danceEvent.title = "Tanz";
 				danceEvent.from = LocalTime.of(20, 0);
 				danceEvent.until = text.contains("23.00") ? LocalTime.of(23, 0) : LocalTime.of(0, 0);
 				danceEvent.status = EventStatus.generated;
