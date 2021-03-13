@@ -64,7 +64,7 @@ public class DanceoramaCrawler extends DanceEventProvider {
 
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "Friday-Night";
 			danceEvent.from = LocalTime.of(21, 0);
 			danceEvent.description = "Die Tanzparty fuer alle die gerne tanzen. Auch wenn Du nicht bei uns in einem Kurs tanzt, bist Du herzlich willkommen! "

@@ -49,7 +49,7 @@ public class ZinneSargansRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "Dancing zur Zinne";
 			danceEvent.description = "Livemusik zum Tanzen";
 			danceEvent.from = LocalTime.of(20, 00);

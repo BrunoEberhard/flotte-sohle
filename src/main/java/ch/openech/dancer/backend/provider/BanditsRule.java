@@ -49,7 +49,7 @@ public class BanditsRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "Dancing Night";
 			danceEvent.from = LocalTime.of(20, 0);
 			danceEvent.until = LocalTime.of(1, 0);

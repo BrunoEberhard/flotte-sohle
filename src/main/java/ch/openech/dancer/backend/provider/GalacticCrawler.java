@@ -71,7 +71,7 @@ public class GalacticCrawler extends DanceEventProvider {
 
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
-			danceEvent.header = location.name;
+			
 			danceEvent.line = title;
 			danceEvent.from = from;
 			danceEvent.until = until;

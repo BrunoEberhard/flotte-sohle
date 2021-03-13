@@ -56,7 +56,7 @@ public class TanzschuleBayerCrawler extends DanceEventProvider {
 
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
-			danceEvent.header = location.name;
+			
 			danceEvent.line = tr.child(0).text();
 			danceEvent.from = from;
 			danceEvent.until = until;

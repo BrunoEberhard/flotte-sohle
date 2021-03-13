@@ -28,7 +28,7 @@ public class TanzcenterImport extends DanceEventProvider {
 
 			if (!danceEventOptional.isPresent() && !event.date.isBefore(LocalDate.now())) {
 				event.location = this.location;
-				event.header = location.name;
+
 				event.status = EventStatus.generated;
 
 				save(event, result);

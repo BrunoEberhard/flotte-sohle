@@ -83,7 +83,7 @@
 		<div class="DayEvents">
 			<div th:class="${event.cancelled ? 'DanceEvent Cancelled' : 'DanceEvent'}" th:each="event : ${events.value}">
 				<div class="Header">
-					<a th:href="(${isApplication} ? '/eventApplication/' : '/event/') + ${event.id}" th:text="${event.header}">Header</a>
+					<a th:href="(${isApplication} ? '/eventApplication/' : '/event/') + ${event.id}" th:text="${event.location.name}">Location</a>
 				</div>
 				<div class="EventTitle">
 					<a th:if="${event.line}" th:text="${event.line}">Line</a>
@@ -101,7 +101,7 @@
 
 			<div class="DanceEventSmall" th:each="event : ${events.value}">
 				<span class="HeaderSmall"><a th:href="(${isApplication} ? '/eventApplication/' : '/event/') + ${event.id}"
-				   th:text="${event.header}">Header</a></span> <span class="LocationSmall"><a
+				   th:text="${event.location.name}">Location</a></span> <span class="LocationSmall"><a
 					th:if="${event.location.city}" th:text="${event.location.city}">Location city</a></span>
 			</div>
 		</div>

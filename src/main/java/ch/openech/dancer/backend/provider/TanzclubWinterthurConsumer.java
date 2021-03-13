@@ -93,7 +93,7 @@ public class TanzclubWinterthurConsumer extends DanceEventProvider {
 				}
 				
 				danceEvent.date = startDate.toLocalDate();
-				danceEvent.header = location.name;
+				
 				danceEvent.line = text;
 				danceEvent.description = "Unsere erfahrenen DJs stehen für euch an den Plattentellern und verwandeln den Saal in eine Tanzparty.\n" + 
 						"Alle Tanzbegeisterten sind herzlich eingeladen und dazu aufgefordert die Stimmung aufzuheizen.\n\nMusikrichtung: Standard, Latein, Gesellschaftstanz, Discofox";

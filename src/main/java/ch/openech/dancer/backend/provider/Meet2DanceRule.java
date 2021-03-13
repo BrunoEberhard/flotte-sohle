@@ -47,7 +47,7 @@ public class Meet2DanceRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "Tanzparty mit RoMa";
 			danceEvent.from = LocalTime.of(20, 30);
 			danceEvent.until = LocalTime.of(0, 0);

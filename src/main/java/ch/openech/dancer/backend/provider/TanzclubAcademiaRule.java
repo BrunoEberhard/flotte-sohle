@@ -46,7 +46,7 @@ public class TanzclubAcademiaRule extends DanceEventProvider {
 
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
-			danceEvent.header = location.name;
+			
 			danceEvent.location = location;
 			danceEvent.price = BigDecimal.valueOf(15);
 			danceEvent.priceReduced = BigDecimal.valueOf(10);

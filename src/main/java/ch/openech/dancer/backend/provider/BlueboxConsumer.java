@@ -69,7 +69,6 @@ public class BlueboxConsumer extends DanceEventProvider {
 						continue;
 					}
 
-					danceEvent.header = "BlueBox";
 					danceEvent.line = title;
 					if (!StringUtils.equals(title.toLowerCase(), "disco", "disco tanznacht", "party tanznacht")) {
 						danceEvent.line = formatLine(title);

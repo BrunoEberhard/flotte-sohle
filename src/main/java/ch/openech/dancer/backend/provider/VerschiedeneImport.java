@@ -31,7 +31,7 @@ public class VerschiedeneImport {
 				event.date = date;
 				event.location = this.location;
 				event.line = "Dance and Dine";
-				event.header = location.name;
+
 				event.line = "Dance and Dine";
 				event.description = "Die Türen werden für Sie um 18:30 geöffnet. Am Dance & Dine 2019 erwartet sie:" + "<ul>" + "<li>Ein gediegenes 4-Gänge-Menu (1. Gang um 19:30Uhr)</li>"
 						+ "<li>Live vorgetragene Piano-Musik während des Apéro's und während des Essens</li>"

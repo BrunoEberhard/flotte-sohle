@@ -88,7 +88,6 @@ public class SummerDanceConsumer extends DanceEventProvider {
 
 					danceEvent.date = date;
 					// hier ist anders als bei anderen Locations, da Summerdance an verschiedenen Orten stattfindet
-					danceEvent.header = locationName;
 					danceEvent.line = this.location.name;
 					danceEvent.description = (String) event.get("description");
 					danceEvent.price = BigDecimal.valueOf(10);

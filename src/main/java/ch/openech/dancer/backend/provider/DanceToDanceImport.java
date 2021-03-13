@@ -27,7 +27,7 @@ public class DanceToDanceImport extends DanceEventProvider {
 
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
-				event.header = location.name;
+
 				event.status = EventStatus.generated;
 
 				save(event, result);

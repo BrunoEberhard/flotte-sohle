@@ -47,7 +47,7 @@ public class Tanzwerk101Rule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "Tanzabend";
 			danceEvent.from = LocalTime.of(20, 30);
 			danceEvent.until = LocalTime.of(23, 0);

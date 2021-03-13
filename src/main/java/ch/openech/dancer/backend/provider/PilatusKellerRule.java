@@ -47,7 +47,6 @@ public class PilatusKellerRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = "Pilatus Keller";
 			danceEvent.from = LocalTime.of(20, 0);
 			if (date.getDayOfWeek() == DayOfWeek.FRIDAY || date.getDayOfWeek() == DayOfWeek.SATURDAY) {
 				danceEvent.until = LocalTime.of(1, 30);

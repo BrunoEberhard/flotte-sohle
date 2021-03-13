@@ -82,7 +82,7 @@ public class DanceInnCrawler extends DanceEventProvider {
 				String header = saal == SAAL.MAIN ? "Dance Inn" : "Schlosshof";
 
 				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-						By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)).and(By.field(DanceEvent.$.header, header)));
+						By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
@@ -91,7 +91,6 @@ public class DanceInnCrawler extends DanceEventProvider {
 				} else if (danceEvent.status == EventStatus.blocked) {
 					result.skippedBlockedEvents++;
 				} else {
-					danceEvent.header = header;
 					danceEvent.description = description;
 					danceEvent.line = line;
 

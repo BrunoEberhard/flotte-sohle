@@ -30,7 +30,7 @@ public class TanzZentrumImport extends DanceEventProvider {
 
 			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
 				event.location = this.location;
-				event.header = location.name;
+
 				event.line = "Tanz(übungs-)abend";
 				event.from = LocalTime.of(20, 30);
 				event.until = LocalTime.of(23, 30);

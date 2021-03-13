@@ -70,7 +70,7 @@ public class PasadenaCrawler extends DanceEventProvider {
 
 				danceEvent.status = EventStatus.generated;
 				danceEvent.date = date;
-				danceEvent.header = location.name;
+				
 				danceEvent.from = period[0];
 				danceEvent.until = period[1];
 				danceEvent.description = text;

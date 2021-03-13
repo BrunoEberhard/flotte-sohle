@@ -45,7 +45,7 @@ public class HomeOfDanceRule extends DanceEventProvider {
 
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
-			danceEvent.header = location.name;
+			
 			danceEvent.price = BigDecimal.valueOf(5);
 			danceEvent.from = LocalTime.of(21, 0);
 			danceEvent.until = LocalTime.of(1, 0);

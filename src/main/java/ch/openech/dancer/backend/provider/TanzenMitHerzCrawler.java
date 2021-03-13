@@ -55,7 +55,7 @@ public class TanzenMitHerzCrawler extends DanceEventProvider {
 
 						danceEvent.status = EventStatus.generated;
 						danceEvent.date = date;
-						danceEvent.header = location.name;
+						
 						danceEvent.line = "Tanzabend";
 						if (date.getDayOfWeek().equals(DayOfWeek.FRIDAY)) {
 							danceEvent.from = LocalTime.of(20, 30);

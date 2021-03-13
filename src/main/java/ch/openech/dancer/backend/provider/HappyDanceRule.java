@@ -44,7 +44,7 @@ public class HappyDanceRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "It's Friday Party";
 			danceEvent.from = LocalTime.of(21, 0);
 			danceEvent.description = "Discofox, West Coast Swing, Cha cha, Jive, Salsa and more.";

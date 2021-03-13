@@ -50,7 +50,7 @@ public class DancersRule extends DanceEventProvider {
 			}
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "Saturday-Dancers";
 			danceEvent.from = LocalTime.of(20, 0);
 			danceEvent.until = LocalTime.of(2, 0);

@@ -74,11 +74,6 @@ public class DanceEvent {
 	}
 
 	@Size(100)
-	@NotEmpty
-	@Searched
-	public String header;
-
-	@Size(100)
 	@Searched
 	public String line;
 

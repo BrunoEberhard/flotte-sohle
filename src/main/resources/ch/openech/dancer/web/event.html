@@ -8,7 +8,8 @@
 <body>
 
 	<th:block th:if="${event} != null">
-		<h1 th:text="${event.title}">Title</h1>
+		<h1 th:text="${event.location.name}">Location</h1>
+		<div th:text="${event.line}">Line</div>
 
 		<div th:text="${event.dateFormatted}">Date</div>
 		<div th:text="${event.fromUntil}">From/Until</div>

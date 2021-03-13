@@ -43,7 +43,7 @@ public class BallroomDancingRule extends DanceEventProvider {
 
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
-			danceEvent.header = location.name;
+			
 			danceEvent.location = location;
 			danceEvent.price = BigDecimal.valueOf(15);
 			danceEvent.from = LocalTime.of(20, 0);

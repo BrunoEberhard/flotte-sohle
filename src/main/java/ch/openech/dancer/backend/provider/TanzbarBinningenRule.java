@@ -46,7 +46,7 @@ public class TanzbarBinningenRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "Gesellschafts-Tanzparty";
 			danceEvent.from = LocalTime.of(20, 0);
 			danceEvent.price = BigDecimal.valueOf(9);

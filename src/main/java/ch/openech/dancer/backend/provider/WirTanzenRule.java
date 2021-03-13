@@ -52,7 +52,7 @@ public class WirTanzenRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.line = "Wir Tanzen";
 			danceEvent.from = LocalTime.of(19, 30);
 			danceEvent.description = "Tanzabend mit interessanter, stimmungsvoller Tanzmusik individuell auf die anwesenden Gäste abgestimmt, mit viel DiscoFox/Discoswing. Im Eintritt 6.- Getränkegutschein enthalten.";

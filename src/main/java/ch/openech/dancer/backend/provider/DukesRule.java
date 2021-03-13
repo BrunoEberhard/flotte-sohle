@@ -52,7 +52,7 @@ public class DukesRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.header = location.name;
+			
 			danceEvent.location = location;
 
 //			if (dayOfWeek == DayOfWeek.THURSDAY) {
