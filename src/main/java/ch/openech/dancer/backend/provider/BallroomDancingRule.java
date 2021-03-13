@@ -64,7 +64,7 @@ public class BallroomDancingRule extends DanceEventProvider {
 		location.school = false;
 		location.address = "Zentralstrasse 7";
 		location.city = "5623 Boswil";
-		location.name = "Gasthof Löwen (Chillout)";
+		location.name = "Gasthof Löwen";
 		location.url = "https://www.ballroomdancingfreiamt.ch/";
 		return location;
 	}

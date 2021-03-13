@@ -93,7 +93,7 @@ public class PilatusKellerRule extends DanceEventProvider {
 		location.country = "Schweiz";
 		location.address = "Seestrasse 34";
 		location.city = "6052 Hergiswil NW";
-		location.name = "Dancing Pilatus Keller";
+		location.name = "Pilatus Keller";
 		location.url = "https://pilatushotel.ch/de/dancing-pilatuskeller/";
 		location.region.add(Region.LU);
 		return location;

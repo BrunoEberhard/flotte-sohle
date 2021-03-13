@@ -84,7 +84,6 @@ public class HappyAndMadCrawler extends DanceEventProvider {
 
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
-				
 				danceEvent.description = strings.get(2);
 
 				danceEvent.from = LocalTime.parse(s1.substring(posColon + 1, posTil).trim().replace(".", ":"));
@@ -109,7 +108,7 @@ public class HappyAndMadCrawler extends DanceEventProvider {
 		location.country = "Schweiz";
 		location.address = "Lindenhagstrasse 3";
 		location.city = "​4622 Egerkingen";
-		location.name = "Happy and Mad Disco";
+		location.name = "Happy and Mad";
 		location.url = "https://www.happyandmad.ch/";
 		return location;
 	}
