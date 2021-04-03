@@ -1,5 +1,6 @@
 package ch.openech.dancer;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.minimalj.application.Configuration;
@@ -56,6 +57,8 @@ public class DancerAuthentication extends UserPasswordAuthentication {
 			user.roles.add(new UserRole(FlotteSohleRoles.multiLocation.name()));
 		}
 		CloneHelper.deepCopy(flotteSohleUser.password, user.password);
+		flotteSohleUser.lastLogin = LocalDateTime.now();
+		Backend.update(flotteSohleUser);
 		return user;
 	}
 

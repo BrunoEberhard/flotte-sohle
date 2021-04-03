@@ -1,5 +1,6 @@
 package ch.openech.dancer.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,5 +24,7 @@ public class FlotteSohleUser {
 	public List<Location> locations = new ArrayList<>();
 
 	public Boolean multiLocation;
+	
+	public LocalDateTime lastLogin;
 	
 }
