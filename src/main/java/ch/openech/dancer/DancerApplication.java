@@ -105,17 +105,16 @@ public class DancerApplication extends WebApplication {
 
 			// actions.add(new PasswordEditor(users.get(0)));
 		} else if (Subject.getCurrent() != null) {
-			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			List<FlotteSohleUser> users = Backend.find(FlotteSohleUser.class, By.field(FlotteSohleUser.$.email, Subject.getCurrent().getName()));
 			if (users.size() != 1) {
 				System.err.println("Exactly one user should be found not " + users.size());
 			} else if (users.get(0).locations.size() != 1) {
 				System.err.println("Exactly one location should be found not " + users.get(0).locations.size());
 			} else {
-				events.add(new DanceEventLocationTablePage(users.get(0).locations.get(0)));
-				events.add(new LocationEditor(users.get(0).locations.get(0)));
-				events.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(users.get(0).locations.get(0))));
-				events.add(new PasswordEditor(users.get(0)));
+				actions.add(new DanceEventLocationTablePage(users.get(0).locations.get(0)));
+				actions.add(new LocationEditor(users.get(0).locations.get(0)));
+				actions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(users.get(0).locations.get(0))));
+				actions.add(new PasswordEditor(users.get(0)));
 				// TODO ev löschen anbieten
 			}
 		} else {
