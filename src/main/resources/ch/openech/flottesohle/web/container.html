@@ -1,5 +1,6 @@
 <html th:fragment="container(head, page)">
 <head>
+<meta charset="UTF-8">
 <title th:if="${title}" th:text="${title}">Application Name</title>
 <title th:unless="${title}" th:text="${application.name}">Title</title>
 
