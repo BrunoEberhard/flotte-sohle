@@ -9,6 +9,7 @@ import org.minimalj.frontend.page.SimpleTableEditorPage;
 import org.minimalj.repository.query.By;
 
 import ch.openech.flottesohle.model.FlotteSohleUser;
+import ch.openech.flottesohle.model.Location;
 
 public class UserTablePage extends SimpleTableEditorPage<FlotteSohleUser> {
 
@@ -37,11 +38,25 @@ public class UserTablePage extends SimpleTableEditorPage<FlotteSohleUser> {
 			form.line(new PasswordFormElement(FlotteSohleUser.$.password));
 		}
 		form.line(FlotteSohleUser.$.multiLocation);
+		form.line(new LocationsFormElement(FlotteSohleUser.$.locations));
+		
 //		form.line("Rollen");
 //		for (FlotteSohleRoles r : FlotteSohleRoles.values()) {
 //			form.line(new CheckBoxFormElement(new EnumSetFormElementProperty(r), EnumUtils.getText(r), true, false));
 //		}
 		return form;
+	}
+	
+	private class LocationsFormElement extends MultiSelectionFormElement<Location> {
+
+		public LocationsFormElement(List<Location> key) {
+			super(key);
+		}
+
+		@Override
+		protected List<Location> getValues() {
+			return Backend.find(Location.class, By.ALL);
+		}
 	}
 //	
 //	private class EnumSetFormElementProperty extends CheckBoxProperty {

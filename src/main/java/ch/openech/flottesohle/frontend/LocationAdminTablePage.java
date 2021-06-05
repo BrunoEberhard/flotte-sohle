@@ -111,7 +111,6 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 			Form<FlotteSohleUser> form = new Form<>(editable, 2);
 			form.line(FlotteSohleUser.$.email);
 			form.line(FlotteSohleUser.$.vorname, FlotteSohleUser.$.name);
-			form.line(Form.readonly(FlotteSohleUser.$.multiLocation));
 			form.line(new PasswordFormElement(FlotteSohleUser.$.password));
 			return form;
 		}
