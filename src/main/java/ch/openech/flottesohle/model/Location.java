@@ -39,24 +39,13 @@ public class Location implements Rendering {
 	@Size(255)
 	public String url;
 
-	public LocalDate closedFrom, closedUntil;
-	
 	public final List<Closing> closings = new ArrayList<>();
-
-	public final List<SpecialDayInfo> specialDayInfos = new ArrayList<>();
 
 	@Override
 	public CharSequence render() {
 		return name;
 	}
 
-	public static class SpecialDayInfo {
-		@NotEmpty
-		public SpecialDay specialDay;
-
-		public Boolean closed;
-	}
-	
 	public static class Closing implements Validation {
 		public static final Closing $ = Keys.of(Closing.class);
 		
