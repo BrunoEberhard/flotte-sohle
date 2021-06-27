@@ -57,7 +57,7 @@ public class VerschiedeneImport {
 			location.address = "Zentralstrasse 30A";
 			location.city = "5610 Wohlen";
 			location.region.add(Region.AG);
-			location.name = "Casino Wohlen";
+			location.name = "Dance and Dine";
 			location.url = "https://www.dance-and-dine.ch/";
 			return location;
 		}
