@@ -131,6 +131,12 @@ public class DanceEvent {
 		}
 		values.put("image", "https://www.flotte-sohle.ch/sohle_rot.png");
 		values.put("url", "https://www.flotte-sohle.ch/event/" + id);
+		// Das wurde von google bemängelt. Wir tanzen lieber offline :)
+		values.put("eventAttendanceMode", "OfflineEventAttendanceMode"); 
+		if (price != null) {
+			values.put("offers", createOffers(this)); 
+		}
+
 		return writer.write(values);
 	}
 
@@ -176,4 +182,13 @@ public class DanceEvent {
 		}
 		return values;
 	}
+	
+	private static Map<String, Object> createOffers(DanceEvent event) {
+		Map<String, Object> values = new LinkedHashMap<>();
+		values.put("@type", "Offer");
+		values.put("price", event.price.toPlainString());
+		values.put("priceCurrency", "CHF");
+		return values;
+	}
+
 }
