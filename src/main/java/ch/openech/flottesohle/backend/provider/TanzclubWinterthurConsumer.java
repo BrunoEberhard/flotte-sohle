@@ -118,7 +118,7 @@ public class TanzclubWinterthurConsumer extends DanceEventProvider {
 		location.address = "Marktgasse 53";
 		location.city = "8400 Winterthur";
 		location.region.add(Region.ZH);
-		location.name = "Altes Stadthaus";
+		location.name = "Tanzclub Winterthur";
 		location.url = "https://tanzclub-winterthur.ch/";
 		return location;
 	}
