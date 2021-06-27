@@ -40,7 +40,7 @@ import ch.openech.flottesohle.backend.provider.TanzcenterRule;
 import ch.openech.flottesohle.backend.provider.TanzclubAcademiaRule;
 import ch.openech.flottesohle.backend.provider.TanzclubWinterthurConsumer;
 import ch.openech.flottesohle.backend.provider.TanzenMitHerzCrawler;
-import ch.openech.flottesohle.backend.provider.TanzlokalSurseeCrawler;
+import ch.openech.flottesohle.backend.provider.PrimaLocationCrawler;
 import ch.openech.flottesohle.backend.provider.TanzschuleBayerCrawler;
 import ch.openech.flottesohle.backend.provider.TanzschuleLaederachImport;
 import ch.openech.flottesohle.backend.provider.Tanzwerk101Rule;
@@ -77,7 +77,7 @@ public class DanceEventProviders {
 		addProvider(new TanzSalonCrawler());
 		addProvider(new DanceToDanceImport());
 		addProvider(new DukesRule());
-		addProvider(new TanzlokalSurseeCrawler());
+		addProvider(new PrimaLocationCrawler());
 		addProvider(new TanzArtImport());
 		addProvider(new TanzwerkShCrawler());
 		addProvider(new RyvaCrawler());
