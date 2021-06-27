@@ -79,7 +79,7 @@ public class Location implements Rendering {
 	
 	public String getClosings() {
 		if (Keys.isKeyObject(this)) {
-			return Keys.methodOf(this, "closings");
+			return Keys.methodOf(this, "closings", $.closings);
 		}
 		StringBuilder s = new StringBuilder();
 		for (Closing closing : closings) {
