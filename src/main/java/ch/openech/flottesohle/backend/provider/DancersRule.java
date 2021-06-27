@@ -1,5 +1,6 @@
 package ch.openech.flottesohle.backend.provider;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -56,6 +57,8 @@ public class DancersRule extends DanceEventProvider {
 			danceEvent.until = LocalTime.of(2, 0);
 			danceEvent.description = "Der Klassiker - jeden Samstag mit dem bewährten Tanz-Mix, der keine Wünsche offen lässt. Daten, sowie eine Tabelle, wann jeweils zusätzliche Tanzflächen zur Verfügung stehen.";
 			danceEvent.location = location;
+			danceEvent.price = BigDecimal.valueOf(18);
+			danceEvent.priceReduced = BigDecimal.valueOf(5);
 
 			save(danceEvent, result);
 			generated++;
