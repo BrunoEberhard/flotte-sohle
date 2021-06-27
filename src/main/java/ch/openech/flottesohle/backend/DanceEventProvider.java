@@ -2,6 +2,8 @@ package ch.openech.flottesohle.backend;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.minimalj.backend.Backend;
@@ -20,6 +22,9 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 	private static final long serialVersionUID = 1L;
 
 	protected static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0";
+
+	// Format für "29. Januar 2022"
+	public static final DateTimeFormatter LONG_DATE_FORMAT = DateTimeFormatter.ofPattern("d. LLLL yyyy", Locale.GERMAN);
 
 	protected transient Location location;
 

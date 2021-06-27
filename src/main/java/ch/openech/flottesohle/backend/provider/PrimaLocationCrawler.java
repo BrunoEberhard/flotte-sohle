@@ -3,8 +3,6 @@ package ch.openech.flottesohle.backend.provider;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Optional;
 
 import org.jsoup.Jsoup;
@@ -24,8 +22,6 @@ public class PrimaLocationCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	private static final String AGENDA_URL = "https://prima-location.ch/tanzen/tanzveranstaltungen/";
-
-	private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("d. LLLL yyyy", Locale.GERMAN);
 	
 	@Override
 	public EventUpdateCounter updateEvents() throws IOException {
@@ -49,7 +45,7 @@ public class PrimaLocationCrawler extends DanceEventProvider {
 					posDatum -= 1;
 				}
 				String datumString = datum.text().substring(posDatum + 1, posYear + 5);
-				LocalDate date = LocalDate.parse(datumString, FORMAT);
+				LocalDate date = LocalDate.parse(datumString, LONG_DATE_FORMAT);
 				
 				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 

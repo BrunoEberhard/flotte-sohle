@@ -1,9 +1,9 @@
 package ch.openech.flottesohle.backend.provider;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Year;
 import java.util.Optional;
 
 import org.jsoup.Jsoup;
@@ -11,7 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.minimalj.repository.query.By;
-import org.minimalj.util.DateUtils;
 
 import ch.openech.flottesohle.backend.DanceEventProvider;
 import ch.openech.flottesohle.backend.EventUpdateCounter;
@@ -23,76 +22,46 @@ import ch.openech.flottesohle.model.Region;
 public class TanzSalonCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "https://tanzsalon.ch/events/";
+	private static final String AGENDA_URL = "https://www.tanzsalon.ch/tanzabende";
 
 	@Override
 	public EventUpdateCounter updateEvents() throws IOException {
 		EventUpdateCounter result = new EventUpdateCounter();
 
 		Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
-		Element tableDivElement = doc.selectFirst(".css-events-list");
-		Element tableElement = doc.selectFirst(".css-events-list > table");
+		Element row = doc.selectFirst("div[role=\"row\"]");
+		Elements titles = row.select("span:containsOwn(anzabend)");
+		
+		titles.forEach(title -> {
+			try {
+				Element container = title;
+				for (int i = 0; i < 7; i++) {
+					container = container.parent();
+				}
 
-		for (Element tr : tableElement.select("tr")) {
-			Elements td = tr.select("td");
-			if (td.size() < 4) {
-				continue;
-			}
+				// Ok, das funktioniert in 9 Jahren nicht mehr
+				Element datum = container.selectFirst("span:contains( 202)");
+				String datumText = datum.text().trim();
+				LocalDate date = LocalDate.parse(datumText, LONG_DATE_FORMAT);
+				
+				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
-			String title = td.get(0).text();
-			String dateString = td.get(2).text();
-			String timeString = td.get(3).text();
-
-			if (title.toLowerCase().contains("behinderten") || dateString.contains("-")) {
-				continue;
+				DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+				danceEvent.from = LocalTime.of(20, 0);
+				danceEvent.until = LocalTime.of(23, 30);
+				danceEvent.status = EventStatus.generated;
+				danceEvent.date = date;
+				danceEvent.location = location;
+				danceEvent.price = BigDecimal.valueOf(35);
+				danceEvent.description = "Eintritt inkl. Getränke mit/ohne Alkohol & Naschereien.";
+				
+				danceEvent.line = title.ownText().trim();
+				
+				save(danceEvent, result);
+			} catch (Exception x) {
+				result.failedEvents++;
 			}
-			if (!(title.toLowerCase().contains("tanzabend") || title.contains("tanzfest"))) {
-				continue;
-			}
-
-			if (!dateString.endsWith(".")) {
-				dateString += ".";
-			}
-			dateString += Year.now().getValue();
-			LocalDate date = DateUtils.parse(dateString);
-			// Es wird angenommen, dass im Dezember schon die Daten vom nächsten Jahr
-			// online sind. Das sollte aber kontrolliert werden!
-			if (date.compareTo(LocalDate.now().minusMonths(11)) < 0) {
-				date = date.plusYears(1);
-			}
-
-			LocalTime time = LocalTime.parse(timeString.substring(0, 5));
-			LocalTime until = null;
-			if (timeString.length() >= 13) {
-				until = LocalTime.parse(timeString.substring(8, 13));
-			}
-
-			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
-
-			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
-			if (danceEvent.status == EventStatus.edited) {
-				result.skippedEditedEvents++;
-				continue;
-			} else if (danceEvent.status == EventStatus.blocked) {
-				result.skippedBlockedEvents++;
-				continue;
-			}
-
-			danceEvent.status = EventStatus.generated;
-			danceEvent.date = date;
-			
-			danceEvent.line = "Tanzabend";
-			if (title.contains("Sommertanzfest")) {
-				danceEvent.line = "Sommertanzfest";
-			}
-			if (title.contains("Adventstanzabend")) {
-				danceEvent.line = "Adventstanzabend";
-			}
-			danceEvent.from = time;
-			danceEvent.until = until;
-			danceEvent.location = location;
-			save(danceEvent, result);
-		}
+		});
 		return result;
 	}
 
