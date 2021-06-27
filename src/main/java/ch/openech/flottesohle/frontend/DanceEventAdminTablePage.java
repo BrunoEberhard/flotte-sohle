@@ -29,7 +29,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { DanceEvent.$.date, DanceEvent.$.location.name, DanceEvent.$.line, DanceEvent.$.from, DanceEvent.$.location.name, DanceEvent.$.status };
+		return new Object[] { DanceEvent.$.date, DanceEvent.$.location.name, DanceEvent.$.line, DanceEvent.$.from, DanceEvent.$.status };
 	}
 
 	@Override
