@@ -27,7 +27,7 @@ public class EventsUpdateTransaction implements Transaction<List<EventUpdateCoun
 		List<EventUpdateCounter> counters = new ArrayList<EventUpdateCounter>();
 		for (String providerName : providerNames) {
 			DanceEventProvider provider = DanceEventProviders.PROVIDERS.get(providerName);
-			if (Configuration.isDevModeActive() && !provider.getClass().getName().endsWith("Rule") && !provider.getClass().getName().endsWith("Import")) {
+			if (providerNames.size() > 2 && Configuration.isDevModeActive() && !provider.getClass().getName().endsWith("Rule") && !provider.getClass().getName().endsWith("Import")) {
 				// im Dev - Modus nicht alle Veranstalter Seiten abfragen
 				continue;
 			}
