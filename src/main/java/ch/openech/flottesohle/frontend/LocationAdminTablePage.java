@@ -24,7 +24,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { Location.$.name, Location.$.city };
+		return new Object[] { Location.$.name, Location.$.city, Location.$.getClosings() };
 	}
 	
 	@Override

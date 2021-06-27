@@ -15,6 +15,7 @@ import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
 import org.minimalj.model.validation.Validation;
 import org.minimalj.model.validation.ValidationMessage;
+import org.minimalj.util.DateUtils;
 
 public class Location implements Rendering {
 	public static final Location $ = Keys.of(Location.class);
@@ -75,4 +76,33 @@ public class Location implements Rendering {
 	public boolean isClosed(LocalDate date) {
 		return closings.stream().anyMatch(c -> c.isClosed(date));
 	}
+	
+	public String getClosings() {
+		if (Keys.isKeyObject(this)) {
+			return Keys.methodOf(this, "closings");
+		}
+		StringBuilder s = new StringBuilder();
+		for (Closing closing : closings) {
+			if (closing.until != null && closing.until.isBefore(LocalDate.now())) {
+				continue;
+			}
+			if (closing.from == null && closing.until == null) {
+				return "Geschlossen";
+			}
+			if (closing.from != null) {
+				if (closing.until == null) {
+					s.append("Ab ");
+				}
+				s.append(DateUtils.format(closing.from));
+				if (closing.until != null) {
+					s.append(" ");
+				}
+			}
+			if (closing.until != null) {
+				s.append("bis ").append(DateUtils.format(closing.until));
+			}
+		}
+		return s.toString();
+	}
+		
 }
