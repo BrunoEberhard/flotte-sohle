@@ -38,7 +38,10 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 	
 	protected Location save(Location location) {
 		Optional<Location> existingLocation = findOne(Location.class, new FieldCriteria(Location.$.name, location.name));
-		return existingLocation.orElseGet(() -> Backend.save(location));
+		if (existingLocation.isPresent()) {
+			location.id = existingLocation.get().id;
+		}
+		return Backend.save(location);
 	}
 
 	@Override
