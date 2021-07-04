@@ -33,6 +33,11 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 	}
 
 	@Override
+	protected boolean allowMultiselect() {
+		return true;
+	}
+	
+	@Override
 	public List<Action> getTableActions() {
 		return Arrays.asList(new TableNewObjectEditor(), new DanceEventTableEditor(), new DeleteDetailAction(), new DanceEventCopyEditor());
 	}
