@@ -29,9 +29,10 @@ import ch.openech.flottesohle.backend.provider.HasenstrickRule;
 import ch.openech.flottesohle.backend.provider.HomeOfDanceRule;
 import ch.openech.flottesohle.backend.provider.Meet2DanceRule;
 import ch.openech.flottesohle.backend.provider.PilatusKellerRule;
+import ch.openech.flottesohle.backend.provider.PrimaLocationCrawler;
 import ch.openech.flottesohle.backend.provider.RyvaCrawler;
 import ch.openech.flottesohle.backend.provider.SchuetzenhausRule;
-import ch.openech.flottesohle.backend.provider.SummerDanceConsumer;
+import ch.openech.flottesohle.backend.provider.SummerDanceCrawler;
 import ch.openech.flottesohle.backend.provider.TanzArtImport;
 import ch.openech.flottesohle.backend.provider.TanzSalonCrawler;
 import ch.openech.flottesohle.backend.provider.TanzZentrumImport;
@@ -40,16 +41,15 @@ import ch.openech.flottesohle.backend.provider.TanzcenterRule;
 import ch.openech.flottesohle.backend.provider.TanzclubAcademiaRule;
 import ch.openech.flottesohle.backend.provider.TanzclubWinterthurConsumer;
 import ch.openech.flottesohle.backend.provider.TanzenMitHerzCrawler;
-import ch.openech.flottesohle.backend.provider.PrimaLocationCrawler;
 import ch.openech.flottesohle.backend.provider.TanzschuleBayerCrawler;
 import ch.openech.flottesohle.backend.provider.TanzschuleLaederachImport;
 import ch.openech.flottesohle.backend.provider.Tanzwerk101Rule;
 import ch.openech.flottesohle.backend.provider.TanzwerkShCrawler;
 import ch.openech.flottesohle.backend.provider.Time2DanceCrawler;
+import ch.openech.flottesohle.backend.provider.VerschiedeneImport.DanceAndDineImport;
 import ch.openech.flottesohle.backend.provider.Werk1Rule;
 import ch.openech.flottesohle.backend.provider.WirTanzenRule;
 import ch.openech.flottesohle.backend.provider.ZinneSargansRule;
-import ch.openech.flottesohle.backend.provider.VerschiedeneImport.DanceAndDineImport;
 
 public class DanceEventProviders {
 
@@ -84,7 +84,7 @@ public class DanceEventProviders {
 		addProvider(new DancePassionCrawler());
 		addProvider(new TanzschuleBayerCrawler());
 		addProvider(new HappyDanceRule());
-		addProvider(new SummerDanceConsumer());
+		addProvider(new SummerDanceCrawler());
 		addProvider(new HappyAndMadRule());
 		addProvider(new TanzclubWinterthurConsumer());
 		addProvider(new DanceVisionCrawler());

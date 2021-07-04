@@ -1,4 +1,4 @@
-package ch.openech.flottesohle.backend.provider;
+package ch.openech.flottesohle.backend.provider.old;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
