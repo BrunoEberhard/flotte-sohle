@@ -80,12 +80,14 @@ public abstract class MultiSelectionFormElement<T> extends AbstractFormElement<L
 	
 	@Override
 	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-		if (!enabled && object != null) {
-			object.clear();
-			handleChange();
-		} else {
-			display();
+		if (this.enabled != enabled) {
+			this.enabled = enabled;
+			if (!enabled && object != null) {
+				object.clear();
+				handleChange();
+			} else {
+				display();
+			}
 		}
 	}
 
