@@ -93,20 +93,20 @@ public class SummerDanceCrawler extends DanceEventProvider {
 		
 		location.name = "Hasenstrick";
 		location.address = "Höhenstrasse 15";
-		location.city = "Dürnten";
+		location.city = "8635 Dürnten";
 		location.region.add(Region.ZH);
 		locations.put(location.name, save(location));
 		prices.put(location.name, BigDecimal.valueOf(12));
 		
 		location.name = "Bananenreiferei";
 		location.address = "Pfingstweidstrasse 101";
-		location.city = "Zürich";
+		location.city = "8005 Zürich";
 		locations.put(location.name, save(location));
 		prices.put(location.name, BigDecimal.valueOf(12));
 
 		location.name = "Hangar";
 		location.address = "Flugplatzstrasse";
-		location.city = "Buttwil";
+		location.city = "5632 Buttwil";
 		location.region.clear();
 		location.region.add(Region.AG);
 		locations.put(location.name, save(location));
@@ -114,7 +114,7 @@ public class SummerDanceCrawler extends DanceEventProvider {
 		
 		location.name = "Bad Gutenburg";
 		location.address = "Huttwilstrasse 108";
-		location.city = "Lotzwil";
+		location.city = "4932 Lotzwil";
 		location.region.clear();
 		location.region.add(Region.BE);
 		locations.put(location.name, save(location));
@@ -122,13 +122,13 @@ public class SummerDanceCrawler extends DanceEventProvider {
 
 		location.name = "Soho";
 		location.address = "Wangenstrasse 45";
-		location.city = "Wiedlisbach";
+		location.city = "4537 Wiedlisbach";
 		locations.put(location.name, save(location));
 		prices.put(location.name, BigDecimal.valueOf(12));
 
 		location.name = "Neptun";
 		location.address = "Kasernenstrasse 10";
-		location.city = "Walenstadt";
+		location.city = "8880 Walenstadt";
 		location.region.clear();
 		location.region.add(Region.SG);
 		locations.put(location.name, save(location));
