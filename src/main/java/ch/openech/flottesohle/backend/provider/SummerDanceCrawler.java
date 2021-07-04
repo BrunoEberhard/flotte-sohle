@@ -48,31 +48,35 @@ public class SummerDanceCrawler extends DanceEventProvider {
 				} else {
 					String text = item.text();
 					if (text.toLowerCase().contains("summerdance")) {
-						Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
-
-						DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
-						if (text.contains("19:00")) {
-							danceEvent.from = LocalTime.of(19, 0);
-						} else {
-							danceEvent.from = LocalTime.of(19, 30);
-						}
-						danceEvent.status = EventStatus.generated;
-						danceEvent.date = date;
-						danceEvent.line = "Summerdance";
-						
-						boolean found = false;
+						Location location = null;
+						BigDecimal price = null;
 						for (Map.Entry<String, Location> entry : locations.entrySet()) {
 							if (text.contains(entry.getKey())) {
-								danceEvent.location = entry.getValue();
-								danceEvent.price = prices.get(entry.getKey());
-								save(danceEvent, result);
-								found = true;
+								location = entry.getValue();
+								price = prices.get(entry.getKey());
 								break;
 							}
 						}
-						// if (!found) {
-						// 	System.out.println("Not found: " + text);
-						// }
+
+						if (location != null) {
+							Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
+
+							DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+							if (text.contains("19:00")) {
+								danceEvent.from = LocalTime.of(19, 0);
+							} else {
+								danceEvent.from = LocalTime.of(19, 30);
+							}
+							danceEvent.location = location;
+							danceEvent.price = price;
+							danceEvent.status = EventStatus.generated;
+							danceEvent.date = date;
+							danceEvent.line = "Summerdance";
+
+							save(danceEvent, result);
+						} else {
+							// System.out.println("Not found: " + text);
+						}
 					}
 				}
 			} catch (Exception x) {
