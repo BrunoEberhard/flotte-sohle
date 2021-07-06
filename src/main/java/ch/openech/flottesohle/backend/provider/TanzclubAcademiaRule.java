@@ -48,9 +48,9 @@ public class TanzclubAcademiaRule extends DanceEventProvider {
 			danceEvent.date = date;
 			
 			danceEvent.location = location;
-			danceEvent.price = BigDecimal.valueOf(15);
-			danceEvent.priceReduced = BigDecimal.valueOf(10);
-			danceEvent.from = LocalTime.of(19, 0);
+			danceEvent.price = BigDecimal.valueOf(17);
+			danceEvent.priceReduced = BigDecimal.valueOf(12);
+			danceEvent.from = LocalTime.of(19, 30);
 			danceEvent.until = LocalTime.of(23, 0);
 			danceEvent.description = "Der TC Academia organisiert monatlich einen gesellschaftlichen Paartanzabend in stilvoller Atmosphäre. Ein bunter "
 					+ "Musikmix aus Standard, Latein und diversen Modetänzen wird abgespielt. Dabei geht es abwechslungsreich zu und her und es wird auch mit unter "
