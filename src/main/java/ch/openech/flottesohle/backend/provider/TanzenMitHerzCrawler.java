@@ -1,27 +1,13 @@
 package ch.openech.flottesohle.backend.provider;
 
 import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Optional;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.minimalj.repository.query.By;
 
 import ch.openech.flottesohle.backend.DanceEventProvider;
 import ch.openech.flottesohle.backend.EventUpdateCounter;
-import ch.openech.flottesohle.model.DanceEvent;
-import ch.openech.flottesohle.model.EventStatus;
-import ch.openech.flottesohle.model.EventTag;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
+// Die Seite wird von hand gepflegt, Aufwand zum automatischen Scannen ist höher als individuelle Eingabe
 public class TanzenMitHerzCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
@@ -31,6 +17,7 @@ public class TanzenMitHerzCrawler extends DanceEventProvider {
 	public EventUpdateCounter updateEvents() throws IOException {
 		EventUpdateCounter result = new EventUpdateCounter();
 
+		/*
 		Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
 		Element content = doc.selectFirst("#content");
 
@@ -68,13 +55,16 @@ public class TanzenMitHerzCrawler extends DanceEventProvider {
 						// danceEvent.organizer = organizer;
 						danceEvent.location = location;
 						danceEvent.tags.add(EventTag.Workshop);
-
+						danceEvent.price = BigDecimal.valueOf(15);
+						danceEvent.priceReduced = BigDecimal.valueOf(10);
+						
 						save(danceEvent, result);
 
 					}
 				}
 			}
 		});
+		*/
 		return result;
 	}
 
