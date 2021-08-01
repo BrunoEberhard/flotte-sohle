@@ -31,6 +31,7 @@ import ch.openech.flottesohle.backend.provider.Meet2DanceRule;
 import ch.openech.flottesohle.backend.provider.PilatusKellerRule;
 import ch.openech.flottesohle.backend.provider.PrimaLocationCrawler;
 import ch.openech.flottesohle.backend.provider.RyvaCrawler;
+import ch.openech.flottesohle.backend.provider.SaborLatinoImport;
 import ch.openech.flottesohle.backend.provider.SchuetzenhausRule;
 import ch.openech.flottesohle.backend.provider.SummerDanceCrawler;
 import ch.openech.flottesohle.backend.provider.TanzArtImport;
@@ -104,6 +105,7 @@ public class DanceEventProviders {
 		addProvider(new AllmendhofBrochImport());
 		addProvider(new WirTanzenRule());
 		addProvider(new TanzschuleLaederachImport());
+		addProvider(new SaborLatinoImport());
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
