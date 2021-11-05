@@ -20,8 +20,8 @@ import org.minimalj.security.Subject;
 import org.minimalj.util.resources.Resources;
 
 import ch.openech.flottesohle.backend.DanceEventProviders;
-import ch.openech.flottesohle.backend.FlotteSohleRepository;
 import ch.openech.flottesohle.backend.EventsUpdateTransaction;
+import ch.openech.flottesohle.backend.FlotteSohleRepository;
 import ch.openech.flottesohle.frontend.AccessPage;
 import ch.openech.flottesohle.frontend.AdminLogPage;
 import ch.openech.flottesohle.frontend.DanceEventAdminTablePage;
@@ -60,9 +60,13 @@ public class FlotteSohle extends WebApplication {
 	public Page createDefaultPage() {
 		if (Subject.currentHasRole(FlotteSohleRoles.admin.name())) {
 			return new DanceEventAdminTablePage();
-		} else {
-			return new WebApplicationPage("/events.html").titleResource("EventsPage");
+		} else if (Subject.getCurrent() != null) {
+			FlotteSohleUser user = getUser();
+			if (user != null) {
+				return new DanceEventLocationTablePage(user.locations.get(0));
+			}
 		}
+		return new WebApplicationPage("/events.html").titleResource("EventsPage");
 	}
 	
 	@Override
@@ -105,17 +109,12 @@ public class FlotteSohle extends WebApplication {
 
 			// actions.add(new PasswordEditor(users.get(0)));
 		} else if (Subject.getCurrent() != null) {
-			List<FlotteSohleUser> users = Backend.find(FlotteSohleUser.class, By.field(FlotteSohleUser.$.email, Subject.getCurrent().getName()));
-			if (users.size() != 1) {
-				System.err.println("Exactly one user should be found not " + users.size());
-			} else if (users.get(0).locations.size() != 1) {
-				System.err.println("Exactly one location should be found not " + users.get(0).locations.size());
-			} else {
-				actions.add(new DanceEventLocationTablePage(users.get(0).locations.get(0)));
-				actions.add(new LocationEditor(users.get(0).locations.get(0)));
-				actions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(users.get(0).locations.get(0))));
-				actions.add(new PasswordEditor(users.get(0)));
-				// TODO ev löschen anbieten
+			FlotteSohleUser user = getUser();
+			if (user != null) {
+				actions.add(new DanceEventLocationTablePage(user.locations.get(0)));
+				actions.add(new LocationEditor(user.locations.get(0)));
+				actions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(user.locations.get(0))));
+				actions.add(new PasswordEditor(user));
 			}
 		} else {
 			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
@@ -128,6 +127,18 @@ public class FlotteSohle extends WebApplication {
 		return actions.getItems();
 	}
 
+	public FlotteSohleUser getUser() {
+		List<FlotteSohleUser> users = Backend.find(FlotteSohleUser.class, By.field(FlotteSohleUser.$.email, Subject.getCurrent().getName()));
+		if (users.size() != 1) {
+			System.err.println("Exactly one user should be found not " + users.size());
+			return null;
+		} else if (users.get(0).locations.size() != 1) {
+			System.err.println("Exactly one location should be found not " + users.get(0).locations.size());
+			return null;
+		}
+		return users.get(0);
+	}
+	
 	@Override
 	public Class<?>[] getEntityClasses() {
 		return new Class<?>[] { DanceEvent.class, AccessCounter.class, AdminLog.class, FlotteSohleUser.class };
