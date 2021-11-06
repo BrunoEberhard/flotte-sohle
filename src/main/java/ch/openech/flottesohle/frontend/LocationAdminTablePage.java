@@ -89,7 +89,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 		
 		@Override
 		protected Object[] getColumns() {
-			return new Object[] { FlotteSohleUser.$.name, FlotteSohleUser.$.lastLogin };
+			return UserTablePage.COLUMNS;
 		}
 
 		@Override

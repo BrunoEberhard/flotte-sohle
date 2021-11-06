@@ -28,6 +28,7 @@ import ch.openech.flottesohle.frontend.DanceEventAdminTablePage;
 import ch.openech.flottesohle.frontend.DanceEventLocationTablePage;
 import ch.openech.flottesohle.frontend.DeeJayTablePage;
 import ch.openech.flottesohle.frontend.EventHousekeepingAction;
+import ch.openech.flottesohle.frontend.EventLocationUpdateAction;
 import ch.openech.flottesohle.frontend.EventUpdateAction;
 import ch.openech.flottesohle.frontend.LocationAdminTablePage;
 import ch.openech.flottesohle.frontend.LocationEditor;
@@ -112,6 +113,7 @@ public class FlotteSohle extends WebApplication {
 			FlotteSohleUser user = getUser();
 			if (user != null) {
 				actions.add(new DanceEventLocationTablePage(user.locations.get(0)));
+				actions.add(new EventLocationUpdateAction(user.locations.get(0)));
 				actions.add(new LocationEditor(user.locations.get(0)));
 				actions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(user.locations.get(0))));
 				actions.add(new PasswordEditor(user));

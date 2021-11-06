@@ -13,9 +13,11 @@ import ch.openech.flottesohle.model.Location;
 
 public class UserTablePage extends SimpleTableEditorPage<FlotteSohleUser> {
 
+	public static final Object[] COLUMNS = new Object[] { FlotteSohleUser.$.email, FlotteSohleUser.$.name, FlotteSohleUser.$.vorname };
+
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { FlotteSohleUser.$.email, FlotteSohleUser.$.name, FlotteSohleUser.$.vorname };
+		return COLUMNS;
 	}
 	
 	@Override

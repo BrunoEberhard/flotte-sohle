@@ -32,6 +32,11 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 		return Backend.execute(new ReadCriteriaTransaction<T>(clazz, query)).stream().findAny();
 	}
 
+	public String getLocationName() {
+		Location location = createLocation();
+		return location != null ? location.name : null;
+	}
+	
 	protected void initData() {
 		location = save(createLocation());
 	}
