@@ -3,6 +3,7 @@
 /.classpath
 /.project
 /.idea
+/.dbeaver
 /DancerApplication.mv.db
 /DancerApplication.trace.db
 /node_modules/
