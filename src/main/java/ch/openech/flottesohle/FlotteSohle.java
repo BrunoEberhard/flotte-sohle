@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import java.util.ResourceBundle.Control;
 
 import org.minimalj.application.Application;
-import org.minimalj.application.Configuration;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
@@ -15,7 +14,9 @@ import org.minimalj.frontend.impl.web.WebApplication;
 import org.minimalj.frontend.impl.web.WebApplicationPage;
 import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.PageAction;
+import org.minimalj.repository.Repository;
 import org.minimalj.repository.query.By;
+import org.minimalj.security.Authentication;
 import org.minimalj.security.Subject;
 import org.minimalj.util.resources.Resources;
 
@@ -55,6 +56,11 @@ public class FlotteSohle extends WebApplication {
 	@Override
 	public AuthenticatonMode getAuthenticatonMode() {
 		return AuthenticatonMode.REQUIRED;
+	}
+	
+	@Override
+	public Authentication createAuthentication() {
+		return new FlotteSohleAuthentication();
 	}
 
 	@Override
@@ -145,6 +151,11 @@ public class FlotteSohle extends WebApplication {
 	public Class<?>[] getEntityClasses() {
 		return new Class<?>[] { DanceEvent.class, AccessCounter.class, AdminLog.class, FlotteSohleUser.class };
 	}
+	
+	@Override
+	public Repository createRepository() {
+		return new FlotteSohleRepository(this);
+	}
 
 //	@Override
 //	public ResourceBundle getResourceBundle(Locale locale) {
@@ -158,9 +169,6 @@ public class FlotteSohle extends WebApplication {
 	}
 
 	public static void main(String[] args) {
-		Configuration.set("MjRepository", FlotteSohleRepository.class.getName());
-		Configuration.set("MjAuthentication", FlotteSohleAuthentication.class.getName());
-		Configuration.set("MjLoginAtStart", "true");
 		Application application = new FlotteSohle();
 		// Swing.start(application);
 		// Lanterna.start(application);
