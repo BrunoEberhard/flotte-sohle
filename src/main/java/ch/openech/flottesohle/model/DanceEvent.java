@@ -7,9 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -84,8 +82,6 @@ public class DanceEvent {
 	@Size(5)
 	@Decimal(2)
 	public BigDecimal price, priceReduced, priceWithWorkshop;
-
-	public List<Flyer> flyers = new ArrayList<>();
 
 	@Size(1023)
 	public String url;
