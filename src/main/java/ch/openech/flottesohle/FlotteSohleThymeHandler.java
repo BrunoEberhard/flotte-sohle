@@ -33,9 +33,6 @@ public class FlotteSohleThymeHandler extends ThymeHttpHandler {
 			updateAccessCounter();
 		}
 
-//		if (StringUtils.equals(path, "/")) {
-//			request.sendResponse("corona.html");
-//		} else 
 		if (StringUtils.equals(path, "/", "/events.html")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, FlotteSohleRepository.EventsQuery.instance);
 			request.put("eventsByDay", viewEvents(events));
@@ -66,42 +63,8 @@ public class FlotteSohleThymeHandler extends ThymeHttpHandler {
 		} else if (StringUtils.equals(path, "/location_map.html")) {
 			request.put("locations", locationMapDataProvider.getLocationMapData());
 			request.sendResponse(path);
-
 		} else if (StringUtils.equals(path, "/infos.html")) {
 			request.sendResponse(path);
-
-//		} else if (request.getPath().startsWith("/specialDays/")) {
-//			Map<String, List<String>> parameters = request.getParameters();
-//
-//			if (parameters.containsKey("locationId")) {
-//				Object locationId = parameters.get("locationId").get(0);
-//				Location location = Backend.read(Location.class, locationId);
-//				for (String p : parameters.keySet()) {
-//					if (p.startsWith("day")) {
-//						Integer specialDayId = Integer.parseInt(p.substring(3));
-//						boolean found = false;
-//						for (SpecialDayInfo s : location.specialDayInfos) {
-//							if (s.specialDay.id.equals(specialDayId)) {
-//								s.closed = Integer.parseInt(parameters.get(p).get(0)) == 1;
-//								found = true;
-//							}
-//						}
-//						if (!found) {
-//							SpecialDayInfo s = new SpecialDayInfo();
-//							s.specialDay = Codes.findCode(SpecialDay.class, specialDayId);
-//							s.closed = Integer.parseInt(parameters.get(p).get(0)) == 1;
-//							location.specialDayInfos.add(s);
-//						}
-//					}
-//				}
-//				Backend.update(location);
-//			}
-//			// String id = path.substring("/specialDays/".length());
-//			// Location location = Backend.read(Location.class, id);
-//			Location location = Backend.find(Location.class, By.ALL).get(0);
-//			request.put("location", location);
-//			request.put("specialDayGroups", SpecialDayGroupViewModel.toViewModel(location));
-//			request.sendResponse("specialDays.html");
 		}
 	}
 
