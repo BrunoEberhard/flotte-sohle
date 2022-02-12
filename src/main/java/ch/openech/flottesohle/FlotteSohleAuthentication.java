@@ -12,8 +12,8 @@ import org.minimalj.security.model.UserRole;
 import org.minimalj.util.CloneHelper;
 
 import ch.openech.flottesohle.model.AdminLog;
-import ch.openech.flottesohle.model.FlotteSohleUser;
 import ch.openech.flottesohle.model.AdminLog.AdminLogType;
+import ch.openech.flottesohle.model.FlotteSohleUser;
 
 public class FlotteSohleAuthentication extends UserPasswordAuthentication {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +22,7 @@ public class FlotteSohleAuthentication extends UserPasswordAuthentication {
 	static {
 		admin.name = "admin";
 		admin.roles.add(new UserRole(FlotteSohleRoles.admin.name()));
-		String password = System.getProperty("ADMIN_PASSWORD", "");
+		String password = Configuration.get("ADMIN_PASSWORD", "");
 		if (!Configuration.isDevModeActive()) {
 			admin.password.setPassword(password.toCharArray());
 		} else {
