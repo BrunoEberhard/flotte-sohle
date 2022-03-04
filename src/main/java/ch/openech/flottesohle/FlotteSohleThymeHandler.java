@@ -33,10 +33,10 @@ public class FlotteSohleThymeHandler extends ThymeHttpHandler {
 			updateAccessCounter();
 		}
 
-		if (StringUtils.equals(path, "/", "/events.html")) {
+		if (StringUtils.equals(path, "/", "/events.html", "/flyer.html")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class, FlotteSohleRepository.EventsQuery.instance);
 			request.put("eventsByDay", viewEvents(events));
-			request.sendResponse("events.html");
+			request.sendResponse(StringUtils.equals(path, "/flyer.html") ? "flyer.html" : "events.html");
 
 		} else if (path.startsWith("/event/")) {
 			String id = path.substring("/event/".length());

@@ -1,0 +1,91 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		.intro {
+			padding-bottom: 2em;
+			font-size: x-large;
+		}
+
+		.events {
+			column-count: 2;
+		}
+
+		.Day {
+			break-inside: avoid;
+		}
+
+		.DayEvents {
+			display: block;
+		}
+
+		.DanceEventSmall {
+			display: grid;
+			background: #222;
+			position: relative;
+			padding: 0.3em;
+			margin: 0.5em;
+			left: 0.1em;
+			right: 0.5em;
+			width: unset;
+			max-width: unset;
+			max-height: unset;
+			height: unset;
+			border-radius: 0.3em;
+		}
+
+		.HeaderSmall {
+			grid-column: 1;
+		}
+
+
+		.DanceEventSmall {
+			display: grid;
+			background: #eee;
+			position: relative;
+			padding: 0.3em;
+			margin: 0.5em;
+			left: 0.1em;
+			right: 0.5em;
+			width: unset;
+			max-width: unset;
+			max-height: unset;
+			height: unset;
+			border-radius: 0.3em;
+		}
+
+		.LocationSmall {
+			grid-column: 3;
+			justify-self: end;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="intro" style="display: flex">
+		<span style="align-self: center;"><img src="/sohle_rot.png" width="72" height="48"></span>
+		<div class="eventsHeader" style="flex-grow: 1; align-self: flex-end; padding-left: 0.5em;"
+			th:text="#{EventsPage.header}">Introduction</div>
+	</div>
+
+	<div class="events">
+		<div class="Day" th:each="events : ${eventsByDay}">
+			<h3 th:text="${events.key}">Montag, 1.2.2003</h3>
+			<div class="DayEvents">
+
+				<div class="DanceEventSmall" th:each="event : ${events.value}">
+					<span class="HeaderSmall" th:text="${event.location.name}">Location</span>
+					<span class="LocationSmall" th:text="${event.location.city}">Location city</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
