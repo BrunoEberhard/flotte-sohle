@@ -31,8 +31,7 @@ public class TanzbarBinningenRule extends DanceEventProvider {
 				continue;
 			}
 
-			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
+			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
 			if (danceEvent.status == EventStatus.edited) {
@@ -46,11 +45,10 @@ public class TanzbarBinningenRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			
 			danceEvent.line = "Gesellschafts-Tanzparty";
 			danceEvent.from = LocalTime.of(20, 0);
-			danceEvent.price = BigDecimal.valueOf(9);
-			danceEvent.priceReduced = BigDecimal.valueOf(5);
+			danceEvent.price = BigDecimal.valueOf(15);
+			danceEvent.priceReduced = BigDecimal.valueOf(9);
 			danceEvent.description = "Jeden 3. Samstag im Monat hast du bei uns die Möglichkeit das Tanzbein zu schwingen und Gelerntes zu trainieren.";
 			danceEvent.location = location;
 
