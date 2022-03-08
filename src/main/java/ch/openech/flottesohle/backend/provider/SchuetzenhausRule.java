@@ -13,6 +13,7 @@ import ch.openech.flottesohle.backend.DanceEventProvider;
 import ch.openech.flottesohle.backend.EventUpdateCounter;
 import ch.openech.flottesohle.model.DanceEvent;
 import ch.openech.flottesohle.model.EventStatus;
+import ch.openech.flottesohle.model.EventTag;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
@@ -21,8 +22,58 @@ public class SchuetzenhausRule extends DanceEventProvider {
 
 	@Override
 	public EventUpdateCounter updateEvents() {
-		EventUpdateCounter result = new EventUpdateCounter();
+		EventUpdateCounter counter = new EventUpdateCounter();
 
+		// stubete(counter);
+		tanzhalle(counter);
+		
+		return counter;
+	}
+
+	private void tanzhalle(EventUpdateCounter result) {
+		LocalDate start = LocalDate.now();
+		while (start.getDayOfWeek() != DayOfWeek.SATURDAY) {
+			start = start.plusDays(1);
+		}
+
+		for (int i = 0; i < 12; i++) {
+			LocalDate date = start.plusWeeks(i);
+			if (date.isBefore(LocalDate.of(2022, 3, 12))) {
+				continue;
+			}
+
+			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
+					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
+
+			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
+			if (danceEvent.status == EventStatus.edited) {
+				result.skippedEditedEvents++;
+				continue;
+			} else if (danceEvent.status == EventStatus.blocked) {
+				result.skippedBlockedEvents++;
+				continue;
+			}
+
+			danceEvent.status = EventStatus.generated;
+			danceEvent.date = date;
+			danceEvent.tags.add(EventTag.LiveBand);
+
+			danceEvent.from = LocalTime.of(20, 15);
+			danceEvent.until = LocalTime.of(1, 15);
+
+			danceEvent.description = "Eintritt inkl ein Getränk. "
+					+ "Wir haben Tische mit gelben und roten Tischtücher: "
+					+ "an den gelben Tischen sitzen Singles und Tanzfreudige, die zum Tanzen aufgefordert werden wollen. "
+					+ "An den roten Tischen sitzen Päarchen oder die Personen die ungestört bleiben wollen. Wir haben ca.100 eigene Parkplätze. "
+					+ "Bei Tanzanlässen erhalten Sie  Fr. 5.--  Parkhausentschädigung beim vorzeigen des Parkscheines an der Abendkasse.";
+			danceEvent.location = location;
+			danceEvent.price = BigDecimal.valueOf(23);
+
+			save(danceEvent, result);
+		}
+	}
+	
+	private void stubete(EventUpdateCounter result) {
 		LocalDate start = LocalDate.now();
 		LocalDate firstTuesday = start.with(TemporalAdjusters.firstInMonth(DayOfWeek.TUESDAY));
 		LocalDate thirdTuesDay = firstTuesday.plusWeeks(2);
@@ -60,8 +111,6 @@ public class SchuetzenhausRule extends DanceEventProvider {
 
 			save(danceEvent, result);
 		}
-
-		return result;
 	}
 
 	@Override
