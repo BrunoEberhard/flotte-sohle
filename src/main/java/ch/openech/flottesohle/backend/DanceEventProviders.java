@@ -95,7 +95,7 @@ public class DanceEventProviders {
 		addProvider(new DanceoramaCrawler());
 		addProvider(new GaswerkEventbarRule());
 		addProvider(new PilatusKellerRule());
-		addProvider(new DanceAndDineImport());
+		addProvider(new DanceAndDineImport(), true);
 		addProvider(new Meet2DanceRule(), true);
 		addProvider(new HasenstrickRule());
 		addProvider(new BallroomDancingImport(), true);

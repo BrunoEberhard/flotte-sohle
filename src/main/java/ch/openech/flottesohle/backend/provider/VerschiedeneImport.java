@@ -23,7 +23,7 @@ public class VerschiedeneImport {
 		public EventUpdateCounter updateEvents() throws Exception {
 			EventUpdateCounter result = new EventUpdateCounter();
 
-			LocalDate date = LocalDate.of(2021, 10, 31);
+			LocalDate date = LocalDate.of(2022, 10, 29);
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 			if (!danceEventOptional.isPresent() && date.isAfter(LocalDate.now())) {
@@ -33,7 +33,7 @@ public class VerschiedeneImport {
 				event.line = "Dance and Dine";
 
 				event.line = "Dance and Dine";
-				event.description = "(Beschreibung 2019) Die Türen werden für Sie um 18:30 geöffnet. Am Dance & Dine 2019 erwartet sie:" + "<ul>" + "<li>Ein gediegenes 4-Gänge-Menu (1. Gang um 19:30Uhr)</li>"
+				event.description = "Die Türen werden für Sie voraussichtlich um 18:30 geöffnet. Wir optimieren gerade noch den Zeitplan damit sie noch mehr Möglichkeiten zum Tanzen bekommen. Am Dance & Dine 2022 erwartet Sie:" + "<ul>" + "<li>Ein gediegenes 4-Gänge-Menu (1. Gang um 19:30Uhr)</li>"
 						+ "<li>Live vorgetragene Piano-Musik während des Apéro's und während des Essens</li>"
 						+ "<li>Ein Tanzmusik DJ welcher Sie bis in die Morgenstunden zum Tanzen motivieren wird</li>" + "<li>Eine Mitternachtsshow zum Thema Tanzen</li>" + "</ul>"
 						+ "und natürlich viele motivierte und gut gelaunte Helfer des Turnverein Wohlen, welche Ihnen den ganzen Abend zur Seite stehen.";
