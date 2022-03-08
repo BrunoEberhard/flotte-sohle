@@ -20,17 +20,15 @@ import ch.openech.flottesohle.model.EventStatus;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
-// Das wird wohl von Hand bearbeitet, die Formate der Seiten sind
-// sehr unterschiedlich.
+// Läuft momentan über Import
+@Deprecated
 public class DanceVisionCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
 	private static final String[] AGENDA_URLS = {
-			"https://www.dance-vision.ch/events/tanzabend-alle-tanzstile/",
-			"https://www.dance-vision.ch/events/friday-dance/",
-			"https://www.dance-vision.ch/events/disco-fox-party/"
+			"https://www.dance-vision.ch/events/tanzabend-alle-tanzstile/"
 	};
 	
 	@Override
