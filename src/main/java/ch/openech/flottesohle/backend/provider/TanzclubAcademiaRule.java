@@ -52,10 +52,8 @@ public class TanzclubAcademiaRule extends DanceEventProvider {
 			danceEvent.priceReduced = BigDecimal.valueOf(12);
 			danceEvent.from = LocalTime.of(19, 30);
 			danceEvent.until = LocalTime.of(23, 0);
-			danceEvent.description = "Der TC Academia organisiert monatlich einen gesellschaftlichen Paartanzabend in stilvoller Atmosphäre. Ein bunter "
-					+ "Musikmix aus Standard, Latein und diversen Modetänzen wird abgespielt. Dabei geht es abwechslungsreich zu und her und es wird auch mit unter "
-					+ "15% Discofox gespielt. Einzelpersonen und Partnerwechsel sind willkommen! Haltet ihr den Dresscode ein und kommt stilvoll gekleidet "
-					+ "zum Event, so gibt es sogar einen Gratis Softdrink. Wir freuen uns auf Euren Besuch!";
+			danceEvent.description = "Ein Abend des gesellschaftlichen Paartanzes in stilvoller Atmosphäre mit einem bunten Musikmix aus Standard, Latein und "
+					+ "Modetänzen – abwechslungsreich und mit unter 15 % Discofox.";
 
 			save(danceEvent, result);
 		}
