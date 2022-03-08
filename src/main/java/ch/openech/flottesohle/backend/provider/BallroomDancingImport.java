@@ -16,7 +16,6 @@ import ch.openech.flottesohle.model.EventTag;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
-// Momentan wird die Rule verwendet, nicht dieser Import
 public class BallroomDancingImport extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
