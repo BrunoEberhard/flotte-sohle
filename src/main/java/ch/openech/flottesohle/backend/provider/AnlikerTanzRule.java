@@ -78,8 +78,8 @@ public class AnlikerTanzRule extends DanceEventProvider {
 	public Location createLocation() {
 		Location location = new Location();
 		location.country = "Schweiz";
-		location.address = "Rorschacherstrasse 154";
-		location.city = "9006 St. Gallen";
+		location.address = "Rorschacherstrasse 268";
+		location.city = "9016 St. Gallen";
 		location.name = "Tanzschule Anliker";
 		location.url = "https://www.anliker-tanz.ch";
 		location.region.add(Region.SG);
