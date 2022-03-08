@@ -24,7 +24,7 @@ import ch.openech.flottesohle.model.Region;
 public class BadenerTanzCenterCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "https://badenertanzcentrum.ch/events/tanz-partys/?art=2";
+	private static final String AGENDA_URL = "https://badenertanzcentrum.ch/events/tanz-partys/?art=classic";
 
 	@Override
 	public EventUpdateCounter updateEvents() throws IOException {
