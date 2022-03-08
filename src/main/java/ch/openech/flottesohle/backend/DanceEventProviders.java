@@ -61,7 +61,7 @@ public class DanceEventProviders {
 	public static final TreeSet<String> UPDATED_PROVIDER_NAMES = new TreeSet<>();
 
 	static {
-		addProvider(new DanceCubeImport());
+		addProvider(new DanceCubeImport(), true);
 		addProvider(new DanceInnCrawler());
 		addProvider(new DancersRule());
 		addProvider(new ElSocialRule());
@@ -101,7 +101,7 @@ public class DanceEventProviders {
 		addProvider(new BallroomDancingImport(), true);
 		addProvider(new DieTanzHalleImport());
 		addProvider(new HomeOfDanceRule());
-		addProvider(new DancersWorldImport());
+		addProvider(new DancersWorldImport(), true);
 		addProvider(new TanzcenterImport());
 		addProvider(new TanzclubAcademiaRule(), true);
 		addProvider(new AllmendhofBrochImport());
