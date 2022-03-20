@@ -51,7 +51,7 @@ public class HomeOfDanceRule extends DanceEventProvider {
 			danceEvent.until = LocalTime.of(1, 0);
 			danceEvent.description = "Practice Party mit viel Disco Swing";
 			danceEvent.location = location;
-			danceEvent.deeJay = getDeeJay("DJ Bär");
+			danceEvent.deeJay = getDeeJay("DJ Sigi");
 
 			save(danceEvent, result);
 		}
