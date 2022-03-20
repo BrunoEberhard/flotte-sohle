@@ -23,7 +23,7 @@ import ch.openech.flottesohle.model.Region;
 public class DanceInnCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "https://www.danceinn.ch/events";
+	private static final String AGENDA_URL = "https://www.danceinn.ch/Events";
 
 	private static enum SAAL {
 		MAIN, Schloss
@@ -46,6 +46,9 @@ public class DanceInnCrawler extends DanceEventProvider {
 			if (!element.getElementsContainingText("ü40").isEmpty()) return;
 			if (!element.getElementsContainingText("Coast").isEmpty()) return;
 			if (!element.getElementsContainingText("Nachmittag").isEmpty()) return;
+			if (!element.getElementsContainingText("Line Dance").isEmpty()) return;
+			if (!element.getElementsContainingText("Milonga").isEmpty()) return;
+			if (!element.getElementsContainingText("Tango").isEmpty()) return;
 
 			Element dayElement = element.selectFirst(".day");
 			Element monthElement = element.selectFirst(".month");
