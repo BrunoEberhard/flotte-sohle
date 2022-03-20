@@ -56,6 +56,9 @@ public class TanzwerkShCrawler extends DanceEventProvider {
 
 			Element starttime = nextdate.selectFirst(".ic-single-starttime");
 			LocalTime time = LocalTime.parse(starttime.text());
+			if (time.isBefore(LocalTime.of(17, 0))) {
+				continue;
+			}
 
 			String description = event.select(".descshort").text();
 
