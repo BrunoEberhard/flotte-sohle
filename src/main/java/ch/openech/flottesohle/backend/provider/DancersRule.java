@@ -27,7 +27,6 @@ public class DancersRule extends DanceEventProvider {
 			start = start.plusDays(1);
 		}
 
-		int generated = 0;
 		for (int i = 0; i < 12; i++) {
 			LocalDate date = start.plusWeeks(i);
 
@@ -61,7 +60,6 @@ public class DancersRule extends DanceEventProvider {
 			danceEvent.priceReduced = BigDecimal.valueOf(5);
 
 			save(danceEvent, result);
-			generated++;
 		}
 
 		return result;
