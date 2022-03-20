@@ -34,7 +34,7 @@ public class HappyAndMadRule extends HappyAndMadCrawler {
 				danceEvent.from = dayOfWeek == DayOfWeek.THURSDAY ? LocalTime.of(20, 0) : LocalTime.of(19, 30);
 				danceEvent.until = LocalTime.of(0, 0);
 				if (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY) {
-					danceEvent.until = LocalTime.of(1, 30);
+					danceEvent.until = LocalTime.of(2, 0);
 				}
 
 				danceEvent.status = EventStatus.generated;

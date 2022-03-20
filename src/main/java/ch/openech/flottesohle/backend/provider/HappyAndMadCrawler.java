@@ -25,6 +25,7 @@ import ch.openech.flottesohle.model.DanceEvent;
 import ch.openech.flottesohle.model.EventStatus;
 import ch.openech.flottesohle.model.Location;
 
+@Deprecated // Momentan als Rule
 public class HappyAndMadCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
