@@ -25,7 +25,7 @@ import ch.openech.flottesohle.model.Region;
 public class Time2DanceCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "https://time2dance.ch/tanzpartys.html";
+	private static final String AGENDA_URL = "https://time2dance.ch/tanzabend.html";
 
 	@Override
 	public EventUpdateCounter updateEvents() throws IOException {
