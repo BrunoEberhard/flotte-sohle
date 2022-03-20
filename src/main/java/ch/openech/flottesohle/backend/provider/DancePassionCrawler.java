@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.jsoup.Jsoup;
@@ -11,7 +14,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.minimalj.repository.query.By;
-import org.minimalj.util.DateUtils;
 
 import ch.openech.flottesohle.backend.DanceEventProvider;
 import ch.openech.flottesohle.backend.EventUpdateCounter;
@@ -24,7 +26,8 @@ public class DancePassionCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
 	private static final String AGENDA_URL = "https://www.dance-passion.ch/events-dance-partys/";
-
+	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd. MMMM yyyy", Locale.GERMAN);
+	
 	@Override
 	public EventUpdateCounter updateEvents() throws IOException {
 		EventUpdateCounter result = new EventUpdateCounter();
@@ -35,11 +38,17 @@ public class DancePassionCrawler extends DanceEventProvider {
 		for (Element event : events) {
 			Elements columns = event.select("td");
 			String title = columns.get(1).text().trim();
-			if (!title.contains("Party")) {
+			if (!title.toLowerCase().contains("party")) {
 				continue;
 			}
 			String dateString = columns.get(0).text().trim();
-			LocalDate date = DateUtils.parse(dateString);
+			LocalDate date = null;
+			try {
+				date = LocalDate.parse(dateString, DATE_FORMAT);
+			} catch (DateTimeParseException x) {
+				result.failedEvents++;
+				continue;
+			}
 
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
