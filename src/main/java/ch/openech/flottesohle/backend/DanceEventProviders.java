@@ -8,6 +8,7 @@ import ch.openech.flottesohle.backend.provider.AllmendhofBrochImport;
 import ch.openech.flottesohle.backend.provider.AnlikerTanzRule;
 import ch.openech.flottesohle.backend.provider.BadenerTanzCenterCrawler;
 import ch.openech.flottesohle.backend.provider.BallroomDancingImport;
+import ch.openech.flottesohle.backend.provider.BananenreifereiRule;
 import ch.openech.flottesohle.backend.provider.BanditsRule;
 import ch.openech.flottesohle.backend.provider.BlueboxConsumer;
 import ch.openech.flottesohle.backend.provider.ChesselhuusCrawler;
@@ -61,61 +62,78 @@ public class DanceEventProviders {
 	public static final TreeSet<String> UPDATED_PROVIDER_NAMES = new TreeSet<>();
 
 	static {
-		addProvider(new DanceCubeImport(), true);
-		addProvider(new DanceInnCrawler());
-		addProvider(new DancersRule());
-		addProvider(new ElSocialRule());
-		addProvider(new TanzenMitHerzImport(), true);
-		addProvider(new Tanzwerk101Rule(), true);
+		// crawler
+ 		addProvider(new DanceInnCrawler(), true);
+		addProvider(new BlueboxConsumer(), true);
+		addProvider(new TanzclubWinterthurConsumer(), true);
+		addProvider(new ChesselhuusCrawler(), true);
+		addProvider(new TanzSalonCrawler(), true);
+		addProvider(new PrimaLocationCrawler(), true);
+		addProvider(new DancePassionCrawler(), true);
+		addProvider(new TanzschuleBayerCrawler(), true);
+		addProvider(new TanzwerkShCrawler(), true);
+
+		// crawler (tot)
 		addProvider(new Time2DanceCrawler());
-		addProvider(new AnlikerTanzRule());
-		addProvider(new BanditsRule());
-		addProvider(new Werk1Rule());
-		addProvider(new TanzZentrumImport());
-		addProvider(new GalacticCrawler());
-		addProvider(new ZinneSargansRule());
-		addProvider(new BadenerTanzCenterCrawler());
+		addProvider(new GalacticCrawler()); // (keine Events)
+		addProvider(new BadenerTanzCenterCrawler());  // (Nur noch So Nachmittag events)		
+		
+		
+		// funktionierende Rules
+		addProvider(new DancersRule(), true);
+		addProvider(new Tanzwerk101Rule(), true);
+		addProvider(new BanditsRule(), true);
 		addProvider(new SchuetzenhausRule(), true);
-		addProvider(new BlueboxConsumer());
-		addProvider(new TanzSalonCrawler());
-		addProvider(new DanceToDanceImport());
-		addProvider(new DukesRule());
-		addProvider(new PrimaLocationCrawler());
-		addProvider(new TanzArtImport());
-		addProvider(new TanzwerkShCrawler());
-		addProvider(new RyvaCrawler());
-		addProvider(new DancePassionCrawler());
-		addProvider(new TanzschuleBayerCrawler());
-		addProvider(new HappyDanceRule());
-		addProvider(new SummerDanceCrawler());
-		addProvider(new HappyAndMadRule());
-		addProvider(new TanzclubWinterthurConsumer());
+		addProvider(new TanzclubAcademiaRule(), true);
+		addProvider(new Meet2DanceRule(), true);
+		addProvider(new HomeOfDanceRule(), true);
+		addProvider(new HappyAndMadRule(), true);
+		addProvider(new BananenreifereiRule(), true);
+
+		// abgeschaltete Rules
+		addProvider(new ElSocialRule());
+		addProvider(new AnlikerTanzRule());
+		addProvider(new Werk1Rule());
+		addProvider(new TanzbarBinningenRule()); // (scheint nicht mehr zu stimmen)
+		addProvider(new WirTanzenRule());
+		addProvider(new ZinneSargansRule());
+		addProvider(new HappyDanceRule()); // (tod?)
+
+		
+		// imports	
+		addProvider(new DanceCubeImport(), true);
+		addProvider(new TanzenMitHerzImport(), true);
+		addProvider(new TanzZentrumImport(), true);
+		addProvider(new TanzArtImport(), true);
+		addProvider(new BallroomDancingImport(), true);
+		addProvider(new TanzcenterImport(), true);
 		addProvider(new DanceVisionImport(), true);
-		addProvider(new TanzbarBinningenRule(), true);
+		addProvider(new DanceAndDineImport(), true);
+		addProvider(new HappyDanceDuedingenImport(), true);
+		addProvider(new DancersWorldImport(), true);
+
+		// imports (veraltet)
+		addProvider(new DanceToDanceImport());
+		addProvider(new AllmendhofBrochImport());
+		addProvider(new DieTanzHalleImport());
+		addProvider(new SaborLatinoImport());
+		addProvider(new TanzschuleLaederachImport());
+
+
+		// TODO
+		addProvider(new DukesRule());
+		addProvider(new RyvaCrawler()); // (da stimmt noch was nicht mit den request)
+		addProvider(new SummerDanceCrawler());
 		addProvider(new DanceoramaCrawler());
 		addProvider(new GaswerkEventbarRule());
 		addProvider(new PilatusKellerRule());
-		addProvider(new DanceAndDineImport(), true);
-		addProvider(new Meet2DanceRule(), true);
 		addProvider(new HasenstrickRule());
-		addProvider(new BallroomDancingImport(), true);
-		addProvider(new DieTanzHalleImport());
-		addProvider(new HomeOfDanceRule());
-		addProvider(new DancersWorldImport(), true);
-		addProvider(new TanzcenterImport());
-		addProvider(new TanzclubAcademiaRule(), true);
-		addProvider(new AllmendhofBrochImport());
-		addProvider(new WirTanzenRule());
-		addProvider(new TanzschuleLaederachImport());
-		addProvider(new SaborLatinoImport());
-		addProvider(new HappyDanceDuedingenImport(), true);
-		addProvider(new ChesselhuusCrawler(), true);
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
 		addProvider(provider, false);
 	}
-	
+
 	private static void addProvider(DanceEventProvider provider, boolean updated) {
 		String name = provider.getName();
 		PROVIDER_NAMES.add(name);
@@ -125,11 +143,10 @@ public class DanceEventProviders {
 		}
 	}
 	/*
-		public Set<Class> findAllClassesUsingReflectionsLibrary(String packageName) {
-	    Reflections reflections = new Reflections(packageName, new SubTypesScanner(false));
-	    return reflections.getSubTypesOf(Object.class)
-	      .stream()
-	      .collect(Collectors.toSet());
-}	 */
+	 * public Set<Class> findAllClassesUsingReflectionsLibrary(String packageName) {
+	 * Reflections reflections = new Reflections(packageName, new
+	 * SubTypesScanner(false)); return reflections.getSubTypesOf(Object.class)
+	 * .stream() .collect(Collectors.toSet()); }
+	 */
 
 }
