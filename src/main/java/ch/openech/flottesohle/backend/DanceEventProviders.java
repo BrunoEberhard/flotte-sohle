@@ -12,6 +12,7 @@ import ch.openech.flottesohle.backend.provider.BananenreifereiRule;
 import ch.openech.flottesohle.backend.provider.BanditsRule;
 import ch.openech.flottesohle.backend.provider.BlueboxConsumer;
 import ch.openech.flottesohle.backend.provider.ChesselhuusCrawler;
+import ch.openech.flottesohle.backend.provider.ChezGeorgesRule;
 import ch.openech.flottesohle.backend.provider.DanceCubeImport;
 import ch.openech.flottesohle.backend.provider.DanceInnCrawler;
 import ch.openech.flottesohle.backend.provider.DancePassionCrawler;
@@ -90,6 +91,7 @@ public class DanceEventProviders {
 		addProvider(new HomeOfDanceRule(), true);
 		addProvider(new HappyAndMadRule(), true);
 		addProvider(new BananenreifereiRule(), true);
+		addProvider(new ChezGeorgesRule(), true);
 
 		// abgeschaltete Rules
 		addProvider(new ElSocialRule());
