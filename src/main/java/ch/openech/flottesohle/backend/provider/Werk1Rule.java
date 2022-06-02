@@ -15,6 +15,8 @@ import ch.openech.flottesohle.model.EventStatus;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
+@Deprecated // Muss ab 2022 zu einem Crawler umfunktioniert werden
+// https://www.werk-1.ch/veranstaltungen.html
 public class Werk1Rule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
