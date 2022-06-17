@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ch.openech</groupId>
 	<artifactId>flotte-sohle</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<name>Flotte Sohle</name>
 	<description>Local ballroom dance events</description>
 
@@ -16,17 +16,6 @@
 			<url>http://www.gnu.org/licenses/agpl-3.0.html</url>
 		</license>
 	</licenses>
-
-	<repositories>
-		<repository>
-			<id>openech</id>
-			<url>http://www.openech.ch/repository</url>
-		</repository>
-		<repository>
-			<id>sonatype stage</id>
-			<url>https://oss.sonatype.org/content/repositories/staging/</url>
-		</repository>
-	</repositories>
 
 	<build>
 		<plugins>
@@ -94,7 +83,7 @@
 		<dependency>
 			<groupId>org.minimalj</groupId>
 			<artifactId>minimalj</artifactId>
-			<version>[1.29.0.0-SNAPSHOT,)</version>
+			<version>[1.31.0.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.minimalj</groupId>
