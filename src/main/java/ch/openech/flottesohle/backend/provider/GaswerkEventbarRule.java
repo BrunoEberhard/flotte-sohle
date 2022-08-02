@@ -12,7 +12,6 @@ import ch.openech.flottesohle.backend.DanceEventProvider;
 import ch.openech.flottesohle.backend.EventUpdateCounter;
 import ch.openech.flottesohle.model.DanceEvent;
 import ch.openech.flottesohle.model.EventStatus;
-import ch.openech.flottesohle.model.EventTag;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
@@ -54,12 +53,12 @@ public class GaswerkEventbarRule extends DanceEventProvider {
 			danceEvent.status = EventStatus.generated;
 			danceEvent.date = date;
 
-			danceEvent.from = LocalTime.of(19, 30);
+			danceEvent.from = LocalTime.of(20, 0);
 			danceEvent.until = LocalTime.of(0, 0);
-			danceEvent.price = BigDecimal.ZERO;
+			danceEvent.price = BigDecimal.valueOf(10);
+			danceEvent.priceReduced = BigDecimal.valueOf(5);
 			danceEvent.description = DESCRIPTION;
 			danceEvent.location = location;
-			danceEvent.tags.add(EventTag.Taxidancer);
 
 			save(danceEvent, result);
 		}
