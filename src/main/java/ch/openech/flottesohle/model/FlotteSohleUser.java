@@ -27,7 +27,8 @@ public class FlotteSohleUser {
 	@Enabled("enableLocations")
 	public List<Location> locations = new ArrayList<>();
 
-	public Boolean multiLocation;
+	@NotEmpty
+	public Boolean multiLocation = false;
 	
 	public LocalDateTime lastLogin;
 	
