@@ -89,7 +89,7 @@ body {
 	padding: 1ex 0ex 1ex 1ex;
 }
 
-#navigation li, .actionMenu li {
+#navigation li, .contextMenu li {
 	list-style: none;
 	padding-top: 0.3em;
 	padding-bottom: 0.3em;
@@ -198,7 +198,7 @@ table.table tr td {
 	line-height: 1.6em;
 }
 
-.actionMenu {
+.contextMenu {
 	position: fixed;
 	z-index: 20;
 	padding: 0.5ex 1ex 0.5ex 1ex;
@@ -355,7 +355,7 @@ label {
 @media (min-width: 992px) {
 	#search { display: inline !important; }
 	#searchButton { display: none; }
-	#actionMenuButton { display: none; }
+	#sideBarActionButton { display: none; }
 }
 
 @media (max-width: 991px) {
@@ -369,7 +369,7 @@ label {
 	.page:last-child { display: block; border-bottom: none; top: 0em; right: 0em; min-height: unset; height: 100%; }
 	.page:last-child > .pageContentAndActions { top: 0em; height: 100%;}
 	.pageHeader { display: none; }
-	.actionMenu { min-width: 13em;}
+	.contextMenu { min-width: 13em;}
 	.pageButton { display: none; }
 	table.form > tbody > tr > td:first-child, table.form > tbody > tr > td:last-child, table.form th { padding: 1ex; }
 	table.form, table.form input, table.form select { margin: 0px; }
@@ -430,15 +430,15 @@ body {
 	border: none;
 }
 
-.actionMenu {
+.contextMenu {
 	padding: 1ex 2ex 1ex 2ex;
 	box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
 }
 
-.actionMenu ul {
+.contextMenu ul {
 }
 
-.actionMenu li {
+.contextMenu li {
 	padding: 0.5em;
 }
 
