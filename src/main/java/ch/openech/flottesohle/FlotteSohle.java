@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import java.util.ResourceBundle.Control;
 
 import org.minimalj.application.Application;
+import org.minimalj.application.Configuration;
 import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.action.ActionGroup;
@@ -168,6 +169,11 @@ public class FlotteSohle extends WebApplication {
 	@Override
 	public void initBackend() {
 		Backend.execute(new FlotteSohleInitTransaction());
+	}
+
+	@Override
+	public void initFrontend() {
+		Configuration.set("MjCss", "material.css");
 	}
 
 	public static void main(String[] args) {
