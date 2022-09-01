@@ -95,6 +95,10 @@ public class DanceEvent {
 	public boolean isCancelled() {
 		return status == EventStatus.cancelled;
 	}
+	
+	public boolean isLongLocationName() {
+		return location.name.length() >= 19;
+	}
 
 	public String getJson() {
 		JsonWriter writer = new JsonWriter();

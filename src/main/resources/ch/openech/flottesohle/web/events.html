@@ -23,6 +23,10 @@
 	margin-bottom: 0.4em;
 }
 
+.LongLocationName {
+	font-size: large;
+}
+
 .DayEvents {
 	display: flex;
 	flex-wrap: wrap;
@@ -82,7 +86,7 @@
 		<h1 class="Day" th:text="${events.key}">Montag, 1.2.2003</h1>
 		<div class="DayEvents">
 			<div th:class="${event.cancelled ? 'DanceEvent Cancelled' : 'DanceEvent'}" th:each="event : ${events.value}">
-				<div class="Header" th:if="${event.location}">
+				<div th:class="${event.longLocationName ? 'Header LongLocationName' : 'Header'}" th:if="${event.location}">
 					<a th:href="(${isApplication} ? '/eventApplication/' : '/event/') + ${event.id}" th:text="${event.location.name}">Location</a>
 				</div>
 				<div class="EventTitle">
