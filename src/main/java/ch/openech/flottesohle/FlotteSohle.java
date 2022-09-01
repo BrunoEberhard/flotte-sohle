@@ -38,6 +38,7 @@ import ch.openech.flottesohle.model.AccessCounter;
 import ch.openech.flottesohle.model.AdminLog;
 import ch.openech.flottesohle.model.DanceEvent;
 import ch.openech.flottesohle.model.FlotteSohleUser;
+import ch.openech.flottesohle.model.Location;
 
 public class FlotteSohle extends WebApplication {
 
@@ -116,10 +117,13 @@ public class FlotteSohle extends WebApplication {
 		} else if (Subject.getCurrent() != null) {
 			FlotteSohleUser user = getUser();
 			if (user != null) {
-				actions.add(new DanceEventLocationTablePage(user.locations.get(0)));
-				actions.add(new EventLocationUpdateAction(user.locations.get(0)));
-				actions.add(new LocationEditor(user.locations.get(0)));
-				actions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(user.locations.get(0))));
+				Location location = user.locations.get(0);
+				actions.add(new DanceEventLocationTablePage(location));
+				if (!EventLocationUpdateAction.getProviderNames(location).isEmpty()) {
+					actions.add(new EventLocationUpdateAction(location));
+				}
+				actions.add(new LocationEditor(location));
+				actions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(location)));
 				actions.add(new PasswordEditor(user));
 			}
 		} else {

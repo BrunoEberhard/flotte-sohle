@@ -29,17 +29,22 @@ public class EventLocationUpdateAction extends Action {
 	
 	@Override
 	public void run() {
-		TreeSet<String> providerNames = new TreeSet<>();
-		for (Map.Entry<String, DanceEventProvider> entry : DanceEventProviders.PROVIDERS.entrySet()) {
-			if (StringUtils.equals(entry.getValue().getLocationName(), location.name)) {
-				providerNames.add(entry.getKey());
-			}
-		}
+		TreeSet<String> providerNames = getProviderNames(location);
 		if (!providerNames.isEmpty()) {
 			Backend.execute(new EventsUpdateTransaction(providerNames));
 			Frontend.show(new DanceEventLocationTablePage(location));
 		} else {
 			Frontend.showMessage("Keinen Generator gefunden");
 		}
+	}
+
+	public static TreeSet<String> getProviderNames(Location location) {
+		TreeSet<String> providerNames = new TreeSet<>();
+		for (Map.Entry<String, DanceEventProvider> entry : DanceEventProviders.PROVIDERS.entrySet()) {
+			if (StringUtils.equals(entry.getValue().getLocationName(), location.name)) {
+				providerNames.add(entry.getKey());
+			}
+		}
+		return providerNames;
 	}
 }
