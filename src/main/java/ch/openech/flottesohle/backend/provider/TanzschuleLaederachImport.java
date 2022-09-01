@@ -33,8 +33,8 @@ public class TanzschuleLaederachImport extends DanceEventProvider {
 				event.status = EventStatus.generated;
 				event.from = LocalTime.of(20, 30);
 				event.until = LocalTime.of(0, 0);
-				event.price = BigDecimal.valueOf(12);
-				event.description = "Einmal im Monat heisst „Parkett frei“ für alle Tanzbegeisterten. An unserer Party ist jeder herzlich willkommen – ob jung oder jung geblieben, ob Einsteiger/Einsteigerin mit wenigen Tanzstunden oder Hobbytänzer/Hobbytänzerin mit viel Tanzerfahrung. Geniessen Sie einen entspannten Abend unter Gleichgesinnten! Die Veranstaltung ist öffentlich – auch Ihre Freunde sind herzlich willkommen!";
+				event.price = BigDecimal.valueOf(17);
+				event.description = "Einmal im Monat heisst „Parkett frei“ für alle Tanzbegeisterten. An unserer Party ist jeder herzlich willkommen, aber die Teilnehmerzahl ist limitiert. Bitte reservieren Sie die Plätze für Sie und Ihre Begleitperson(en) vorab.";
 				save(event, result);
 			}
 		}
