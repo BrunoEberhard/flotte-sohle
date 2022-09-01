@@ -20,8 +20,6 @@ import org.minimalj.security.Authentication;
 import org.minimalj.security.Subject;
 import org.minimalj.util.resources.Resources;
 
-import ch.openech.flottesohle.backend.DanceEventProviders;
-import ch.openech.flottesohle.backend.EventsUpdateTransaction;
 import ch.openech.flottesohle.backend.FlotteSohleRepository;
 import ch.openech.flottesohle.frontend.AccessPage;
 import ch.openech.flottesohle.frontend.AdminLogPage;
@@ -176,7 +174,7 @@ public class FlotteSohle extends WebApplication {
 		org.minimalj.frontend.impl.web.WebServer.start(application);
 		// NanoServer.start(application);
 		// Vaadin.start(application);
-		Backend.execute(new EventsUpdateTransaction(DanceEventProviders.UPDATED_PROVIDER_NAMES));
+		// Backend.execute(new EventsUpdateTransaction(DanceEventProviders.UPDATED_PROVIDER_NAMES));
 	}
 
 }
