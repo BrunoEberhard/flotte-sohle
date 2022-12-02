@@ -8,6 +8,7 @@ import org.minimalj.backend.Backend;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.UserPasswordAuthentication;
 import org.minimalj.security.model.User;
+import org.minimalj.security.model.UserData;
 import org.minimalj.security.model.UserRole;
 import org.minimalj.util.CloneHelper;
 
@@ -33,10 +34,10 @@ public class FlotteSohleAuthentication extends UserPasswordAuthentication {
 	}
 
 	@Override
-	protected User retrieveUser(String userName, char[] password) {
-		User user = super.retrieveUser(userName, password);
+	protected UserData retrieveUser(String userName, char[] password) {
+		UserData user = super.retrieveUser(userName, password);
 		if (user != null) {
-			Backend.insert(new AdminLog(AdminLogType.LOGIN, user.name + " eingeloggt"));
+			Backend.insert(new AdminLog(AdminLogType.LOGIN, user.getName() + " eingeloggt"));
 		}
 		return user;
 	}
