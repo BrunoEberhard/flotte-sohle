@@ -17,7 +17,7 @@ import org.minimalj.frontend.form.element.Enable;
 import org.minimalj.model.Keys;
 import org.minimalj.model.Rendering;
 import org.minimalj.model.annotation.NotEmpty;
-import org.minimalj.model.properties.PropertyInterface;
+import org.minimalj.model.properties.Property;
 import org.minimalj.util.EqualsHelper;
 import org.minimalj.util.GenericUtils;
 import org.minimalj.util.resources.Resources;
@@ -27,7 +27,7 @@ public abstract class MultiSelectionFormElement<T> extends AbstractFormElement<L
 	private List<T> object;
 	private boolean enabled = true;
 
-	public MultiSelectionFormElement(PropertyInterface property) {
+	public MultiSelectionFormElement(Property property) {
 		this(property, Form.EDITABLE);
 	}
 
@@ -39,7 +39,7 @@ public abstract class MultiSelectionFormElement<T> extends AbstractFormElement<L
 		this(Keys.getProperty(key), editable);
 	}
 
-	public MultiSelectionFormElement(PropertyInterface property, boolean editable) {
+	public MultiSelectionFormElement(Property property, boolean editable) {
 		super(property);
 		component = Frontend.getInstance().createSwitchComponent();
 		height(1, 3);
