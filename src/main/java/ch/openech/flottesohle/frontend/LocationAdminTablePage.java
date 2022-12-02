@@ -54,7 +54,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 		return organizer;
 	}
 	
-	private class LocationUserTableAction extends Action implements TableSelectionAction<Location> {
+	private class LocationUserTableAction extends Action implements ObjectsAction<Location> {
 		private List<Location> selectedObjects;
 		private LocationUserTablePage table;
 		
@@ -159,7 +159,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 //		}
 //	}
 	
-	private class LocationClosingTableAction extends Action implements TableSelectionAction<Location> {
+	private class LocationClosingTableAction extends Action implements ObjectsAction<Location> {
 		private List<Location> selectedObjects;
 		private LocationClosingTablePage table;
 		
