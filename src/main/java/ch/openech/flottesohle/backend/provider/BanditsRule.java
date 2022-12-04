@@ -53,10 +53,10 @@ public class BanditsRule extends DanceEventProvider {
 			danceEvent.line = "Dancing Night";
 			danceEvent.from = LocalTime.of(20, 0);
 			danceEvent.until = LocalTime.of(1, 0);
-			danceEvent.description = "DanceCharts & Dance Classics 80er & 90er Style & Latino (Salsas & Bachatas) & Oldies & Schlager u.s.w.";
+			danceEvent.description = "Die legendären Dancing Night im Partytempel Nummer 1 am oberen Zürichsee.";
 			danceEvent.location = location;
-			danceEvent.price = BigDecimal.valueOf(5);
-			danceEvent.tags.add(EventTag.Workshop);
+			danceEvent.price = BigDecimal.valueOf(10);
+			danceEvent.tags.add(EventTag.Taxidancer);
 			// danceEvent.deeJay = deeJayJanosch;
 			danceEvent.deeJay = null;
 
