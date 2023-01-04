@@ -22,6 +22,7 @@ import ch.openech.flottesohle.backend.provider.DanceoramaCrawler;
 import ch.openech.flottesohle.backend.provider.DancersRule;
 import ch.openech.flottesohle.backend.provider.DancersWorldImport;
 import ch.openech.flottesohle.backend.provider.DieTanzHalleImport;
+import ch.openech.flottesohle.backend.provider.DorfnaeschtRule;
 import ch.openech.flottesohle.backend.provider.DukesRule;
 import ch.openech.flottesohle.backend.provider.ElSocialRule;
 import ch.openech.flottesohle.backend.provider.FelsenbarChurImport;
@@ -92,7 +93,8 @@ public class DanceEventProviders {
 		addProvider(new HappyAndMadRule(), true);
 		addProvider(new BananenreifereiRule(), true);
 		addProvider(new ChezGeorgesRule(), true);
-
+		addProvider(new DorfnaeschtRule(), true);
+		
 		// abgeschaltete Rules
 		addProvider(new ElSocialRule());
 		addProvider(new AnlikerTanzRule());
