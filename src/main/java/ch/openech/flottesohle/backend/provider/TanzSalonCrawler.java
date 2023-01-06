@@ -29,18 +29,12 @@ public class TanzSalonCrawler extends DanceEventProvider {
 		EventUpdateCounter result = new EventUpdateCounter();
 
 		Document doc = Jsoup.connect(AGENDA_URL).userAgent(USER_AGENT).get();
-		Element row = doc.selectFirst("div[role=\"row\"]");
-		Elements titles = row.select("span:containsOwn(anzabend)");
+		Elements listitems = doc.select("div[role=\"listitem\"]");
 		
-		titles.forEach(title -> {
+		listitems.forEach(item -> {
 			try {
-				Element container = title;
-				for (int i = 0; i < 7; i++) {
-					container = container.parent();
-				}
-
 				// Ok, das funktioniert in 9 Jahren nicht mehr
-				Element datum = container.selectFirst("span:contains( 202)");
+				Element datum = item.selectFirst("span:contains( 202)");
 				String datumText = datum.text().trim();
 				LocalDate date = LocalDate.parse(datumText, LONG_DATE_FORMAT);
 				
@@ -54,8 +48,6 @@ public class TanzSalonCrawler extends DanceEventProvider {
 				danceEvent.location = location;
 				danceEvent.price = BigDecimal.valueOf(35);
 				danceEvent.description = "Eintritt inkl. Getränke mit/ohne Alkohol & Naschereien.";
-				
-				danceEvent.line = title.ownText().trim();
 				
 				save(danceEvent, result);
 			} catch (Exception x) {
