@@ -44,7 +44,7 @@ import ch.openech.flottesohle.backend.provider.TanzArtImport;
 import ch.openech.flottesohle.backend.provider.TanzSalonCrawler;
 import ch.openech.flottesohle.backend.provider.TanzZentrumImport;
 import ch.openech.flottesohle.backend.provider.TanzbarBinningenRule;
-import ch.openech.flottesohle.backend.provider.TanzcenterImport;
+import ch.openech.flottesohle.backend.provider.TanzcenterRule;
 import ch.openech.flottesohle.backend.provider.TanzclubAcademiaRule;
 import ch.openech.flottesohle.backend.provider.TanzclubWinterthurConsumer;
 import ch.openech.flottesohle.backend.provider.TanzenMitHerzImport;
@@ -111,7 +111,7 @@ public class DanceEventProviders {
 		addProvider(new TanzZentrumImport(), true);
 		addProvider(new TanzArtImport(), true);
 		addProvider(new BallroomDancingImport(), true);
-		addProvider(new TanzcenterImport(), true);
+		addProvider(new TanzcenterRule(), true);
 		addProvider(new DanceVisionImport(), true);
 		addProvider(new DanceAndDineImport(), true);
 		addProvider(new HappyDanceDuedingenImport(), true);

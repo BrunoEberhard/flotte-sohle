@@ -13,6 +13,7 @@ import ch.openech.flottesohle.model.EventStatus;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
+@Deprecated 
 public class TanzcenterImport extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 

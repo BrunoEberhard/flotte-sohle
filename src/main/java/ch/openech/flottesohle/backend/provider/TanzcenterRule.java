@@ -1,10 +1,8 @@
 package ch.openech.flottesohle.backend.provider;
 
 import java.math.BigDecimal;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Optional;
 
 import org.minimalj.repository.query.By;
@@ -16,7 +14,6 @@ import ch.openech.flottesohle.model.EventStatus;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
-@Deprecated // Momentan gilt der Import
 public class TanzcenterRule extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
@@ -24,15 +21,12 @@ public class TanzcenterRule extends DanceEventProvider {
 	public EventUpdateCounter updateEvents() {
 		EventUpdateCounter result = new EventUpdateCounter();
 
-		for (int i = 0; i <= 3; i++) {
-			LocalDate date = LocalDate.now().plusMonths(i);
-			date = date.with(TemporalAdjusters.dayOfWeekInMonth(2, DayOfWeek.FRIDAY));
-			if (date.equals(LocalDate.of(2020, 04, 10))) {
-				date = LocalDate.of(2020, 04, 17); // ostern
-			}
-			if (date.isBefore(LocalDate.now())) {
-				continue;
-			}
+		LocalDate date = LocalDate.of(2023, 2, 17);
+		while (date.isBefore(LocalDate.now())) {
+			date = date.plusDays(14);
+		}
+		
+		for (int i = 0; i <= 7; i++) {
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
@@ -48,11 +42,14 @@ public class TanzcenterRule extends DanceEventProvider {
 			danceEvent.date = date;
 			
 			danceEvent.location = location;
+			danceEvent.line = "Dance Night Rüti";
 			danceEvent.price = BigDecimal.valueOf(10);
 			danceEvent.from = LocalTime.of(20, 30);
-			danceEvent.description = "Jeden 2. Freitag im Monat";
+			danceEvent.from = LocalTime.of(23, 59);
 
 			save(danceEvent, result);
+
+			date = date.plusDays(14);
 		}
 
 		return result;
