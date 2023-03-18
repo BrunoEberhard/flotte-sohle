@@ -61,7 +61,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 	
 	@Override
 	protected List<DanceEvent> load() {
-		Order order = By.ALL.order(DanceEvent.$.location).order(DanceEvent.$.date);
+		Order order = By.ALL.order(DanceEvent.$.date).order(DanceEvent.$.location);
 		return Backend.find(DanceEvent.class, order);
 	}
 
