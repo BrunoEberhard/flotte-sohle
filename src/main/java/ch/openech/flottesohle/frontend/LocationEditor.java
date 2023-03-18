@@ -31,7 +31,7 @@ public class LocationEditor extends SimpleEditor<Location> {
 	public static class LocationForm extends Form<Location> {
 
 		public LocationForm(boolean editable) {
-			super(editable);
+			super(editable, 1, Form.DEFAULT_COLUMN_WIDTH * 5 / 3);
 			line(Location.$.name);
 			line(Location.$.address);
 			line(Location.$.city);

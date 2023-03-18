@@ -10,7 +10,7 @@ import ch.openech.flottesohle.model.Location;
 public class DanceEventForm extends Form<DanceEvent> {
 
 	public DanceEventForm(boolean editable, boolean locationEditable) {
-		super(editable, 2);
+		super(editable, 2, Form.DEFAULT_COLUMN_WIDTH * 3 / 2);
 		
 		fill(editable, locationEditable && editable, this, DanceEvent.$);
 	}
