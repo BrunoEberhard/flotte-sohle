@@ -19,6 +19,7 @@ import org.minimalj.model.annotation.Decimal;
 import org.minimalj.model.annotation.NotEmpty;
 import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
+import org.minimalj.model.annotation.Width;
 import org.minimalj.util.LocaleContext;
 
 public class DanceEvent {
@@ -35,9 +36,11 @@ public class DanceEvent {
 	
 	@NotEmpty
 	@Size(Size.TIME_HH_MM)
+	@Width(Width.SMALLER)
 	public LocalTime from;
 
 	@Size(Size.TIME_HH_MM)
+	@Width(Width.SMALLER)
 	public LocalTime until;
 
 	public static boolean isDuringTheDay(LocalTime time) {
@@ -73,6 +76,7 @@ public class DanceEvent {
 
 	@Size(100)
 	@Searched
+	@Width(300)
 	public String line;
 
 	@Size(4000)

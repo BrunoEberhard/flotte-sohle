@@ -13,6 +13,7 @@ import org.minimalj.model.annotation.Decimal;
 import org.minimalj.model.annotation.NotEmpty;
 import org.minimalj.model.annotation.Searched;
 import org.minimalj.model.annotation.Size;
+import org.minimalj.model.annotation.Width;
 import org.minimalj.model.validation.Validation;
 import org.minimalj.model.validation.ValidationMessage;
 import org.minimalj.util.DateUtils;
@@ -25,6 +26,7 @@ public class Location implements Rendering {
 	@Size(255)
 	@NotEmpty
 	@Searched
+	@Width(300)
 	public String name;
 	
 	@Size(60)
