@@ -2,6 +2,8 @@ package ch.openech.flottesohle.frontend;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.minimalj.backend.Backend;
@@ -10,7 +12,7 @@ import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.editor.Editor;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.CheckBoxFormElement;
-import org.minimalj.frontend.form.element.CheckBoxFormElement.SetElementFormElementProperty;
+import org.minimalj.frontend.form.element.CheckBoxFormElement.CheckBoxProperty;
 import org.minimalj.frontend.form.element.FormElement;
 import org.minimalj.transaction.Role;
 
@@ -44,7 +46,7 @@ public class EventUpdateAction extends Editor<TreeSet<String>, List<EventUpdateC
 		FormElement[] row = new FormElement[columns];
 		int pos = 0;
 		for (String object : DanceEventProviders.PROVIDER_NAMES) {
-			row[pos++] = new CheckBoxFormElement(new SetElementFormElementProperty(object), object, true, false);
+			row[pos++] = new CheckBoxFormElement(new SetElementProperty(object), object, true, false);
 			if (pos == columns) {
 				form.line(row);
 				pos = 0;
@@ -58,6 +60,36 @@ public class EventUpdateAction extends Editor<TreeSet<String>, List<EventUpdateC
 		return form;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static class SetElementProperty extends CheckBoxProperty {
+		private final Object value;
+
+		public SetElementProperty(Object value) {
+			this.value = Objects.requireNonNull(value);
+		}
+
+		@Override
+		public String getName() {
+			return value.toString();
+		}
+
+		@Override
+		public Boolean getValue(Object object) {
+			Set set = (Set) object;
+			return set.contains(value);
+		}
+
+		@Override
+		public void setValue(Object object, Object newValue) {
+			Set set = (Set) object;
+			if (Boolean.TRUE.equals(newValue)) {
+				set.add(value);
+			} else {
+				set.remove(value);
+			}
+		}
+	}
+	
 	private class AllNoneAction extends Action {
 		@Override
 		public void run() {
