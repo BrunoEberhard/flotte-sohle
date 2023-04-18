@@ -1,4 +1,4 @@
-package ch.openech.flottesohle.backend.provider;
+package ch.openech.flottesohle.backend.provider.inactive;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,7 +17,6 @@ import ch.openech.flottesohle.model.EventTag;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
-@Deprecated // Nur Nachmittage zur Zeit
 public class AllmendhofBrochImport extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
