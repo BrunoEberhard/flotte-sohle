@@ -28,7 +28,6 @@ import ch.openech.flottesohle.backend.provider.GalacticCrawler;
 import ch.openech.flottesohle.backend.provider.GaswerkEventbarRule;
 import ch.openech.flottesohle.backend.provider.HappyAndMadRule;
 import ch.openech.flottesohle.backend.provider.HappyDanceDuedingenImport;
-import ch.openech.flottesohle.backend.provider.HappyDanceRule;
 import ch.openech.flottesohle.backend.provider.HasenstrickRule;
 import ch.openech.flottesohle.backend.provider.HomeOfDanceRule;
 import ch.openech.flottesohle.backend.provider.Meet2DanceRule;
@@ -98,7 +97,6 @@ public class DanceEventProviders {
 		addProvider(new TanzbarBinningenRule()); // (scheint nicht mehr zu stimmen)
 		addProvider(new WirTanzenRule());
 		addProvider(new ZinneSargansRule());
-		addProvider(new HappyDanceRule()); // (tod?)
 
 		
 		// imports	
