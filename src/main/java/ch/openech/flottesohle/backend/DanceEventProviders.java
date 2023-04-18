@@ -23,7 +23,6 @@ import ch.openech.flottesohle.backend.provider.DancersWorldImport;
 import ch.openech.flottesohle.backend.provider.DieTanzHalleImport;
 import ch.openech.flottesohle.backend.provider.DorfnaeschtRule;
 import ch.openech.flottesohle.backend.provider.DukesRule;
-import ch.openech.flottesohle.backend.provider.FelsenbarChurImport;
 import ch.openech.flottesohle.backend.provider.GalacticCrawler;
 import ch.openech.flottesohle.backend.provider.GaswerkEventbarRule;
 import ch.openech.flottesohle.backend.provider.HappyAndMadRule;
@@ -110,7 +109,6 @@ public class DanceEventProviders {
 		addProvider(new DanceAndDineImport());
 		addProvider(new HappyDanceDuedingenImport());
 		addProvider(new DancersWorldImport());
-		addProvider(new FelsenbarChurImport());
 
 		// imports (veraltet)
 		addProvider(new AllmendhofBrochImport());
