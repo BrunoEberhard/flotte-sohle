@@ -16,7 +16,6 @@ import ch.openech.flottesohle.backend.provider.ChezGeorgesRule;
 import ch.openech.flottesohle.backend.provider.DanceCubeImport;
 import ch.openech.flottesohle.backend.provider.DanceInnCrawler;
 import ch.openech.flottesohle.backend.provider.DancePassionCrawler;
-import ch.openech.flottesohle.backend.provider.DanceToDanceImport;
 import ch.openech.flottesohle.backend.provider.DanceVisionImport;
 import ch.openech.flottesohle.backend.provider.DanceoramaCrawler;
 import ch.openech.flottesohle.backend.provider.DancersRule;
@@ -62,19 +61,18 @@ public class DanceEventProviders {
 
 	public static final Map<String, DanceEventProvider> PROVIDERS = new HashMap<>();
 	public static final TreeSet<String> PROVIDER_NAMES = new TreeSet<>();
-	public static final TreeSet<String> UPDATED_PROVIDER_NAMES = new TreeSet<>();
 
 	static {
 		// crawler
- 		addProvider(new DanceInnCrawler(), true);
-		addProvider(new BlueboxConsumer(), true);
-		addProvider(new TanzclubWinterthurConsumer(), true);
-		addProvider(new ChesselhuusCrawler(), true);
-		addProvider(new TanzSalonCrawler(), true);
-		addProvider(new PrimaLocationCrawler(), true);
-		addProvider(new DancePassionCrawler(), true);
-		addProvider(new TanzschuleBayerCrawler(), true);
-		addProvider(new TanzwerkShCrawler(), true);
+ 		addProvider(new DanceInnCrawler());
+		addProvider(new BlueboxConsumer());
+		addProvider(new TanzclubWinterthurConsumer());
+		addProvider(new ChesselhuusCrawler());
+		addProvider(new TanzSalonCrawler());
+		addProvider(new PrimaLocationCrawler());
+		addProvider(new DancePassionCrawler());
+		addProvider(new TanzschuleBayerCrawler());
+		addProvider(new TanzwerkShCrawler());
 
 		// crawler (tot)
 		addProvider(new Time2DanceCrawler());
@@ -83,17 +81,17 @@ public class DanceEventProviders {
 		
 		
 		// funktionierende Rules
-		addProvider(new DancersRule(), true);
-		addProvider(new Tanzwerk101Rule(), true);
-		addProvider(new BanditsRule(), true);
-		addProvider(new SchuetzenhausRule(), true);
-		addProvider(new TanzclubAcademiaRule(), true);
-		addProvider(new Meet2DanceRule(), true);
-		addProvider(new HomeOfDanceRule(), true);
-		addProvider(new HappyAndMadRule(), true);
-		addProvider(new BananenreifereiRule(), true);
-		addProvider(new ChezGeorgesRule(), true);
-		addProvider(new DorfnaeschtRule(), true);
+		addProvider(new DancersRule());
+		addProvider(new Tanzwerk101Rule());
+		addProvider(new BanditsRule());
+		addProvider(new SchuetzenhausRule());
+		addProvider(new TanzclubAcademiaRule());
+		addProvider(new Meet2DanceRule());
+		addProvider(new HomeOfDanceRule());
+		addProvider(new HappyAndMadRule());
+		addProvider(new BananenreifereiRule());
+		addProvider(new ChezGeorgesRule());
+		addProvider(new DorfnaeschtRule());
 		
 		// abgeschaltete Rules
 		addProvider(new ElSocialRule());
@@ -106,20 +104,19 @@ public class DanceEventProviders {
 
 		
 		// imports	
-		addProvider(new DanceCubeImport(), true);
-		addProvider(new TanzenMitHerzImport(), true);
-		addProvider(new TanzZentrumImport(), true);
-		addProvider(new TanzArtImport(), true);
-		addProvider(new BallroomDancingImport(), true);
-		addProvider(new TanzcenterRule(), true);
-		addProvider(new DanceVisionImport(), true);
-		addProvider(new DanceAndDineImport(), true);
-		addProvider(new HappyDanceDuedingenImport(), true);
-		addProvider(new DancersWorldImport(), true);
-		addProvider(new FelsenbarChurImport(), true);
+		addProvider(new DanceCubeImport());
+		addProvider(new TanzenMitHerzImport());
+		addProvider(new TanzZentrumImport());
+		addProvider(new TanzArtImport());
+		addProvider(new BallroomDancingImport());
+		addProvider(new TanzcenterRule());
+		addProvider(new DanceVisionImport());
+		addProvider(new DanceAndDineImport());
+		addProvider(new HappyDanceDuedingenImport());
+		addProvider(new DancersWorldImport());
+		addProvider(new FelsenbarChurImport());
 
 		// imports (veraltet)
-		addProvider(new DanceToDanceImport());
 		addProvider(new AllmendhofBrochImport());
 		addProvider(new DieTanzHalleImport());
 		addProvider(new SaborLatinoImport());
@@ -137,16 +134,9 @@ public class DanceEventProviders {
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
-		addProvider(provider, false);
-	}
-
-	private static void addProvider(DanceEventProvider provider, boolean updated) {
 		String name = provider.getName();
 		PROVIDER_NAMES.add(name);
 		PROVIDERS.put(name, provider);
-		if (updated) {
-			UPDATED_PROVIDER_NAMES.add(name);
-		}
 	}
 	/*
 	 * public Set<Class> findAllClassesUsingReflectionsLibrary(String packageName) {
