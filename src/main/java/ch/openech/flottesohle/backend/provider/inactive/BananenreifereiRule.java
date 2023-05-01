@@ -1,4 +1,4 @@
-package ch.openech.flottesohle.backend.provider;
+package ch.openech.flottesohle.backend.provider.inactive;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
