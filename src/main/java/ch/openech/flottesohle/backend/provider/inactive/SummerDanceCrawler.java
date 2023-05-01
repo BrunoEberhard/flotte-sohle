@@ -1,4 +1,4 @@
-package ch.openech.flottesohle.backend.provider;
+package ch.openech.flottesohle.backend.provider.inactive;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -18,7 +18,6 @@ import ch.openech.flottesohle.backend.EventUpdateCounter;
 import ch.openech.flottesohle.model.DanceEvent;
 import ch.openech.flottesohle.model.EventStatus;
 import ch.openech.flottesohle.model.Location;
-import ch.openech.flottesohle.model.Region;
 
 public class SummerDanceCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
@@ -89,55 +88,55 @@ public class SummerDanceCrawler extends DanceEventProvider {
 	private Map<String, Location> locations = new HashMap<>();
 	private Map<String, BigDecimal> prices = new HashMap<>();
 	
-	@Override
-	protected void initData() {
-		Location location = new Location();
-		location.url = "https://www.summerdance.ch/";
-		location.country = "Schweiz";
-		
-		location.name = "Hasenstrick";
-		location.address = "Höhenstrasse 15";
-		location.city = "8635 Dürnten";
-		location.region.add(Region.ZH);
-		locations.put(location.name, save(location));
-		prices.put(location.name, BigDecimal.valueOf(12));
-		
-		location.name = "Bananenreiferei";
-		location.address = "Pfingstweidstrasse 101";
-		location.city = "8005 Zürich";
-		locations.put(location.name, save(location));
-		prices.put(location.name, BigDecimal.valueOf(12));
-
-		location.name = "Hangar";
-		location.address = "Flugplatzstrasse";
-		location.city = "5632 Buttwil";
-		location.region.clear();
-		location.region.add(Region.AG);
-		locations.put(location.name, save(location));
-		prices.put(location.name, BigDecimal.valueOf(16));
-		
-		location.name = "Bad Gutenburg";
-		location.address = "Huttwilstrasse 108";
-		location.city = "4932 Lotzwil";
-		location.region.clear();
-		location.region.add(Region.BE);
-		locations.put(location.name, save(location));
-		prices.put(location.name, BigDecimal.valueOf(16));
-
-		location.name = "Soho";
-		location.address = "Wangenstrasse 45";
-		location.city = "4537 Wiedlisbach";
-		locations.put(location.name, save(location));
-		prices.put(location.name, BigDecimal.valueOf(12));
-
-		location.name = "Neptun";
-		location.address = "Kasernenstrasse 10";
-		location.city = "8880 Walenstadt";
-		location.region.clear();
-		location.region.add(Region.SG);
-		locations.put(location.name, save(location));
-		prices.put(location.name, BigDecimal.valueOf(16));
-	}
+//	@Override
+//	protected void initData() {
+//		Location location = new Location();
+//		location.url = "https://www.summerdance.ch/";
+//		location.country = "Schweiz";
+//		
+//		location.name = "Hasenstrick";
+//		location.address = "Höhenstrasse 15";
+//		location.city = "8635 Dürnten";
+//		location.region.add(Region.ZH);
+//		locations.put(location.name, save(location));
+//		prices.put(location.name, BigDecimal.valueOf(12));
+//		
+//		location.name = "Bananenreiferei";
+//		location.address = "Pfingstweidstrasse 101";
+//		location.city = "8005 Zürich";
+//		locations.put(location.name, save(location));
+//		prices.put(location.name, BigDecimal.valueOf(12));
+//
+//		location.name = "Hangar";
+//		location.address = "Flugplatzstrasse";
+//		location.city = "5632 Buttwil";
+//		location.region.clear();
+//		location.region.add(Region.AG);
+//		locations.put(location.name, save(location));
+//		prices.put(location.name, BigDecimal.valueOf(16));
+//		
+//		location.name = "Bad Gutenburg";
+//		location.address = "Huttwilstrasse 108";
+//		location.city = "4932 Lotzwil";
+//		location.region.clear();
+//		location.region.add(Region.BE);
+//		locations.put(location.name, save(location));
+//		prices.put(location.name, BigDecimal.valueOf(16));
+//
+//		location.name = "Soho";
+//		location.address = "Wangenstrasse 45";
+//		location.city = "4537 Wiedlisbach";
+//		locations.put(location.name, save(location));
+//		prices.put(location.name, BigDecimal.valueOf(12));
+//
+//		location.name = "Neptun";
+//		location.address = "Kasernenstrasse 10";
+//		location.city = "8880 Walenstadt";
+//		location.region.clear();
+//		location.region.add(Region.SG);
+//		locations.put(location.name, save(location));
+//		prices.put(location.name, BigDecimal.valueOf(16));
+//	}
 
 	@Override
 	public Location createLocation() {
