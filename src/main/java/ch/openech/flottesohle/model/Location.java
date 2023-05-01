@@ -26,7 +26,7 @@ public class Location implements Rendering {
 	@Size(255)
 	@NotEmpty
 	@Searched
-	@Width(300)
+	@Width(Width.LARGER)
 	public String name;
 	
 	@Size(60)
@@ -41,9 +41,14 @@ public class Location implements Rendering {
 
 	@Size(255)
 	public String url;
+	
+	public DanceEventProviderStatus providerStatus;
 
 	public final List<Closing> closings = new ArrayList<>();
 
+	@Size(1000) @Width(350)
+	public String comment;
+	
 	@Override
 	public CharSequence render() {
 		return name;
@@ -106,5 +111,4 @@ public class Location implements Rendering {
 		}
 		return s.toString();
 	}
-		
 }

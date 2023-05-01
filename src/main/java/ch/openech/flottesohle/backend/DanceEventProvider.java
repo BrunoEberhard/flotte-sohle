@@ -2,6 +2,7 @@ package ch.openech.flottesohle.backend;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Optional;
@@ -12,13 +13,15 @@ import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.FieldCriteria;
 import org.minimalj.repository.query.Query;
 import org.minimalj.transaction.Transaction;
+import org.minimalj.util.CloneHelper;
 import org.minimalj.util.EqualsHelper;
 
 import ch.openech.flottesohle.model.DanceEvent;
+import ch.openech.flottesohle.model.DanceEventProviderStatus;
 import ch.openech.flottesohle.model.DeeJay;
 import ch.openech.flottesohle.model.Location;
 
-public abstract class DanceEventProvider implements Transaction<EventUpdateCounter> {
+public abstract class DanceEventProvider implements Transaction<Void> {
 	private static final long serialVersionUID = 1L;
 
 	protected static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0";
@@ -26,7 +29,7 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 	// Format für "29. Januar 2022"
 	public static final DateTimeFormatter LONG_DATE_FORMAT = DateTimeFormatter.ofPattern("d. LLLL yyyy", Locale.GERMAN);
 
-	protected transient Location location;
+	protected Location location;
 
 	public static <T> Optional<T> findOne(Class<T> clazz, Query query) {
 		return Backend.execute(new ReadCriteriaTransaction<T>(clazz, query)).stream().findAny();
@@ -36,13 +39,10 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 		Location location = createLocation();
 		return location != null ? location.name : null;
 	}
-	
-	protected void initData() {
-		location = save(createLocation());
-	}
-	
+
 	protected Location save(Location location) {
-		Optional<Location> existingLocation = findOne(Location.class, new FieldCriteria(Location.$.name, location.name));
+		Optional<Location> existingLocation = findOne(Location.class,
+				new FieldCriteria(Location.$.name, location.name));
 		if (existingLocation.isPresent()) {
 			location.id = existingLocation.get().id;
 		}
@@ -50,20 +50,26 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 	}
 
 	@Override
-	public EventUpdateCounter execute() {
-		initData();
+	public Void execute() {
 		try {
-			return updateEvents();
+			// Ohne Reload würden Änderungen vom Admin gleich überschrieben
+			location = repository().read(Location.class, location.id);
+			location.providerStatus.eventUpdateCounter.clear();
+			location.providerStatus.lastRun = LocalDateTime.now();
+			CloneHelper.deepCopy(updateEvents(), location.providerStatus.eventUpdateCounter);
+			if (location.providerStatus.eventUpdateCounter.newEvents > 0) {
+				location.providerStatus.lastChange = LocalDateTime.now();
+			}
 		} catch (Exception e) {
-			EventUpdateCounter counter = new EventUpdateCounter();
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
-			counter.exception = sw.toString();
-			return counter;
+			location.providerStatus.eventUpdateCounter.exception = sw.toString();
 		}
+		repository().update(location);
+		return null;
 	}
-	
+
 	public abstract EventUpdateCounter updateEvents() throws Exception;
 
 	protected abstract Location createLocation();
@@ -71,18 +77,32 @@ public abstract class DanceEventProvider implements Transaction<EventUpdateCount
 	public String getName() {
 		String className = getClass().getSimpleName();
 		if (className.endsWith("Crawler")) {
-			return addSpaces(className.substring(0, className.length() - 7));
+			return addSpaces(className.substring(0, className.length() - 7)) + " Websuche";
 		} else if (className.endsWith("Import")) {
-			return addSpaces(className.substring(0, className.length() - 6));
+			return addSpaces(className.substring(0, className.length() - 6)) + " Import";
 		} else if (className.endsWith("Rule")) {
-			return addSpaces(className.substring(0, className.length() - 4));
+			return addSpaces(className.substring(0, className.length() - 4)) + " Regel";
 		} else if (className.endsWith("Consumer")) {
-			return addSpaces(className.substring(0, className.length() - 8));
+			return addSpaces(className.substring(0, className.length() - 8)) + " Abfrage";
 		} else {
 			throw new IllegalArgumentException();
 		}
 	}
 
+	public Location getLocation() {
+		return location;
+	}
+
+	public void install(boolean active) {
+		location = save(createLocation());
+		if (location.providerStatus == null) {
+			location.providerStatus = new DanceEventProviderStatus();
+			location.providerStatus.active = active;
+			location = Backend.save(location);
+		}
+		DanceEventProviders.PROVIDERS_BY_LOCATION_ID.put(location.id, this);
+	}
+	
 	private String addSpaces(String s) {
 		StringBuilder sb = new StringBuilder();
 		for (char c : s.toCharArray()) {

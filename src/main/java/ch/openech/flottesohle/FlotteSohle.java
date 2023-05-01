@@ -1,9 +1,7 @@
 package ch.openech.flottesohle;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.ResourceBundle.Control;
+import java.util.logging.Logger;
 
 import org.minimalj.application.Application;
 import org.minimalj.application.Configuration;
@@ -20,7 +18,16 @@ import org.minimalj.repository.query.By;
 import org.minimalj.security.Authentication;
 import org.minimalj.security.Subject;
 import org.minimalj.util.resources.Resources;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
 
+import ch.openech.flottesohle.backend.DanceEventImportJob;
+import ch.openech.flottesohle.backend.DanceEventProviders;
 import ch.openech.flottesohle.backend.FlotteSohleRepository;
 import ch.openech.flottesohle.frontend.AccessPage;
 import ch.openech.flottesohle.frontend.AdminLogPage;
@@ -28,8 +35,6 @@ import ch.openech.flottesohle.frontend.DanceEventAdminTablePage;
 import ch.openech.flottesohle.frontend.DanceEventLocationTablePage;
 import ch.openech.flottesohle.frontend.DeeJayTablePage;
 import ch.openech.flottesohle.frontend.EventHousekeepingAction;
-import ch.openech.flottesohle.frontend.EventLocationUpdateAction;
-import ch.openech.flottesohle.frontend.EventUpdateAction;
 import ch.openech.flottesohle.frontend.LocationAdminTablePage;
 import ch.openech.flottesohle.frontend.LocationEditor;
 import ch.openech.flottesohle.frontend.LockdownAction;
@@ -42,6 +47,8 @@ import ch.openech.flottesohle.model.FlotteSohleUser;
 import ch.openech.flottesohle.model.Location;
 
 public class FlotteSohle extends WebApplication {
+
+	private static final Logger LOG = Logger.getLogger(FlotteSohle.class.getName());
 
 	@Override
 	public MjHttpHandler createHttpHandler() {
@@ -75,12 +82,6 @@ public class FlotteSohle extends WebApplication {
 		}
 		return new WebApplicationPage("/events.html").titleResource("EventsPage");
 	}
-	
-	@Override
-	public ResourceBundle getResourceBundle(Locale locale) {
-		String resourceBundleName = FlotteSohle.class.getName();
-		return ResourceBundle.getBundle(resourceBundleName, locale, Control.getNoFallbackControl(Control.FORMAT_PROPERTIES));
-	}
 
 	@Override
 	public List<Action> getNavigation() {
@@ -97,7 +98,6 @@ public class FlotteSohle extends WebApplication {
 			
 			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
 			events.add(new DanceEventAdminTablePage());
-			events.add(new EventUpdateAction());
 			events.add(new EventHousekeepingAction());
 			events.add(new LockdownAction());
 			
@@ -120,9 +120,6 @@ public class FlotteSohle extends WebApplication {
 			if (user != null) {
 				Location location = user.locations.get(0);
 				actions.add(new DanceEventLocationTablePage(location));
-				if (!EventLocationUpdateAction.getProviderNames(location).isEmpty()) {
-					actions.add(new EventLocationUpdateAction(location));
-				}
 				actions.add(new LocationEditor(location));
 				actions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(location)));
 				actions.add(new PasswordEditor(user));
@@ -160,15 +157,28 @@ public class FlotteSohle extends WebApplication {
 		return new FlotteSohleRepository(this);
 	}
 
-//	@Override
-//	public ResourceBundle getResourceBundle(Locale locale) {
-//		ResourceBundle my = super.getResourceBundle(locale);
-//		return new MultiResourceBundle(my, ResourceBundle.getBundle("MjModel"));
-//	}
-	
 	@Override
 	public void initBackend() {
 		Backend.execute(new FlotteSohleInitTransaction());
+
+		LOG.info(DanceEventProviders.PROVIDERS_BY_LOCATION_ID.size() + " Providers installiert");
+		
+		try {
+			Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+			
+			JobDetail job = JobBuilder.newJob(DanceEventImportJob.class).withIdentity(DanceEventImportJob.JOB_KEY).build();
+			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("Trigger " + DanceEventImportJob.JOB_KEY.getName()).startNow()
+//					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 8 * * ?")).build();
+					.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10)).build();
+			scheduler.scheduleJob(job, trigger);
+			
+			scheduler.start();
+			
+//			org.h2.tools.Server server = org.h2.tools.Server.createTcpServer().start();
+			
+		} catch (Exception x) {
+			throw new RuntimeException(x);
+		}
 	}
 
 	@Override

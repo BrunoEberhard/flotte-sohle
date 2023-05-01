@@ -1,5 +1,7 @@
 package ch.openech.flottesohle.frontend;
 
+import static ch.openech.flottesohle.model.DanceEventProviderStatus.$;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,11 +12,15 @@ import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.PasswordFormElement;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
+import org.minimalj.model.Column;
+import org.minimalj.model.Keys;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 import org.minimalj.transaction.Role;
+import org.minimalj.util.resources.Resources;
 
 import ch.openech.flottesohle.FlotteSohleRoles;
+import ch.openech.flottesohle.backend.DanceEventProviders;
 import ch.openech.flottesohle.model.FlotteSohleUser;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Location.Closing;
@@ -24,9 +30,37 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { Location.$.name, Location.$.city, Location.$.getClosings() };
+		return new Object[] { Location.$.name, Location.$.city, new ColumnActive(), Location.$.providerStatus.lastRun, Location.$.providerStatus.lastChange, Location.$.comment, Location.$.getClosings() };
 	}
 	
+	public static class ColumnActive extends Column<Location, Boolean> {
+
+		public ColumnActive() {
+			super(Location.$.providerStatus.active);
+		}
+		
+		@Override
+		public String getHeader() {
+			return Resources.getPropertyName(Keys.getProperty($.active));
+		}
+		
+		@Override
+		public ColumnAlignment getAlignment() {
+			return ColumnAlignment.center;
+		}
+		
+		@Override
+		public CharSequence render(Location rowObject, Boolean value) {
+			if (Boolean.TRUE.equals(value)) {
+				return "Aktiv";
+			} else if (Boolean.FALSE.equals(value)) {
+				return "Inaktiv";
+			} else {
+				return "Manuell";
+			}
+		}
+	}
+
 	@Override
 	protected List<Location> load() {
 		return Backend.find(Location.class, By.ALL.order(Location.$.name));
@@ -37,8 +71,11 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 		List<Action> actions = new ArrayList<>(super.getTableActions());
 		if (Subject.currentHasRole(FlotteSohleRoles.admin.name())) {
 			actions.add(new LocationUserTableAction());
+			actions.add(new LocationClosingTableAction());
+			actions.add(new StartProviderAction());
+			actions.add(new ActivateProviderAction());
+			actions.add(new DeactivateProviderAction());
 		}
-		actions.add(new LocationClosingTableAction());
 		return actions;
 	}
 
@@ -251,6 +288,64 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 			closings = locations.stream().flatMap(l -> l.closings.stream()).collect(Collectors.toList());
 			refresh();
 		}
-		
 	}
+	
+
+	private class ActivateProviderAction extends AbstractObjectsAction<Location> {
+
+		@Override
+		public void run() {
+			getSelectedObjects().stream() //
+					.filter(o -> o.providerStatus != null).filter(o -> !o.providerStatus.active) //
+					.forEach(o -> {
+						o.providerStatus.active = true;
+						Backend.update(o);
+					});
+			refresh();
+		}
+
+		@Override
+		protected boolean accept(List<Location> selectedObjects) {
+			return selectedObjects.stream().map(o -> o.providerStatus).filter(o -> o != null)
+					.anyMatch(data -> !data.active);
+		}
+	}
+
+	private class DeactivateProviderAction extends AbstractObjectsAction<Location> {
+
+		@Override
+		public void run() {
+			getSelectedObjects().stream() //
+					.filter(o -> o.providerStatus != null).filter(o -> o.providerStatus.active) //
+					.forEach(o -> {
+						o.providerStatus.active = false;
+						Backend.update(o);
+					});
+			refresh();
+		}
+
+		@Override
+		protected boolean accept(List<Location> selectedObjects) {
+			return selectedObjects.stream().map(o -> o.providerStatus).filter(o -> o != null)
+					.anyMatch(data -> data.active);
+		}
+
+	}
+
+	private class StartProviderAction extends AbstractObjectsAction<Location> {
+
+		@Override
+		public void run() {
+			getSelectedObjects().stream().map(location -> DanceEventProviders.PROVIDERS_BY_LOCATION_ID.get(location.id))
+					.filter(p -> p != null).forEach(p -> Backend.execute(p));
+			refresh();
+		}
+
+		@Override
+		protected boolean accept(List<Location> selectedObjects) {
+			return selectedObjects.stream().map(o -> o.providerStatus).filter(o -> o != null)
+					.anyMatch(data -> data.active);
+		}
+	}
+
 }

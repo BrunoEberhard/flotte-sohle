@@ -2,12 +2,10 @@ package ch.openech.flottesohle.backend;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeSet;
 
 import ch.openech.flottesohle.backend.provider.AnlikerTanzRule;
 import ch.openech.flottesohle.backend.provider.BadenerTanzCenterCrawler;
 import ch.openech.flottesohle.backend.provider.BallroomDancingImport;
-import ch.openech.flottesohle.backend.provider.BananenreifereiRule;
 import ch.openech.flottesohle.backend.provider.BanditsRule;
 import ch.openech.flottesohle.backend.provider.BlueboxConsumer;
 import ch.openech.flottesohle.backend.provider.ChesselhuusCrawler;
@@ -20,9 +18,7 @@ import ch.openech.flottesohle.backend.provider.DanceoramaCrawler;
 import ch.openech.flottesohle.backend.provider.DancersRule;
 import ch.openech.flottesohle.backend.provider.DancersWorldImport;
 import ch.openech.flottesohle.backend.provider.DieTanzHalleImport;
-import ch.openech.flottesohle.backend.provider.DorfnaeschtRule;
 import ch.openech.flottesohle.backend.provider.DukesRule;
-import ch.openech.flottesohle.backend.provider.GalacticCrawler;
 import ch.openech.flottesohle.backend.provider.GaswerkEventbarRule;
 import ch.openech.flottesohle.backend.provider.HappyAndMadRule;
 import ch.openech.flottesohle.backend.provider.HappyDanceDuedingenImport;
@@ -34,7 +30,6 @@ import ch.openech.flottesohle.backend.provider.PrimaLocationCrawler;
 import ch.openech.flottesohle.backend.provider.RyvaCrawler;
 import ch.openech.flottesohle.backend.provider.SaborLatinoImport;
 import ch.openech.flottesohle.backend.provider.SchuetzenhausRule;
-import ch.openech.flottesohle.backend.provider.SummerDanceCrawler;
 import ch.openech.flottesohle.backend.provider.TanzArtImport;
 import ch.openech.flottesohle.backend.provider.TanzSalonCrawler;
 import ch.openech.flottesohle.backend.provider.TanzZentrumImport;
@@ -49,61 +44,53 @@ import ch.openech.flottesohle.backend.provider.Tanzwerk101Rule;
 import ch.openech.flottesohle.backend.provider.TanzwerkShCrawler;
 import ch.openech.flottesohle.backend.provider.Time2DanceCrawler;
 import ch.openech.flottesohle.backend.provider.VerschiedeneImport.DanceAndDineImport;
-import ch.openech.flottesohle.backend.provider.Werk1Rule;
 import ch.openech.flottesohle.backend.provider.WirTanzenRule;
 import ch.openech.flottesohle.backend.provider.ZinneSargansRule;
 
 public class DanceEventProviders {
 
-	public static final Map<String, DanceEventProvider> PROVIDERS = new HashMap<>();
-	public static final TreeSet<String> PROVIDER_NAMES = new TreeSet<>();
+	public static final Map<Object, DanceEventProvider> PROVIDERS_BY_LOCATION_ID = new HashMap<>();
 
 	static {
 		// crawler
- 		addProvider(new DanceInnCrawler());
-		addProvider(new BlueboxConsumer());
-		addProvider(new TanzclubWinterthurConsumer());
-		addProvider(new ChesselhuusCrawler());
+		addProvider(new DanceInnCrawler(), true);
+		addProvider(new BlueboxConsumer(), true);
+		addProvider(new TanzclubWinterthurConsumer(), true);
+		addProvider(new ChesselhuusCrawler(), true);
 		addProvider(new TanzSalonCrawler());
 		addProvider(new PrimaLocationCrawler());
-		addProvider(new DancePassionCrawler());
+		addProvider(new DancePassionCrawler(), true);
 		addProvider(new TanzschuleBayerCrawler());
 		addProvider(new TanzwerkShCrawler());
 
 		// crawler (tot)
 		addProvider(new Time2DanceCrawler());
-		addProvider(new GalacticCrawler()); // (keine Events)
-		addProvider(new BadenerTanzCenterCrawler());  // (Nur noch So Nachmittag events)		
-		
-		
+		addProvider(new BadenerTanzCenterCrawler()); // (Nur noch So Nachmittag events)
+
 		// funktionierende Rules
-		addProvider(new DancersRule());
-		addProvider(new Tanzwerk101Rule());
-		addProvider(new BanditsRule());
+		addProvider(new DancersRule(), true);
+		addProvider(new Tanzwerk101Rule(), true);
+		addProvider(new BanditsRule(), true);
+		addProvider(new TanzcenterRule(), true);
 		addProvider(new SchuetzenhausRule());
 		addProvider(new TanzclubAcademiaRule());
 		addProvider(new Meet2DanceRule());
 		addProvider(new HomeOfDanceRule());
 		addProvider(new HappyAndMadRule());
-		addProvider(new BananenreifereiRule());
 		addProvider(new ChezGeorgesRule());
-		addProvider(new DorfnaeschtRule());
-		
+
 		// abgeschaltete Rules
 		addProvider(new AnlikerTanzRule());
-		addProvider(new Werk1Rule());
 		addProvider(new TanzbarBinningenRule()); // (scheint nicht mehr zu stimmen)
 		addProvider(new WirTanzenRule());
 		addProvider(new ZinneSargansRule());
 
-		
-		// imports	
+		// imports
 		addProvider(new DanceCubeImport());
 		addProvider(new TanzenMitHerzImport());
 		addProvider(new TanzZentrumImport());
 		addProvider(new TanzArtImport());
 		addProvider(new BallroomDancingImport());
-		addProvider(new TanzcenterRule());
 		addProvider(new DanceVisionImport());
 		addProvider(new DanceAndDineImport());
 		addProvider(new HappyDanceDuedingenImport());
@@ -114,11 +101,10 @@ public class DanceEventProviders {
 		addProvider(new SaborLatinoImport());
 		addProvider(new TanzschuleLaederachImport());
 
-
 		// TODO
 		addProvider(new DukesRule());
 		addProvider(new RyvaCrawler()); // (da stimmt noch was nicht mit den request)
-		addProvider(new SummerDanceCrawler());
+		// addProvider(new SummerDanceCrawler()); // Momentan der einzige der mehrere Location hatte
 		addProvider(new DanceoramaCrawler());
 		addProvider(new GaswerkEventbarRule());
 		addProvider(new PilatusKellerRule());
@@ -126,15 +112,12 @@ public class DanceEventProviders {
 	}
 
 	private static void addProvider(DanceEventProvider provider) {
-		String name = provider.getName();
-		PROVIDER_NAMES.add(name);
-		PROVIDERS.put(name, provider);
+		addProvider(provider, false);
 	}
-	/*
-	 * public Set<Class> findAllClassesUsingReflectionsLibrary(String packageName) {
-	 * Reflections reflections = new Reflections(packageName, new
-	 * SubTypesScanner(false)); return reflections.getSubTypesOf(Object.class)
-	 * .stream() .collect(Collectors.toSet()); }
-	 */
+
+	private static void addProvider(DanceEventProvider provider, boolean active) {
+		String name = provider.getName();
+		provider.install(active);
+	}
 
 }

@@ -15,7 +15,8 @@ public class LocationTablePage extends TablePage<Location> {
 	protected Object[] getColumns() {
 		return new Object[] { Location.$.name, Location.$.city, Location.$.url };
 	}
-	
+
+
 	@Override
 	protected List<Location> load() {
 		return Backend.find(Location.class, By.ALL.order(Location.$.name));
@@ -27,6 +28,5 @@ public class LocationTablePage extends TablePage<Location> {
 			Frontend.getInstance().showBrowser(selectedObjects.get(0).url);
 		}
 	}
-
-
+	
 }

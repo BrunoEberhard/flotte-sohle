@@ -38,6 +38,7 @@ public class LocationEditor extends SimpleEditor<Location> {
 			line(Location.$.region);
 			line(Location.$.country);
 			line(Location.$.url);
+			line(Location.$.comment);
 		}
 	}
 
