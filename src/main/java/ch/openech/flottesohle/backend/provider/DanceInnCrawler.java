@@ -79,11 +79,23 @@ public class DanceInnCrawler extends DanceEventProvider {
 			Element headerElement = element.selectFirst("h2");
 			if (headerElement != null) {
 				line = headerElement.text();
+				if (line.contains("GIVE ME 5")) {
+					line = "Give Me 5!";
+				} else if (line.contains("WANNA DANCE")) {
+					line = "I Wanna Dance!";
+				} else {
+					int index = line.indexOf('-');
+					if (index > 0) {
+						line = line.substring(0, index).trim();
+					}
+					index = line.indexOf('!');
+					if (index > 0) {
+						line = line.substring(0, index + 1).trim();
+					}
+				}
 			}
 			
 			if (date != null && saal != null && !(line != null && line.toLowerCase().contains("salsa"))) {
-				String header = saal == SAAL.MAIN ? "Dance Inn" : "Schlosshof";
-
 				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 						By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
