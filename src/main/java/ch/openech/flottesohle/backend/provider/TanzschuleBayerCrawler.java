@@ -22,7 +22,7 @@ import ch.openech.flottesohle.model.Region;
 public class TanzschuleBayerCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "http://www.tanzschule-bayer.at/tanzabende.html";
+	private static final String AGENDA_URL = "https://www.tanzschule-bayer.at/tanzabende/";
 
 	@Override
 	public EventUpdateCounter updateEvents() throws IOException {
