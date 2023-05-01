@@ -51,6 +51,10 @@ public class BlueboxConsumer extends DanceEventProvider {
 				for (Map<String, Object> event : events) {
 
 					String titleComplete = (String) event.get("title");
+					if (!titleComplete.toLowerCase().contains("tanznacht") && !titleComplete.contains("DISCO")) {
+						continue;
+					}
+					
 					LocalDateTime start = LocalDateTime.parse(((String) event.get("start")).substring(0, 19));
 					LocalDateTime end = LocalDateTime.parse(((String) event.get("end")).substring(0, 19));
 
