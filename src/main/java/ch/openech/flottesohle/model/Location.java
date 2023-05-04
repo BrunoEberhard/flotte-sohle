@@ -49,6 +49,9 @@ public class Location implements Rendering {
 	@Size(1000) @Width(350)
 	public String comment;
 	
+	@Width(Width.SMALLEST)
+	public transient Integer events;
+	
 	@Override
 	public CharSequence render() {
 		return name;

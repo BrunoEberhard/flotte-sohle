@@ -89,28 +89,25 @@ public class FlotteSohle extends WebApplication {
 
 		// actions.add(new EntityTablePage());
 
+		ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
+		pub.add(new WebApplicationPage("/events.html").titleResource("EventsPage"));
+		pub.add(new WebApplicationPage("/location_map.html").titleResource("LocationMapPage"));
+		pub.add(new WebApplicationPage("/locations.html").titleResource("LocationsPage"));
+		pub.add(new WebApplicationPage("/infos.html").titleResource("InfoPage"));
+
 		if (Subject.currentHasRole(FlotteSohleRoles.admin.name())) {
-			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
-			pub.add(new WebApplicationPage("/events.html").titleResource("EventsPage"));
-			pub.add(new WebApplicationPage("/location_map.html").titleResource("LocationMapPage"));
-			pub.add(new WebApplicationPage("/locations.html").titleResource("LocationsPage"));
-			pub.add(new WebApplicationPage("/infos.html").titleResource("InfoPage"));
-			
-			ActionGroup events = actions.addGroup(Resources.getString("Navigation.events"));
-			events.add(new DanceEventAdminTablePage());
-			events.add(new EventHousekeepingAction());
-			events.add(new LockdownAction());
-			
-			ActionGroup base = actions.addGroup(Resources.getString("Navigation.base"));
-			base.add(new LocationAdminTablePage());
-			base.add(new DeeJayTablePage());
 			
 			ActionGroup admin = actions.addGroup(Resources.getString("Navigation.admin"));
-			admin.add(new UserTablePage());
+			admin.add(new DanceEventAdminTablePage());
+			admin.add(new LocationAdminTablePage());
+			admin.add(new DeeJayTablePage());
+			admin.add(new EventHousekeepingAction());
+			admin.add(new LockdownAction());
 			
-			ActionGroup stats = actions.addGroup(Resources.getString("Navigation.stats"));
-			stats.add(new AccessPage());
-			stats.add(new AdminLogPage());
+			ActionGroup system = actions.addGroup(Resources.getString("Navigation.system"));
+			system.add(new UserTablePage());
+			system.add(new AccessPage());
+			system.add(new AdminLogPage());
 		} else if (Subject.currentHasRole(FlotteSohleRoles.multiLocation.name())) {
 			// TODO Anlässe, Locations anbieten
 
@@ -124,12 +121,6 @@ public class FlotteSohle extends WebApplication {
 				actions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(location)));
 				actions.add(new PasswordEditor(user));
 			}
-		} else {
-			ActionGroup pub = actions.addGroup(Resources.getString("Navigation.public"));
-			pub.add(new WebApplicationPage("/events.html").titleResource("EventsPage"));
-			pub.add(new WebApplicationPage("/location_map.html").titleResource("LocationMapPage"));
-			pub.add(new WebApplicationPage("/locations.html").titleResource("LocationsPage"));
-			pub.add(new WebApplicationPage("/infos.html").titleResource("InfoPage"));
 		}
 
 		return actions.getItems();
@@ -173,9 +164,6 @@ public class FlotteSohle extends WebApplication {
 			scheduler.scheduleJob(job, trigger);
 			
 			scheduler.start();
-			
-//			org.h2.tools.Server server = org.h2.tools.Server.createTcpServer().start();
-			
 		} catch (Exception x) {
 			throw new RuntimeException(x);
 		}

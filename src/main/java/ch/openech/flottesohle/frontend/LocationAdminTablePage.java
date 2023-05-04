@@ -17,10 +17,12 @@ import org.minimalj.model.Keys;
 import org.minimalj.repository.query.By;
 import org.minimalj.security.Subject;
 import org.minimalj.transaction.Role;
+import org.minimalj.transaction.Transaction;
 import org.minimalj.util.resources.Resources;
 
 import ch.openech.flottesohle.FlotteSohleRoles;
 import ch.openech.flottesohle.backend.DanceEventProviders;
+import ch.openech.flottesohle.model.DanceEvent;
 import ch.openech.flottesohle.model.FlotteSohleUser;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Location.Closing;
@@ -30,7 +32,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { Location.$.name, Location.$.city, new ColumnActive(), Location.$.providerStatus.lastRun, Location.$.providerStatus.lastChange, Location.$.comment, Location.$.getClosings() };
+		return new Object[] { Location.$.name, Location.$.city, new ColumnActive(), Location.$.events, Location.$.providerStatus.lastRun, Location.$.providerStatus.lastChange, Location.$.comment, Location.$.getClosings() };
 	}
 	
 	public static class ColumnActive extends Column<Location, Boolean> {
@@ -63,7 +65,22 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 	@Override
 	protected List<Location> load() {
-		return Backend.find(Location.class, By.ALL.order(Location.$.name));
+		return Backend.execute(new LocationLoader());
+	}
+	
+	public static class LocationLoader implements Transaction<List<Location>> {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public List<Location> execute() {
+			System.out.println($(Location.$.events));
+			
+			String query = "SELECT l.*, (SELECT COUNT(*) FROM " + $(DanceEvent.class) + " e WHERE e."
+					+ $(DanceEvent.$.location) + " = l.id AND " + $(DanceEvent.$.date) + " >= sysdate) AS " + $(Location.$.events) + " FROM " + $(Location.class) + " l ORDER BY l."
+					+ $(Location.$.name);
+			return sqlRepository().find(Location.class, query, 10000);
+		}
+		
 	}
 
 	@Override
