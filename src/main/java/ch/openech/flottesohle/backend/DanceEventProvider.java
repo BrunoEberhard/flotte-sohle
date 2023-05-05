@@ -57,7 +57,7 @@ public abstract class DanceEventProvider implements Transaction<Void> {
 			location.providerStatus.eventUpdateCounter.clear();
 			location.providerStatus.lastRun = LocalDateTime.now();
 			CloneHelper.deepCopy(updateEvents(), location.providerStatus.eventUpdateCounter);
-			if (location.providerStatus.eventUpdateCounter.newEvents > 0) {
+			if (location.providerStatus.eventUpdateCounter.newEvents > 0 || location.providerStatus.eventUpdateCounter.updatedEvents > 0) {
 				location.providerStatus.lastChange = LocalDateTime.now();
 			}
 		} catch (Exception e) {
