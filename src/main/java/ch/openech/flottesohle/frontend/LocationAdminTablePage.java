@@ -11,6 +11,7 @@ import org.minimalj.frontend.Frontend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.form.element.PasswordFormElement;
+import org.minimalj.frontend.page.Page;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
 import org.minimalj.model.Column;
 import org.minimalj.model.Keys;
@@ -30,9 +31,11 @@ import ch.openech.flottesohle.model.Location.Closing;
 @Role({"admin", "multiLocation"})
 public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
+	private DanceEventAdminTablePage eventTablePage;
+	
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { Location.$.name, Location.$.city, new ColumnActive(), Location.$.events, Location.$.providerStatus.lastRun, Location.$.providerStatus.lastChange, Location.$.comment, Location.$.getClosings() };
+		return new Object[] { Location.$.name, Location.$.city, new ColumnActive(), Location.$.events, Location.$.maxDate, Location.$.providerStatus.lastRun, Location.$.providerStatus.lastChange, Location.$.comment, Location.$.getClosings() };
 	}
 	
 	public static class ColumnActive extends Column<Location, Boolean> {
@@ -73,14 +76,12 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 		@Override
 		public List<Location> execute() {
-			System.out.println($(Location.$.events));
-			
-			String query = "SELECT l.*, (SELECT COUNT(*) FROM " + $(DanceEvent.class) + " e WHERE e."
-					+ $(DanceEvent.$.location) + " = l.id AND " + $(DanceEvent.$.date) + " >= sysdate) AS " + $(Location.$.events) + " FROM " + $(Location.class) + " l ORDER BY l."
-					+ $(Location.$.name);
+			String query = "SELECT l.*, " + //
+					"(SELECT COUNT(*) FROM " + $(DanceEvent.class) + " e WHERE e." + $(DanceEvent.$.location) + " = l.id AND " + $(DanceEvent.$.date) + " >= sysdate) AS " + $(Location.$.events) + ", " +
+					"(SELECT MAX(" + $(DanceEvent.$.date) + ") FROM " + $(DanceEvent.class) + " e WHERE e." + $(DanceEvent.$.location) + " = l.id) AS " + $(Location.$.maxDate) + " " +
+						"FROM " + $(Location.class) + " l ORDER BY l." + $(Location.$.name);
 			return sqlRepository().find(Location.class, query, 10000);
 		}
-		
 	}
 
 	@Override
@@ -97,6 +98,11 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 	}
 
 	@Override
+	public void action(Location location) {
+		showDetail(location);
+	}
+	
+	@Override
 	protected Form<Location> createForm(boolean editable, boolean newObject) {
 		return new LocationEditor.LocationForm(editable);
 	}
@@ -106,6 +112,16 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 		Location organizer = super.createObject();
 		organizer.country = "Schweiz";
 		return organizer;
+	}
+	
+	@Override
+	protected Page getDetailPage(Location location) {
+		if (eventTablePage == null) {
+			return eventTablePage = new DanceEventAdminTablePage(this, location);
+		} else {
+			eventTablePage.setLocation(location);
+			return eventTablePage;
+		}
 	}
 	
 	private class LocationUserTableAction extends Action implements ObjectsAction<Location> {

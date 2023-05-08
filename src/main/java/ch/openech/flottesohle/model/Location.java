@@ -52,6 +52,8 @@ public class Location implements Rendering {
 	@Width(Width.SMALLEST)
 	public transient Integer events;
 	
+	public transient LocalDate maxDate;
+	
 	@Override
 	public CharSequence render() {
 		return name;

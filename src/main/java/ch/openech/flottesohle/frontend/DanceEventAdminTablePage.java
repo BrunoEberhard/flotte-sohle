@@ -9,6 +9,7 @@ import org.minimalj.backend.Backend;
 import org.minimalj.frontend.action.Action;
 import org.minimalj.frontend.form.Form;
 import org.minimalj.frontend.page.SimpleTableEditorPage;
+import org.minimalj.frontend.page.TablePage;
 import org.minimalj.model.validation.ValidationMessage;
 import org.minimalj.repository.query.By;
 import org.minimalj.repository.query.Order;
@@ -18,13 +19,36 @@ import org.minimalj.util.resources.Resources;
 
 import ch.openech.flottesohle.model.DanceEvent;
 import ch.openech.flottesohle.model.EventStatus;
+import ch.openech.flottesohle.model.Location;
 
 @Role("admin")
 public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> {
 
+	private Location location;
+	private final TablePage<?> parentPage;
+	
+	public DanceEventAdminTablePage() {
+		location = null;
+		parentPage = null;
+	}
+
+	public DanceEventAdminTablePage(TablePage<?> parentPage, Location location) {
+		this.location = location;
+		this.parentPage = parentPage;
+	}
+	
+	public void setLocation(Location location) {
+		this.location = location;
+		refresh();
+	}
+
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { DanceEvent.$.date, DanceEvent.$.location.name, DanceEvent.$.line, DanceEvent.$.from, DanceEvent.$.status };
+		if (location == null) {
+			return new Object[] { DanceEvent.$.date, DanceEvent.$.location.name, DanceEvent.$.line, DanceEvent.$.from, DanceEvent.$.status };
+		} else {
+			return new Object[] { DanceEvent.$.date, DanceEvent.$.line, DanceEvent.$.from, DanceEvent.$.status };
+		}
 	}
 
 	@Override
@@ -34,7 +58,7 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 	
 	@Override
 	public List<Action> getTableActions() {
-		return Arrays.asList(new TableNewObjectEditor(), new DanceEventTableEditor(), new DeleteDetailAction(), new DanceEventCopyEditor());
+		return Arrays.asList(new TableNewObjectEditor(), new DanceEventTableEditor(), new DanceEventDeleteAction(), new DanceEventCopyEditor());
 	}
 
 	private class DanceEventTableEditor extends TableEditor {
@@ -45,6 +69,11 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 				event.status = EventStatus.edited;
 			}
 			return event;
+		}
+		
+		@Override
+		protected DanceEvent save(DanceEvent object) {
+			return DanceEventAdminTablePage.this.save(object);
 		}
 	}
 
@@ -57,23 +86,53 @@ public class DanceEventAdminTablePage extends SimpleTableEditorPage<DanceEvent> 
 			event.status = EventStatus.edited;
 			return event;
 		}
+		
+		@Override
+		protected DanceEvent save(DanceEvent object) {
+			return DanceEventAdminTablePage.this.save(object);
+		}
+	}
+	
+	private class DanceEventDeleteAction extends DeleteDetailAction {
+		@Override
+		public void run() {
+			super.run();
+			if (parentPage != null) {
+				parentPage.refresh();
+			}
+		}
 	}
 	
 	@Override
 	protected List<DanceEvent> load() {
-		Order order = By.ALL.order(DanceEvent.$.date).order(DanceEvent.$.location);
+		Order order;
+		if (location == null) {
+			order = By.ALL.order(DanceEvent.$.date).order(DanceEvent.$.location);
+		} else {
+			order = By.field(DanceEvent.$.location, location).order(DanceEvent.$.date);
+		}
 		return Backend.find(DanceEvent.class, order);
 	}
 
 	@Override
 	protected DanceEvent createObject() {
 		DanceEvent event = new DanceEvent();
+		event.location = location;
 		event.from = LocalTime.of(20, 00);
 		event.until = LocalTime.of(23, 00);
 		event.status = EventStatus.edited;
 		return event;
 	}
 
+	@Override
+	protected DanceEvent save(DanceEvent event) {
+		DanceEvent danceEvent = super.save(event);
+		if (parentPage != null) {
+			parentPage.refresh();
+		}
+		return danceEvent;
+	}
+	
 	@Override
 	public void action(DanceEvent event) {
 		// detail nervt nur
