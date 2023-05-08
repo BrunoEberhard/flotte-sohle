@@ -73,7 +73,7 @@ public class FlotteSohle extends WebApplication {
 	@Override
 	public Page createDefaultPage() {
 		if (Subject.currentHasRole(FlotteSohleRoles.admin.name())) {
-			return new DanceEventAdminTablePage();
+			return new LocationAdminTablePage();
 		} else if (Subject.getCurrent() != null) {
 			FlotteSohleUser user = getUser();
 			if (user != null) {
