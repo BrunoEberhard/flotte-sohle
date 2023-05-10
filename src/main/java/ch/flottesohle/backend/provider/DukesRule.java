@@ -22,7 +22,7 @@ public class DukesRule extends DanceEventProvider {
 	public EventUpdateCounter updateEvents() {
 		EventUpdateCounter result = new EventUpdateCounter();
 
-		updateEvents(DayOfWeek.THURSDAY, result);
+		updateEvents(DayOfWeek.WEDNESDAY, result);
 		updateEvents(DayOfWeek.SUNDAY, result);
 
 		return result;
@@ -55,19 +55,19 @@ public class DukesRule extends DanceEventProvider {
 			
 			danceEvent.location = location;
 
-//			if (dayOfWeek == DayOfWeek.THURSDAY) {
-//				danceEvent.title = "Schlager Party";
-//				danceEvent.line = "Schlager & Charts";
-//				danceEvent.from = LocalTime.of(20, 30);
-//				danceEvent.until = LocalTime.of(1, 0);
-//				danceEvent.description = "50/50 Schlager & Charts. Mit dem Dukestänzer. Für alle Ladies: 1 Getränk gratis bis 21.45 (ausser Spirituosen).";
-//				danceEvent.tags.add(EventTag.Taxidancer);
-//			} else 
+			if (dayOfWeek == DayOfWeek.WEDNESDAY) {
+				danceEvent.line = "Boogie-Woogie, Jive, RnR Party";
+				danceEvent.from = LocalTime.of(20, 45);
+				danceEvent.until = LocalTime.of(1, 0);
+				danceEvent.description = "Tanz-Crash-Kurs ab 19:45";
+				danceEvent.tags.add(EventTag.Workshop);
+				danceEvent.tags.add(EventTag.Taxidancer);
+			} else 
 				if (dayOfWeek == DayOfWeek.SUNDAY) {
-				danceEvent.line = "Party Tanznacht";
+				danceEvent.line = "Sonntags Tanzparty";
 				danceEvent.from = LocalTime.of(20, 00);
-				danceEvent.until = LocalTime.of(0, 30);
-				danceEvent.description = "Für die Damen ein Freigetränk von 20.00 bis 21.00 (ausser Spirituosen).";
+				danceEvent.until = LocalTime.of(0, 00);
+				danceEvent.description = "Gratis Eintritt";
 				danceEvent.tags.add(EventTag.Taxidancer);
 			} else {
 				continue;

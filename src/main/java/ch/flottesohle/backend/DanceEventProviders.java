@@ -71,6 +71,7 @@ public class DanceEventProviders {
 		addProvider(new Tanzwerk101Rule(), true);
 		addProvider(new BanditsRule(), true);
 		addProvider(new TanzcenterRule(), true);
+		addProvider(new DukesRule(), true);
 		addProvider(new SchuetzenhausRule());
 		addProvider(new TanzclubAcademiaRule());
 		addProvider(new Meet2DanceRule());
@@ -100,7 +101,6 @@ public class DanceEventProviders {
 		addProvider(new TanzschuleLaederachImport());
 
 		// TODO
-		addProvider(new DukesRule());
 		addProvider(new RyvaCrawler()); // (da stimmt noch was nicht mit den request)
 		// addProvider(new SummerDanceCrawler()); // Momentan der einzige der mehrere Location hatte
 		addProvider(new DanceoramaCrawler());
