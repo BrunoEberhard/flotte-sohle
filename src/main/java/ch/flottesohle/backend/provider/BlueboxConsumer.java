@@ -60,6 +60,9 @@ public class BlueboxConsumer extends DanceEventProvider {
 
 					int index = titleComplete.indexOf(" mit");
 					String title = index > 0 ? titleComplete.substring(0, index) : titleComplete;
+					if (!StringUtils.equals(title.toLowerCase(), "disco", "disco tanznacht", "party tanznacht")) {
+						title = formatLine(title);
+					}
 
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
 							By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, start.toLocalDate())).and(By.field(DanceEvent.$.line, title)));
@@ -74,9 +77,6 @@ public class BlueboxConsumer extends DanceEventProvider {
 					}
 
 					danceEvent.line = title;
-					if (!StringUtils.equals(title.toLowerCase(), "disco", "disco tanznacht", "party tanznacht")) {
-						danceEvent.line = formatLine(title);
-					}
 					String excerpt = (String) event.get("excerpt");
 					index = excerpt.indexOf("</p>");
 					if (index > 0) {
