@@ -18,10 +18,10 @@ import org.minimalj.repository.query.By;
 import org.minimalj.security.Authentication;
 import org.minimalj.security.Subject;
 import org.minimalj.util.resources.Resources;
+import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
-import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
@@ -159,8 +159,8 @@ public class FlotteSohle extends WebApplication {
 			
 			JobDetail job = JobBuilder.newJob(DanceEventImportJob.class).withIdentity(DanceEventImportJob.JOB_KEY).build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("Trigger " + DanceEventImportJob.JOB_KEY.getName()).startNow()
-//					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 8 * * ?")).build();
-					.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10)).build();
+					.withSchedule(CronScheduleBuilder.cronSchedule("0 0 6 * * ?")).build();
+//					.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10)).build();
 			scheduler.scheduleJob(job, trigger);
 			
 			scheduler.start();
