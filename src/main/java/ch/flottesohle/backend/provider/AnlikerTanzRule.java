@@ -56,14 +56,14 @@ public class AnlikerTanzRule extends DanceEventProvider {
 			danceEvent.line = "Tanz Café";
 
 			if (WINTER.contains(date.getMonth())) {
-				danceEvent.from = LocalTime.of(20, 0);
+				danceEvent.from = LocalTime.of(21, 0);
 				danceEvent.until = LocalTime.of(0, 0);
 			} else {
-				danceEvent.from = LocalTime.of(20, 30);
+				danceEvent.from = LocalTime.of(21, 00);
 				danceEvent.until = LocalTime.of(0, 30);
 			}
 
-			danceEvent.description = "Die Anliker Dance Night. TANZcafé auf 2 Dance-Floors mit Standard/Latein, Salsa, Disco-Fox, West Coast Swing u.v.m.!";
+			danceEvent.description = "Die Anliker Dance Night: Tanzen so viel & was man will! Mit Standard/Latein, Salsa, Disco-Fox, West Coast Swing uvm.!";
 			danceEvent.location = location;
 			danceEvent.price = BigDecimal.valueOf(14);
 			danceEvent.priceReduced = BigDecimal.valueOf(12);

@@ -78,9 +78,9 @@ public class DanceEventProviders {
 		addProvider(new HomeOfDanceRule());
 		addProvider(new HappyAndMadRule());
 		addProvider(new ChezGeorgesRule());
+		addProvider(new AnlikerTanzRule(), true);
 
 		// abgeschaltete Rules
-		addProvider(new AnlikerTanzRule());
 		addProvider(new TanzbarBinningenRule()); // (scheint nicht mehr zu stimmen)
 		addProvider(new WirTanzenRule());
 		addProvider(new ZinneSargansRule());
