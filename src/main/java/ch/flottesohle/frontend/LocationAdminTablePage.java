@@ -77,7 +77,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 		@Override
 		public List<Location> execute() {
 			String query = "SELECT l.*, " + //
-					"(SELECT COUNT(*) FROM " + $(DanceEvent.class) + " e WHERE e." + $(DanceEvent.$.location) + " = l.id AND " + $(DanceEvent.$.date) + " >= sysdate) AS " + $(Location.$.events) + ", " +
+					"(SELECT COUNT(*) FROM " + $(DanceEvent.class) + " e WHERE e." + $(DanceEvent.$.location) + " = l.id AND " + $(DanceEvent.$.date) + " >= now()) AS " + $(Location.$.events) + ", " +
 					"(SELECT MAX(" + $(DanceEvent.$.date) + ") FROM " + $(DanceEvent.class) + " e WHERE e." + $(DanceEvent.$.location) + " = l.id) AS " + $(Location.$.maxDate) + " " +
 						"FROM " + $(Location.class) + " l ORDER BY l." + $(Location.$.name);
 			return sqlRepository().find(Location.class, query, 10000);
