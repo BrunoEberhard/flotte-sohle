@@ -42,7 +42,7 @@ public class Location implements Rendering {
 	@Size(255)
 	public String url;
 	
-	public DanceEventProviderStatus providerStatus;
+	public ImportStatus importStatus;
 
 	public final List<Closing> closings = new ArrayList<>();
 

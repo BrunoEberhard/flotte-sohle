@@ -15,7 +15,7 @@ public class DanceEventImportJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		for (var entry : DanceEventProviders.PROVIDERS_BY_LOCATION_ID.entrySet()) {
 			Location location = Backend.read(Location.class, entry.getKey());
-			if (location.providerStatus != null && location.providerStatus.active != null && location.providerStatus.active) {
+			if (location.importStatus != null && location.importStatus.active != null && location.importStatus.active) {
 				Backend.execute(entry.getValue());
 			}
 		}

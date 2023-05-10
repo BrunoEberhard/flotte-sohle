@@ -1,50 +1,29 @@
 package ch.openech.flottesohle.backend.provider;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
-import org.minimalj.repository.query.By;
-import org.minimalj.util.CsvReader;
-
-import ch.openech.flottesohle.backend.DanceEventProvider;
-import ch.openech.flottesohle.backend.EventUpdateCounter;
+import ch.openech.flottesohle.backend.LocationProvider;
 import ch.openech.flottesohle.model.DanceEvent;
-import ch.openech.flottesohle.model.EventStatus;
 import ch.openech.flottesohle.model.EventTag;
 import ch.openech.flottesohle.model.Location;
 import ch.openech.flottesohle.model.Region;
 
-public class TanzZentrumImport extends DanceEventProvider {
+public class TanzZentrumImport extends LocationProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public EventUpdateCounter updateEvents() {
-		EventUpdateCounter result = new EventUpdateCounter();
+	protected void saveImportedEvent(DanceEvent event) {
+		event.line = "Tanz(übungs-)abend";
+		event.from = LocalTime.of(20, 30);
+		event.until = LocalTime.of(23, 30);
+		event.price = BigDecimal.valueOf(15);
+		event.priceReduced = BigDecimal.valueOf(0);
+		event.tags.add(EventTag.Workshop);
 
-		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/flottesohle/data/tanz_zentrum.csv"));
-		for (DanceEvent event : reader.readValues(DanceEvent.class)) {
-			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, event.date)));
-
-			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
-				event.location = this.location;
-
-				event.line = "Tanz(übungs-)abend";
-				event.from = LocalTime.of(20, 30);
-				event.until = LocalTime.of(23, 30);
-				event.price = BigDecimal.valueOf(15);
-				event.priceReduced = BigDecimal.valueOf(0);
-				event.status = EventStatus.generated;
-				event.tags.add(EventTag.Workshop);
-
-				save(event, result);
-			}
-		}
-		return result;
+		super.saveImportedEvent(event);
 	}
-
+	
 	@Override
 	protected Location createLocation() {
 		Location location = new Location();

@@ -6,11 +6,9 @@ import org.minimalj.model.Keys;
 import org.minimalj.model.annotation.Size;
 import org.minimalj.model.annotation.Width;
 
-import ch.openech.flottesohle.backend.EventUpdateCounter;
+public class ImportStatus {
 
-public class DanceEventProviderStatus {
-
-	public static final DanceEventProviderStatus $ = Keys.of(DanceEventProviderStatus.class);
+	public static final ImportStatus $ = Keys.of(ImportStatus.class);
 
 	@Width(Width.SMALLER)
 	public Boolean active = false;
@@ -18,7 +16,5 @@ public class DanceEventProviderStatus {
 	@Size(Size.TIME_WITH_SECONDS)
 	@Width(Width.LARGER)
 	public LocalDateTime lastRun, lastChange;
-
-	public final EventUpdateCounter eventUpdateCounter = new EventUpdateCounter();
 
 }

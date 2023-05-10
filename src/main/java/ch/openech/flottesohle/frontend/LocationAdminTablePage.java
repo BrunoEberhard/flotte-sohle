@@ -1,6 +1,6 @@
 package ch.openech.flottesohle.frontend;
 
-import static ch.openech.flottesohle.model.DanceEventProviderStatus.$;
+import static ch.openech.flottesohle.model.ImportStatus.$;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +35,13 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 	
 	@Override
 	protected Object[] getColumns() {
-		return new Object[] { Location.$.name, Location.$.city, new ColumnActive(), Location.$.events, Location.$.maxDate, Location.$.providerStatus.lastRun, Location.$.providerStatus.lastChange, Location.$.comment, Location.$.getClosings() };
+		return new Object[] { Location.$.name, Location.$.city, new ColumnActive(), Location.$.events, Location.$.maxDate, Location.$.importStatus.lastRun, Location.$.importStatus.lastChange, Location.$.comment, Location.$.getClosings() };
 	}
 	
 	public static class ColumnActive extends Column<Location, Boolean> {
 
 		public ColumnActive() {
-			super(Location.$.providerStatus.active);
+			super(Location.$.importStatus.active);
 		}
 		
 		@Override
@@ -329,9 +329,9 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 		@Override
 		public void run() {
 			getSelectedObjects().stream() //
-					.filter(o -> o.providerStatus != null).filter(o -> !o.providerStatus.active) //
+					.filter(o -> o.importStatus != null).filter(o -> !o.importStatus.active) //
 					.forEach(o -> {
-						o.providerStatus.active = true;
+						o.importStatus.active = true;
 						Backend.update(o);
 					});
 			refresh();
@@ -339,7 +339,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 		@Override
 		protected boolean accept(List<Location> selectedObjects) {
-			return selectedObjects.stream().map(o -> o.providerStatus).filter(o -> o != null)
+			return selectedObjects.stream().map(o -> o.importStatus).filter(o -> o != null)
 					.anyMatch(data -> !data.active);
 		}
 	}
@@ -349,9 +349,9 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 		@Override
 		public void run() {
 			getSelectedObjects().stream() //
-					.filter(o -> o.providerStatus != null).filter(o -> o.providerStatus.active) //
+					.filter(o -> o.importStatus != null).filter(o -> o.importStatus.active) //
 					.forEach(o -> {
-						o.providerStatus.active = false;
+						o.importStatus.active = false;
 						Backend.update(o);
 					});
 			refresh();
@@ -359,7 +359,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 		@Override
 		protected boolean accept(List<Location> selectedObjects) {
-			return selectedObjects.stream().map(o -> o.providerStatus).filter(o -> o != null)
+			return selectedObjects.stream().map(o -> o.importStatus).filter(o -> o != null)
 					.anyMatch(data -> data.active);
 		}
 
@@ -376,7 +376,7 @@ public class LocationAdminTablePage extends SimpleTableEditorPage<Location> {
 
 		@Override
 		protected boolean accept(List<Location> selectedObjects) {
-			return selectedObjects.stream().map(o -> o.providerStatus).filter(o -> o != null)
+			return selectedObjects.stream().map(o -> o.importStatus).filter(o -> o != null)
 					.anyMatch(data -> data.active);
 		}
 	}

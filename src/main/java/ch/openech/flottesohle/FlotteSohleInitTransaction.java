@@ -16,7 +16,7 @@ public class FlotteSohleInitTransaction implements Transaction<Void> {
 	@Override
 	public Void execute() {
 		
-		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/flottesohle/data/deejays.csv"));
+		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/data/deejays.csv"));
 		for (DeeJay deeJay : reader.readValues(DeeJay.class)) {
 			List<DeeJay> existingDeeJay = Backend.find(DeeJay.class, By.field(DeeJay.$.name, deeJay.name));
 			if (existingDeeJay.isEmpty()) {

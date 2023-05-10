@@ -1,54 +1,33 @@
 package ch.openech.flottesohle.backend.provider;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
-import org.minimalj.repository.query.By;
-import org.minimalj.util.CsvReader;
-
-import ch.openech.flottesohle.backend.DanceEventProvider;
-import ch.openech.flottesohle.backend.EventUpdateCounter;
+import ch.openech.flottesohle.backend.LocationProvider;
 import ch.openech.flottesohle.model.DanceEvent;
-import ch.openech.flottesohle.model.EventStatus;
 import ch.openech.flottesohle.model.EventTag;
 import ch.openech.flottesohle.model.Location;
 
 // angefragt am 14.7.19 ob sie überhaupt aufgenommen werden wollen
-public class TanzPunktRynachImport extends DanceEventProvider {
+public class TanzPunktRynachImport extends LocationProvider {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public EventUpdateCounter updateEvents() {
-		EventUpdateCounter result = new EventUpdateCounter();
+	protected void saveImportedEvent(DanceEvent event) {
+		event.line = "Tanzabend";
+		event.from = LocalTime.of(20, 00);
+		event.until = LocalTime.of(2, 00);
+		event.price = BigDecimal.valueOf(20);
+		event.priceReduced = BigDecimal.valueOf(15);
+		event.tags.add(EventTag.Workshop);
 
-		CsvReader reader = new CsvReader(getClass().getResourceAsStream("/ch/openech/flottesohle/data/tanz_punkt_rynach.csv"));
-		for (DanceEvent event : reader.readValues(DanceEvent.class)) {
-			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class,
-					By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, event.date)));
+		event.description = "Der Verein tanzpunktrynach organisiert vier Mal im Jahr einen Tanzabend in Reinach. "
+				+ "Vor dem Anlass werden in einem Workshop die grundlegenden Tanzschritte für Neueinsteiger geübt, für Fortgeschrittene bietet sich die Gelegenheit das früher erlerntes wiederaufzufrischen und Neues zu lernen, ein erfahrener Tanzlehrer hilft dir dabei. "
+				+ "Nach einer Stunde geht es los: von 20:00 Uhr bis 02:00 Uhr wird getanzt und zwar zu Discofox-Gesellschaftstanz, Standard- und Latin!";
 
-			if (!danceEventOptional.isPresent() && event.date.isAfter(LocalDate.now())) {
-				event.location = this.location;
-
-				event.line = "Tanzabend";
-				event.from = LocalTime.of(20, 00);
-				event.until = LocalTime.of(2, 00);
-				event.price = BigDecimal.valueOf(20);
-				event.priceReduced = BigDecimal.valueOf(15);
-				event.status = EventStatus.generated;
-				event.tags.add(EventTag.Workshop);
-
-				event.description = "Der Verein tanzpunktrynach organisiert vier Mal im Jahr einen Tanzabend in Reinach. "
-						+ "Vor dem Anlass werden in einem Workshop die grundlegenden Tanzschritte für Neueinsteiger geübt, für Fortgeschrittene bietet sich die Gelegenheit das früher erlerntes wiederaufzufrischen und Neues zu lernen, ein erfahrener Tanzlehrer hilft dir dabei. "
-						+ "Nach einer Stunde geht es los: von 20:00 Uhr bis 02:00 Uhr wird getanzt und zwar zu Discofox-Gesellschaftstanz, Standard- und Latin!";
-
-				save(event, result);
-			}
-		}
-		return result;
+		super.saveImportedEvent(event);
 	}
-
+	
 	@Override
 	protected Location createLocation() {
 		Location location = new Location();

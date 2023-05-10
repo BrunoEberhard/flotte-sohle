@@ -43,7 +43,6 @@ import ch.openech.flottesohle.backend.provider.TanzschuleLaederachImport;
 import ch.openech.flottesohle.backend.provider.Tanzwerk101Rule;
 import ch.openech.flottesohle.backend.provider.TanzwerkShCrawler;
 import ch.openech.flottesohle.backend.provider.Time2DanceCrawler;
-import ch.openech.flottesohle.backend.provider.VerschiedeneImport.DanceAndDineImport;
 import ch.openech.flottesohle.backend.provider.WirTanzenRule;
 import ch.openech.flottesohle.backend.provider.ZinneSargansRule;
 
@@ -92,7 +91,6 @@ public class DanceEventProviders {
 		addProvider(new TanzArtImport());
 		addProvider(new BallroomDancingImport());
 		addProvider(new DanceVisionImport());
-		addProvider(new DanceAndDineImport());
 		addProvider(new HappyDanceDuedingenImport());
 		addProvider(new DancersWorldImport());
 
@@ -111,11 +109,11 @@ public class DanceEventProviders {
 		addProvider(new HasenstrickRule());
 	}
 
-	private static void addProvider(DanceEventProvider provider) {
+	private static void addProvider(LocationProvider provider) {
 		addProvider(provider, false);
 	}
 
-	private static void addProvider(DanceEventProvider provider, boolean active) {
+	private static void addProvider(LocationProvider provider, boolean active) {
 		String name = provider.getName();
 		provider.install(active);
 	}
