@@ -49,13 +49,21 @@ public class ChezGeorgesRule extends DanceEventProvider {
 			result.skippedBlockedEvents++;
 			return;
 		}
-
+		
 		danceEvent.status = EventStatus.generated;
 		danceEvent.date = date;
 		danceEvent.location = location;
-		danceEvent.price = BigDecimal.valueOf(10);
+		danceEvent.price = BigDecimal.valueOf(8);
 		danceEvent.from = LocalTime.of(20, 0);
 		danceEvent.until = LocalTime.of(2, 0);
+		if (date.getDayOfWeek() == DayOfWeek.FRIDAY) {
+			danceEvent.line = "Oldies but Goldies";
+			danceEvent.description = "Solo Tanz, Paartanz, Discofox, Jive, Rock N Roll";
+			danceEvent.until = LocalTime.of(1, 0);
+		} else {
+			danceEvent.line = "Saturday Night Fever";
+			danceEvent.description = "Immer Samstag mit DJ Klaus 45";
+		}
 
 		save(danceEvent, result);
 	}

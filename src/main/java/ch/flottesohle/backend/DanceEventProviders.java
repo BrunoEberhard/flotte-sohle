@@ -77,7 +77,7 @@ public class DanceEventProviders {
 		addProvider(new Meet2DanceRule());
 		addProvider(new HomeOfDanceRule());
 		addProvider(new HappyAndMadRule());
-		addProvider(new ChezGeorgesRule());
+		addProvider(new ChezGeorgesRule(), true);
 		addProvider(new AnlikerTanzRule(), true);
 
 		// abgeschaltete Rules
