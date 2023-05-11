@@ -65,8 +65,8 @@ public class TanzclubAcademiaRule extends DanceEventProvider {
 	protected Location createLocation() {
 		Location location = new Location();
 		location.country = "Schweiz";
-		location.address = "Turnerstrasse 47";
-		location.city = "8006 Zürich";
+		location.address = "Ackersteinstrasse 188";
+		location.city = "8049 Zürich";
 		location.region.add(Region.ZH);
 		location.name = "Tanzclub Academia";
 		location.url = "https://www.tc-academia.ch/";
