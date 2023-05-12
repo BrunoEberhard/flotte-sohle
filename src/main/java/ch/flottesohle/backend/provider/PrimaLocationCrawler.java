@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,6 +21,8 @@ import ch.flottesohle.model.Region;
 
 public class PrimaLocationCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
+
+	private static final Logger LOG = Logger.getLogger(PrimaLocationCrawler.class.getName());
 
 	private static final String AGENDA_URL = "https://prima-location.ch/tanzen/tanzveranstaltungen/";
 	
@@ -65,6 +68,7 @@ public class PrimaLocationCrawler extends DanceEventProvider {
 				
 				save(danceEvent, result);
 			} catch (Exception x) {
+				LOG.severe(x.getLocalizedMessage());
 				result.failedEvents++;
 			}
 		});

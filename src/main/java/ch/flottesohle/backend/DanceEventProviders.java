@@ -57,7 +57,7 @@ public class DanceEventProviders {
 		addProvider(new TanzclubWinterthurConsumer(), true);
 		addProvider(new ChesselhuusCrawler(), true);
 		addProvider(new TanzSalonCrawler());
-		addProvider(new PrimaLocationCrawler());
+		addProvider(new PrimaLocationCrawler(), true);
 		addProvider(new DancePassionCrawler(), true);
 		addProvider(new TanzschuleBayerCrawler());
 		addProvider(new TanzwerkShCrawler());
