@@ -11,9 +11,9 @@ import org.minimalj.repository.query.Query;
 import org.minimalj.transaction.Transaction;
 
 import ch.flottesohle.model.AdminLog;
+import ch.flottesohle.model.AdminLog.AdminLogType;
 import ch.flottesohle.model.ImportStatus;
 import ch.flottesohle.model.Location;
-import ch.flottesohle.model.AdminLog.AdminLogType;
 
 public abstract class DanceEventProvider extends LocationProvider implements Transaction<Void> {
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,6 @@ public abstract class DanceEventProvider extends LocationProvider implements Tra
 		try {
 			// Ohne Reload würden Änderungen vom Admin gleich überschrieben
 			location = repository().read(Location.class, location.id);
-			location.importStatus.lastRun = LocalDateTime.now();
 			EventUpdateCounter eventUpdateCounter = updateEvents();
 			if (eventUpdateCounter.newEvents > 0 || eventUpdateCounter.updatedEvents > 0) {
 				location.importStatus.lastChange = LocalDateTime.now();
@@ -53,6 +52,7 @@ public abstract class DanceEventProvider extends LocationProvider implements Tra
 			}
 		}
 		Backend.insert(adminLog);
+		location.importStatus.lastRun = LocalDateTime.now();
 		repository().update(location);
 		return null;
 	}
