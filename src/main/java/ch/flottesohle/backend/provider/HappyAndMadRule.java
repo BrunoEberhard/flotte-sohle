@@ -22,7 +22,7 @@ public class HappyAndMadRule extends HappyAndMadCrawler {
 		for (int i = 0; i<60; i++) {
 			LocalDate date = LocalDate.now().plusDays(i);
 			DayOfWeek dayOfWeek = date.getDayOfWeek();
-			if (/* dayOfWeek == DayOfWeek.THURSDAY || */ dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY) {
+			if (dayOfWeek == DayOfWeek.TUESDAY || dayOfWeek == DayOfWeek.THURSDAY || dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY) {
 				
 		
 				Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
@@ -30,8 +30,12 @@ public class HappyAndMadRule extends HappyAndMadCrawler {
 				DanceEvent danceEvent = danceEventOptional.orElse(new DanceEvent());
 
 				danceEvent.description = "Paartanz mit Discofox, Schlager, Rock´n´Roll und Standardtänze";
-
-				danceEvent.from = dayOfWeek == DayOfWeek.THURSDAY ? LocalTime.of(20, 0) : LocalTime.of(19, 30);
+				if (dayOfWeek == DayOfWeek.TUESDAY) {
+					danceEvent.line = "Rosentanznacht";
+					danceEvent.description = "Mit Happy Tänzer, Tanzgarantie für alle Damen. Zur Begrüssung ein Glas Prosecco und eine Rose für die Damen";
+				}
+				
+				danceEvent.from = dayOfWeek == DayOfWeek.TUESDAY ? LocalTime.of(19, 30) : LocalTime.of(20, 0);
 				danceEvent.until = LocalTime.of(0, 0);
 				if (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY) {
 					danceEvent.until = LocalTime.of(2, 0);
