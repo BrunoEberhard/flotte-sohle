@@ -50,7 +50,7 @@ public class Tanzwerk101Rule extends DanceEventProvider {
 			
 			danceEvent.line = "Tanzabend";
 			danceEvent.from = LocalTime.of(20, 30);
-			danceEvent.until = LocalTime.of(23, 0);
+			danceEvent.until = LocalTime.of(23, 59);
 			danceEvent.description = "Auch TänzerInnen ohne TanzpartnerIn sind herzlich eingeladen";
 			danceEvent.location = location;
 			// danceEvent.deeJay = deeJayJanosch;
