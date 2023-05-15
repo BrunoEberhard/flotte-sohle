@@ -38,9 +38,10 @@ public abstract class LocationProvider {
 		Location existingLocation = Backend.findOne(Location.class,
 				new FieldCriteria(Location.$.name, location.name));
 		if (existingLocation != null) {
-			location.id = existingLocation.id;
+			return existingLocation;
+		} else {
+			return Backend.save(location);
 		}
-		return Backend.save(location);
 	}
 
 	protected abstract Location createLocation();
