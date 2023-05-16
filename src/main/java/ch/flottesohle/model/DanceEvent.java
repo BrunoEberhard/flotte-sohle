@@ -22,6 +22,8 @@ import org.minimalj.model.annotation.Size;
 import org.minimalj.model.annotation.Width;
 import org.minimalj.util.LocaleContext;
 
+import ch.flottesohle.backend.EventUpdateCounter;
+
 public class DanceEvent {
 	public static final DanceEvent $ = Keys.of(DanceEvent.class);
 	private static final DateTimeFormatter shortFormat = DateTimeFormatter.ofPattern("d.M.yyyy");
@@ -193,6 +195,17 @@ public class DanceEvent {
 		values.put("price", event.price.toPlainString());
 		values.put("priceCurrency", "CHF");
 		return values;
+	}
+
+	public boolean isImportable(EventUpdateCounter result) {
+		if (status == EventStatus.edited) {
+			result.skippedEditedEvents++;
+			return false;
+		} else if (status == EventStatus.blocked) {
+			result.skippedBlockedEvents++;
+			return false;
+		}
+		return true;
 	}
 
 }

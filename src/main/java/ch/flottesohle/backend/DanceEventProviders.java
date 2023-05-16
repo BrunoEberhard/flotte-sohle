@@ -74,7 +74,7 @@ public class DanceEventProviders {
 		addProvider(new DukesRule(), true);
 		addProvider(new SchuetzenhausRule());
 		addProvider(new TanzclubAcademiaRule(), true);
-		addProvider(new Meet2DanceRule());
+		addProvider(new Meet2DanceRule(), true);
 		addProvider(new HomeOfDanceRule());
 		addProvider(new HappyAndMadRule(), true);
 		addProvider(new ChezGeorgesRule(), true);
