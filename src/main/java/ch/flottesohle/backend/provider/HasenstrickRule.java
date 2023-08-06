@@ -50,12 +50,11 @@ public class HasenstrickRule extends DanceEventProvider {
 			danceEvent.date = date;
 
 			
-			danceEvent.line = "Tanz im Hasenstrick";
 			danceEvent.from = LocalTime.of(19, 0);
 			danceEvent.until = LocalTime.of(23, 59);
 			danceEvent.price = BigDecimal.valueOf(10);
 			
-			danceEvent.description = "Wir sind bereit für einen tollen Sommer im Hasenstrick, bei gutem Wetter wie gewohnt Draussen mit atemberaubender Aussicht , bei schlechtem Wetter in der schönen Schür. Deejays Janosch , Bär & Sigi spielen beliebte Tanzmusik.";
+			danceEvent.description = "Herrliche Aussicht und geschützte Tanzfläche bei schlechtem Wetter.";
 			danceEvent.location = location;
 
 			save(danceEvent, result);
