@@ -45,7 +45,7 @@ public class TanzcenterRule extends DanceEventProvider {
 			danceEvent.line = "Dance Night Rüti";
 			danceEvent.price = BigDecimal.valueOf(10);
 			danceEvent.from = LocalTime.of(20, 30);
-			danceEvent.from = LocalTime.of(23, 59);
+			danceEvent.until = LocalTime.of(23, 59);
 
 			save(danceEvent, result);
 
