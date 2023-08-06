@@ -43,7 +43,6 @@ import ch.flottesohle.backend.provider.TanzschuleLaederachImport;
 import ch.flottesohle.backend.provider.Tanzwerk101Rule;
 import ch.flottesohle.backend.provider.TanzwerkShCrawler;
 import ch.flottesohle.backend.provider.Time2DanceCrawler;
-import ch.flottesohle.backend.provider.WirTanzenRule;
 import ch.flottesohle.backend.provider.ZinneSargansRule;
 
 public class DanceEventProviders {
@@ -79,10 +78,10 @@ public class DanceEventProviders {
 		addProvider(new HappyAndMadRule(), true);
 		addProvider(new ChezGeorgesRule(), true);
 		addProvider(new AnlikerTanzRule(), true);
+		addProvider(new HasenstrickRule(), true);
 
 		// abgeschaltete Rules
 		addProvider(new TanzbarBinningenRule()); // (scheint nicht mehr zu stimmen)
-		addProvider(new WirTanzenRule());
 		addProvider(new ZinneSargansRule());
 
 		// imports
@@ -106,7 +105,6 @@ public class DanceEventProviders {
 		addProvider(new DanceoramaCrawler());
 		addProvider(new GaswerkEventbarRule());
 		addProvider(new PilatusKellerRule());
-		addProvider(new HasenstrickRule());
 	}
 
 	private static void addProvider(LocationProvider provider) {
