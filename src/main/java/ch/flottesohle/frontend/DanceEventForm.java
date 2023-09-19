@@ -1,7 +1,7 @@
 package ch.flottesohle.frontend;
 
 import org.minimalj.frontend.form.Form;
-import org.minimalj.frontend.form.element.ReferenceFormElement;
+import org.minimalj.frontend.form.element.LookupFormElement;
 import org.minimalj.frontend.form.element.TextFormElement;
 
 import ch.flottesohle.model.DanceEvent;
@@ -22,8 +22,8 @@ public class DanceEventForm extends Form<DanceEvent> {
 		form.line($.line);
 		form.line($.description);
 		// form.line(new FlyerFormElement($.flyer, editable));
-		form.line(locationEditable ? new ReferenceFormElement<>($.location, Location.$.name) : new TextFormElement($.location));
-		form.line(new ReferenceFormElement<>($.deeJay));
+		form.line(locationEditable ? new LookupFormElement<>($.location, Location.$.name) : new TextFormElement($.location));
+		form.line(new LookupFormElement<>($.deeJay));
 		form.line($.price, $.priceReduced);
 		form.line($.tags);
 		form.line($.status);
