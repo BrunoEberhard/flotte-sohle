@@ -31,6 +31,7 @@ import ch.flottesohle.backend.provider.PrimaLocationCrawler;
 import ch.flottesohle.backend.provider.RyvaCrawler;
 import ch.flottesohle.backend.provider.SaborLatinoImport;
 import ch.flottesohle.backend.provider.SchuetzenhausRule;
+import ch.flottesohle.backend.provider.SilkkCrawler;
 import ch.flottesohle.backend.provider.TanzArtImport;
 import ch.flottesohle.backend.provider.TanzZentrumImport;
 import ch.flottesohle.backend.provider.TanzbarBinningenRule;
@@ -60,6 +61,7 @@ public class DanceEventProviders {
 		addProvider(new DancePassionCrawler(), true);
 		addProvider(new TanzschuleBayerCrawler());
 		addProvider(new TanzwerkShCrawler());
+		addProvider(new SilkkCrawler(), true);
 
 		// crawler (tot)
 		addProvider(new Time2DanceCrawler());
