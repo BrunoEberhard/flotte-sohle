@@ -48,8 +48,8 @@ public class TanzclubAcademiaRule extends DanceEventProvider {
 			danceEvent.date = date;
 			
 			danceEvent.location = location;
-			danceEvent.price = BigDecimal.valueOf(17);
-			danceEvent.priceReduced = BigDecimal.valueOf(12);
+			danceEvent.price = BigDecimal.valueOf(20);
+			danceEvent.priceReduced = BigDecimal.valueOf(15);
 			danceEvent.from = LocalTime.of(19, 30);
 			danceEvent.until = LocalTime.of(23, 0);
 			danceEvent.description = "Ein Abend des gesellschaftlichen Paartanzes in stilvoller Atmosphäre mit einem bunten Musikmix aus Standard, Latein und "
