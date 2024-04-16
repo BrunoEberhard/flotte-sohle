@@ -95,6 +95,9 @@ public class SilkkCrawler extends DanceEventProvider {
 	
 	static LocalDate parseDate(String day, String monthMMM, String year) {
 		monthMMM = monthMMM.toUpperCase();
+		if (monthMMM.length() > 3) {
+			monthMMM = monthMMM.substring(0, 3);
+		}
 		int month = 0;
 		if (StringUtils.equals(monthMMM, "JAN")) month = 1;
 		else if (StringUtils.equals(monthMMM, "FEB")) month = 2;
