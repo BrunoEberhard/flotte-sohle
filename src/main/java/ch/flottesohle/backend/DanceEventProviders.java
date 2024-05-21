@@ -34,6 +34,7 @@ import ch.flottesohle.backend.provider.SchuetzenhausRule;
 import ch.flottesohle.backend.provider.SilbandoImport;
 import ch.flottesohle.backend.provider.SilkkCrawler;
 import ch.flottesohle.backend.provider.TanzArtImport;
+import ch.flottesohle.backend.provider.TanzTreffLocations;
 import ch.flottesohle.backend.provider.TanzZentrumImport;
 import ch.flottesohle.backend.provider.TanzbarBinningenRule;
 import ch.flottesohle.backend.provider.TanzcenterRule;
@@ -99,6 +100,10 @@ public class DanceEventProviders {
 		addProvider(new HappyDanceDuedingenImport());
 		addProvider(new DancersWorldImport());
 		addProvider(new SilbandoImport(), true);
+		addProvider(new TanzTreffLocations.GasthausHaemikerbergImport(), true);
+		addProvider(new TanzTreffLocations.HeubodenImport(), true);
+		addProvider(new TanzTreffLocations.RestaurantRatenImport(), true);
+		addProvider(new TanzTreffLocations.SeebadiSeewenImport(), true);
 
 		// imports (veraltet)
 		addProvider(new DieTanzHalleImport());
@@ -118,7 +123,6 @@ public class DanceEventProviders {
 	}
 
 	private static void addProvider(LocationProvider provider, boolean active) {
-		String name = provider.getName();
 		provider.install(active);
 	}
 
