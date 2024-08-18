@@ -1,8 +1,10 @@
 package ch.flottesohle.backend.provider;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Optional;
 
 import org.minimalj.repository.query.By;
@@ -21,12 +23,15 @@ public class TanzcenterRule extends DanceEventProvider {
 	public EventUpdateCounter updateEvents() {
 		EventUpdateCounter result = new EventUpdateCounter();
 
-		LocalDate date = LocalDate.of(2023, 2, 17);
-		while (date.isBefore(LocalDate.now())) {
-			date = date.plusDays(14);
-		}
+		LocalDate start = LocalDate.now();
+		
 		
 		for (int i = 0; i <= 7; i++) {
+			LocalDate date = LocalDate.now().plusMonths(i).with(TemporalAdjusters.firstInMonth(DayOfWeek.FRIDAY));
+			if (date.isBefore(start)) {
+				continue;
+			}
+			
 			Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 			DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());

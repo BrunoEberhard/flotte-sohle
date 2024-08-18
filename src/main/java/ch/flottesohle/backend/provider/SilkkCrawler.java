@@ -78,7 +78,7 @@ public class SilkkCrawler extends DanceEventProvider {
 				}
 			}
 			
-			if (eventString.contains("Ü40") || eventString.toUpperCase().contains("SALSA")) {
+			if (eventString.contains("Ü40") || eventString.contains("Ü60") || eventString.toUpperCase().contains("SALSA") || eventString.toUpperCase().contains("WEST COAST")) {
 				danceEvent.status = EventStatus.blocked;
 			} else {
 				danceEvent.status = EventStatus.generated;
