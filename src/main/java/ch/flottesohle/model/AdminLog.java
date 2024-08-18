@@ -24,7 +24,7 @@ public class AdminLog {
 	public LocalDateTime dateTime = LocalDateTime.now();
 
 	@NotEmpty
-	public AdminLogType logType;
+	public AdminLogType logType = AdminLogType.MESSAGE;
 
 	@Size(1000) @NotEmpty
 	public String msg;
