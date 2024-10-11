@@ -96,7 +96,7 @@ public class TanzwerkShCrawler extends DanceEventProvider {
 		location.country = "Schweiz";
 		location.address = "Rheinweg 6";
 		location.city = "8200 Schaffhausen";
-		location.name = "Tanzzentrum SH";
+		location.name = "Dancing Tonwerk Schaffhausen";
 		location.url = "https://www.tanzzentrum-sh.ch/";
 		return location;
 	}
