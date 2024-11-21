@@ -13,17 +13,20 @@ import org.minimalj.security.model.UserRole;
 import org.minimalj.util.CloneHelper;
 
 import ch.flottesohle.model.AdminLog;
-import ch.flottesohle.model.FlotteSohleUser;
 import ch.flottesohle.model.AdminLog.AdminLogType;
+import ch.flottesohle.model.FlotteSohleUser;
 
 public class FlotteSohleAuthentication extends UserPasswordAuthentication {
 	private static final long serialVersionUID = 1L;
 
-	private static final User admin = new User();
-	static {
-		admin.name = "admin";
+	private static final User admin = createAdminUser("admin", "ADMIN_PASSWORD");
+	private static final User deputy1 = createAdminUser("alois", "DEPUTY1_PASSWORD");
+
+	private static User createAdminUser(String name, String passwordConfigurationName) {
+		User admin = new User();
+		admin.name = name;
 		admin.roles.add(new UserRole(FlotteSohleRoles.admin.name()));
-		String password = Configuration.get("ADMIN_PASSWORD", "");
+		String password = Configuration.get(passwordConfigurationName, "");
 		if (!Configuration.isDevModeActive()) {
 			admin.password.setPassword(password.toCharArray());
 		} else {
@@ -31,8 +34,9 @@ public class FlotteSohleAuthentication extends UserPasswordAuthentication {
 			// noch nach einen Neustart
 			admin.password.setPasswordWithoutSalt(password.toCharArray());
 		}
+		return admin;
 	}
-
+	
 	@Override
 	protected UserData retrieveUser(String userName, char[] password) {
 		UserData user = super.retrieveUser(userName, password);
@@ -44,8 +48,10 @@ public class FlotteSohleAuthentication extends UserPasswordAuthentication {
 
 	@Override
 	protected User retrieveUser(String userName) {
-		if ("admin".equals(userName)) {
+		if (admin.name.equals(userName)) {
 			return admin;
+		} else if (deputy1.name.equals(userName)) {
+			return deputy1;
 		}
 		List<FlotteSohleUser> users = Backend.find(FlotteSohleUser.class, By.field(FlotteSohleUser.$.email, userName));
 		if (users.isEmpty()) {
