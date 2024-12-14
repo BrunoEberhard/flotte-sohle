@@ -112,7 +112,7 @@ public class FlotteSohle extends WebApplication {
 			FlotteSohleUser user = getUser();
 			if (user != null) {
 				for (Location location: user.locations) {
-					var locationActions = actions.addGroup(location.city);
+					var locationActions = actions.addGroup(shortName(location));
 					locationActions.add(new DanceEventLocationTablePage(location));
 					locationActions.add(new LocationEditor(location));
 					locationActions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(location)));
@@ -133,6 +133,10 @@ public class FlotteSohle extends WebApplication {
 		return actions.getItems();
 	}
 
+	private String shortName(Location location) {
+		return location.city.substring(location.city.indexOf(" ") + 1) + "/" + location.address;
+	}
+	
 	public FlotteSohleUser getUser() {
 		List<FlotteSohleUser> users = Backend.find(FlotteSohleUser.class, By.field(FlotteSohleUser.$.email, Subject.getCurrent().getName()));
 		if (users.size() != 1) {
