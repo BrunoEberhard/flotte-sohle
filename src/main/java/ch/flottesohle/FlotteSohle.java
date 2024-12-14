@@ -109,9 +109,16 @@ public class FlotteSohle extends WebApplication {
 			system.add(new AccessPage());
 			system.add(new AdminLogPage());
 		} else if (Subject.currentHasRole(FlotteSohleRoles.multiLocation.name())) {
-			// TODO Anlässe, Locations anbieten
-
-			// actions.add(new PasswordEditor(users.get(0)));
+			FlotteSohleUser user = getUser();
+			if (user != null) {
+				for (Location location: user.locations) {
+					var locationActions = actions.addGroup(location.city);
+					locationActions.add(new DanceEventLocationTablePage(location));
+					locationActions.add(new LocationEditor(location));
+					locationActions.add(new PageAction(new LocationAdminTablePage.LocationClosingTablePage(location)));
+				}
+				actions.add(new PasswordEditor(user));
+			}
 		} else if (Subject.getCurrent() != null) {
 			FlotteSohleUser user = getUser();
 			if (user != null) {
@@ -130,9 +137,6 @@ public class FlotteSohle extends WebApplication {
 		List<FlotteSohleUser> users = Backend.find(FlotteSohleUser.class, By.field(FlotteSohleUser.$.email, Subject.getCurrent().getName()));
 		if (users.size() != 1) {
 			System.err.println("Exactly one user should be found not " + users.size());
-			return null;
-		} else if (users.get(0).locations.size() != 1) {
-			System.err.println("Exactly one location should be found not " + users.get(0).locations.size());
 			return null;
 		}
 		return users.get(0);
