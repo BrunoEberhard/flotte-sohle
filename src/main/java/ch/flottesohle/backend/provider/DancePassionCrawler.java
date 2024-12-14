@@ -25,7 +25,7 @@ import ch.flottesohle.model.Region;
 public class DancePassionCrawler extends DanceEventProvider {
 	private static final long serialVersionUID = 1L;
 
-	private static final String AGENDA_URL = "https://www.dance-passion.ch/events-dance-partys/";
+	private static final String AGENDA_URL = "https://www.dance-passion.ch/events-tanzpartys";
 	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd. MMMM yyyy", Locale.GERMAN);
 	
 	@Override
