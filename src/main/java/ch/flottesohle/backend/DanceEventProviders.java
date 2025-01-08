@@ -31,7 +31,6 @@ import ch.flottesohle.backend.provider.PrimaLocationCrawler;
 import ch.flottesohle.backend.provider.RyvaCrawler;
 import ch.flottesohle.backend.provider.SaborLatinoImport;
 import ch.flottesohle.backend.provider.SchuetzenhausRule;
-import ch.flottesohle.backend.provider.SilbandoImport;
 import ch.flottesohle.backend.provider.SilkkCrawler;
 import ch.flottesohle.backend.provider.TanzArtImport;
 import ch.flottesohle.backend.provider.TanzTreffLocations;
@@ -99,7 +98,6 @@ public class DanceEventProviders {
 		addProvider(new DanceVisionImport());
 		addProvider(new HappyDanceDuedingenImport());
 		addProvider(new DancersWorldImport());
-		addProvider(new SilbandoImport(), true);
 		addProvider(new TanzTreffLocations.GasthausHaemikerbergImport(), true);
 		addProvider(new TanzTreffLocations.HeubodenImport(), true);
 		addProvider(new TanzTreffLocations.RestaurantRatenImport(), true);

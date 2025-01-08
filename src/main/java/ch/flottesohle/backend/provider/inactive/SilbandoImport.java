@@ -1,4 +1,4 @@
-package ch.flottesohle.backend.provider;
+package ch.flottesohle.backend.provider.inactive;
 
 import java.time.LocalTime;
 
