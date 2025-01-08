@@ -43,6 +43,9 @@ public class DanceoramaCrawler extends DanceEventProvider {
 		Elements elements = datenElement.getElementsContainingOwnText(" 20");
 		for (Element element : elements) {
 			String text = element.text();
+			if (text.contains("©")) {
+				continue;
+			}
 			int pos = text.indexOf(" 20");
 			while (pos > -1) {
 				createEvent(result, text.substring(0, pos + 3));
@@ -76,7 +79,9 @@ public class DanceoramaCrawler extends DanceEventProvider {
 			danceEvent.price = new BigDecimal(15);
 			danceEvent.location = location;
 
-			save(danceEvent, result);
+			System.out.println(date);
+			
+//			save(danceEvent, result);
 		}
 
 	}
@@ -91,6 +96,10 @@ public class DanceoramaCrawler extends DanceEventProvider {
 		location.url = "https://www.danceorama.ch/";
 		location.region.add(Region.BE);
 		return location;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		new DanceoramaCrawler().updateEvents();
 	}
 
 }
