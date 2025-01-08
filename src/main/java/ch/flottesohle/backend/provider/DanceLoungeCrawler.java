@@ -41,7 +41,8 @@ public class DanceLoungeCrawler extends DanceEventProvider {
 //				Element costElement = row.selectFirst(".tribe-events-calendar-list__event-cost");
 				Element titleElement = row.selectFirst(".tribe-events-calendar-list__event-title");
 				var title = titleElement.text();
-				if (!title.toLowerCase().contains("coast") && !title.toLowerCase().contains("schiff")) {
+				var titleLowerCase = title.toLowerCase();
+				if (!titleLowerCase.contains("swing") && !titleLowerCase.contains("salsa")) {
 					
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
@@ -74,6 +75,10 @@ public class DanceLoungeCrawler extends DanceEventProvider {
 		location.region.add(Region.SG);
 		location.region.add(Region.ZH);
 		return location;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		new DanceLoungeCrawler().updateEvents();
 	}
 
 }
