@@ -510,3 +510,13 @@ label {
 	font-size: small;
 }
 
+.sponsor {
+	position: fixed;
+	bottom: 7px;
+	right: 7px;
+	background-color: rgba(240, 240, 240, 0.7);
+	border: none;
+	padding: 6px;
+	font-size: small;
+	z-index: 1000;
+}
