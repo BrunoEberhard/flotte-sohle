@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.flottesohle.backend.provider.AnlikerTanzRule;
+import ch.flottesohle.backend.provider.AureaCrawler;
 import ch.flottesohle.backend.provider.BadenerTanzCenterCrawler;
 import ch.flottesohle.backend.provider.BallroomDancingImport;
 import ch.flottesohle.backend.provider.BanditsRule;
@@ -64,6 +65,7 @@ public class DanceEventProviders {
 		addProvider(new TanzschuleBayerCrawler());
 		addProvider(new TanzwerkShCrawler());
 		addProvider(new SilkkCrawler(), true);
+		addProvider(new AureaCrawler(), true);
 
 		// crawler (tot)
 		addProvider(new Time2DanceCrawler());
