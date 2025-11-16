@@ -37,6 +37,7 @@ import ch.flottesohle.backend.provider.TanzArtImport;
 import ch.flottesohle.backend.provider.TanzTreffLocations;
 import ch.flottesohle.backend.provider.TanzZentrumImport;
 import ch.flottesohle.backend.provider.TanzbarBinningenRule;
+import ch.flottesohle.backend.provider.TanzbarZofingenRule;
 import ch.flottesohle.backend.provider.TanzcenterRule;
 import ch.flottesohle.backend.provider.TanzclubAcademiaRule;
 import ch.flottesohle.backend.provider.TanzclubWinterthurConsumer;
@@ -86,6 +87,7 @@ public class DanceEventProviders {
 		addProvider(new AnlikerTanzRule(), true);
 		addProvider(new HasenstrickRule(), true);
 		addProvider(new UtopiaRule(), true);
+		addProvider(new TanzbarZofingenRule(), true);
 
 		// abgeschaltete Rules
 		addProvider(new TanzbarBinningenRule()); // (scheint nicht mehr zu stimmen)
