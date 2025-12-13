@@ -11,6 +11,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.minimalj.repository.query.By;
+import org.minimalj.util.DateUtils;
+import org.minimalj.util.StringUtils;
 
 import ch.flottesohle.backend.DanceEventProvider;
 import ch.flottesohle.backend.EventUpdateCounter;
@@ -35,28 +37,41 @@ public class DanceLoungeCrawler extends DanceEventProvider {
 		
 		rows.forEach(row -> {
 			try {
-				Element timeElement = row.selectFirst(".tribe-events-calendar-list__event-datetime");
-				LocalDate date = LocalDate.parse(timeElement.attr("datetime"));
+				var dateTimeElement = row.selectFirst(".tribe-events-calendar-list__event-datetime");
+				var dateTime = dateTimeElement.text();
+				LocalDate date = LocalDate.parse(dateTimeElement.attr("datetime"));
 				
-//				Element costElement = row.selectFirst(".tribe-events-calendar-list__event-cost");
-				Element titleElement = row.selectFirst(".tribe-events-calendar-list__event-title");
-				Element venueElement = row.selectFirst(".tribe-events-calendar-list__event-venue");
+				var titleElement = row.selectFirst(".tribe-events-calendar-list__event-title");
 				var title = titleElement.text();
 				var titleLowerCase = title.toLowerCase();
+
+				var venueElement = row.selectFirst(".tribe-events-calendar-list__event-venue");
 				var venue = venueElement != null ? venueElement.text() : null;
 				var venueLowerCase = venue != null ? venue.toLowerCase() : "";
-				if (venueLowerCase.contains("dancelounge") && !titleLowerCase.contains("swing") && !titleLowerCase.contains("salsa") && !titleLowerCase.contains("privat") ) {
+				
+				if (venueLowerCase.contains(getVenue()) && !titleLowerCase.contains("swing") && !titleLowerCase.contains("salsa") && !titleLowerCase.contains("privat") ) {
 					
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
 					DanceEvent danceEvent = danceEventOptional.orElseGet(() -> new DanceEvent());
-					danceEvent.from = LocalTime.of(20, 0);
-					danceEvent.until = LocalTime.of(0, 30);
+				
+					var priceElement = row.selectFirst(".tribe-events-c-small-cta__price");
+					var price = priceElement != null ? priceElement.text() : "";
+					
+					
+					danceEvent.from = extractFrom(dateTime);
+					if (danceEvent.from == null) {
+						danceEvent.from = LocalTime.of(20, 0);
+					}
+					danceEvent.until = extractUntil(dateTime);
 					danceEvent.status = EventStatus.generated;
 					danceEvent.date = date;
 					danceEvent.location = location;
-					danceEvent.price = BigDecimal.valueOf(18);
-					danceEvent.description = titleElement.text();
+					danceEvent.price = extractPrice(price);
+					danceEvent.description = getDescription();
+					if (danceEvent.description == null) {
+						danceEvent.description = titleElement.text();
+					}
 					
 					save(danceEvent, result);
 				}
@@ -65,6 +80,63 @@ public class DanceLoungeCrawler extends DanceEventProvider {
 			}
 		});
 		return result;
+	}
+	
+	static LocalTime extractFrom(String dateTime) {
+		if (!StringUtils.isEmpty(dateTime)) {
+			int pos = dateTime.indexOf("@");
+			return extractTime(dateTime, pos);
+		}
+		return null;
+	}
+
+	static LocalTime extractUntil(String dateTime) {
+		if (!StringUtils.isEmpty(dateTime)) {
+			int pos = dateTime.indexOf("-");
+			return extractTime(dateTime, pos);
+		}
+		return null;
+	}
+	
+	static LocalTime extractTime(String dateTime, int pos) {
+		if (pos < 0) {
+			return null;
+		}
+		while (!Character.isDigit(dateTime.charAt(pos)) && pos < dateTime.length()) {
+			pos++;
+		}
+		if (pos < dateTime.length() - 4) {
+			int endPos = pos + 1;
+			while (endPos < dateTime.length() && (Character.isDigit(dateTime.charAt(endPos)) || dateTime.charAt(endPos) == ':')) {
+				endPos++;
+			}
+			return DateUtils.parseTime(dateTime.substring(pos, endPos), false);
+		} else {
+			return null;
+		}
+	}
+	
+	static BigDecimal extractPrice(String price) {
+		if (!StringUtils.isEmpty(price) && !"Kostenlos".equals(price)) {
+			int pos = 0;
+			while (pos < price.length() && !Character.isDigit(price.charAt(pos))) {
+				pos++;
+			}
+			int endPos = pos;
+			while (endPos < price.length() && (Character.isDigit(price.charAt(endPos)) || price.charAt(endPos) == '.')) {
+				endPos++;
+			}
+			return new BigDecimal(price.substring(pos, endPos));
+		}
+		return null;
+	}
+	
+	protected String getDescription() {
+		return null;
+	}
+	
+	protected String getVenue() {
+		return "dancelounge";
 	}
 
 	@Override
