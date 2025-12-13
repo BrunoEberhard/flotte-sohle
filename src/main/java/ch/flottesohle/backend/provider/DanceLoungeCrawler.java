@@ -40,9 +40,12 @@ public class DanceLoungeCrawler extends DanceEventProvider {
 				
 //				Element costElement = row.selectFirst(".tribe-events-calendar-list__event-cost");
 				Element titleElement = row.selectFirst(".tribe-events-calendar-list__event-title");
+				Element venueElement = row.selectFirst(".tribe-events-calendar-list__event-venue");
 				var title = titleElement.text();
 				var titleLowerCase = title.toLowerCase();
-				if (!titleLowerCase.contains("swing") && !titleLowerCase.contains("salsa")) {
+				var venue = venueElement != null ? venueElement.text() : null;
+				var venueLowerCase = venue != null ? venue.toLowerCase() : "";
+				if (venueLowerCase.contains("dancelounge") && !titleLowerCase.contains("swing") && !titleLowerCase.contains("salsa") && !titleLowerCase.contains("privat") ) {
 					
 					Optional<DanceEvent> danceEventOptional = findOne(DanceEvent.class, By.field(DanceEvent.$.location, location).and(By.field(DanceEvent.$.date, date)));
 
