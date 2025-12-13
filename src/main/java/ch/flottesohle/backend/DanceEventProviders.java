@@ -26,6 +26,7 @@ import ch.flottesohle.backend.provider.HappyAndMadRule;
 import ch.flottesohle.backend.provider.HappyDanceDuedingenImport;
 import ch.flottesohle.backend.provider.HasenstrickRule;
 import ch.flottesohle.backend.provider.HomeOfDanceRule;
+import ch.flottesohle.backend.provider.MarinaLachenImport;
 import ch.flottesohle.backend.provider.Meet2DanceRule;
 import ch.flottesohle.backend.provider.PilatusKellerRule;
 import ch.flottesohle.backend.provider.PrimaLocationCrawler;
@@ -106,6 +107,7 @@ public class DanceEventProviders {
 		addProvider(new TanzTreffLocations.HeubodenImport(), true);
 		addProvider(new TanzTreffLocations.RestaurantRatenImport(), true);
 		addProvider(new TanzTreffLocations.SeebadiSeewenImport(), true);
+		addProvider(new MarinaLachenImport(), true);
 
 		// imports (veraltet)
 		addProvider(new DieTanzHalleImport());
