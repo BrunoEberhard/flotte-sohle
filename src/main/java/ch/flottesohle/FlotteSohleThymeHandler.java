@@ -49,6 +49,13 @@ public class FlotteSohleThymeHandler extends ThymeHttpHandler {
 			}
 			request.sendResponse("event.html");
 
+		} else if (path.startsWith("/eventApplication/")) {
+			String id = path.substring("/eventApplication/".length());
+			DanceEvent event = Backend.read(DanceEvent.class, id);
+			request.put("event", event);
+			request.put("isApplication", true);
+			request.sendResponse("event.html");
+			
 		} else if (path.equals("/query")) {
 			List<DanceEvent> events = Backend.find(DanceEvent.class,
 					By.search(request.getParameter("query")).and(By.field(DanceEvent.$.date, FieldOperator.less, LocalDate.now().plusMonths(1))).order(DanceEvent.$.date));

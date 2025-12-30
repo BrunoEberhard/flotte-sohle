@@ -1,4 +1,4 @@
-<html th:replace="container.html :: container(~{::head}, ~{::body})">
+<html th:replace="${isApplication} ? _ : ~{container.html :: container(~{::head}, ~{::body})}">
 <head>
 <th:block th:if="${event} != null">
 	<script type="application/ld+json" th:utext="${event.json}">
