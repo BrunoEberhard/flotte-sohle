@@ -11,7 +11,7 @@
 <base href="." th:href="${BASE}">
 <link rel="stylesheet" type="text/css" href="/sohle.css" />
 <link th:if="${application.icon != null}" rel="icon" href="application.png" type="image/png">
-<th:block th:include="${head}" />
+<th:block th:insert="${head}" />
 
 <script type="text/javascript" th:inline="javascript">
 	"use strict";
