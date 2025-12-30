@@ -27,7 +27,7 @@ public class TanzcenterRule extends DanceEventProvider {
 		
 		
 		for (int i = 0; i <= 7; i++) {
-			LocalDate date = LocalDate.now().plusMonths(i).with(TemporalAdjusters.firstInMonth(DayOfWeek.FRIDAY));
+			LocalDate date = LocalDate.now().minusMonths(1).plusMonths(i).with(TemporalAdjusters.firstInMonth(DayOfWeek.SATURDAY)).plusWeeks(2);
 			if (date.isBefore(start)) {
 				continue;
 			}
@@ -47,14 +47,12 @@ public class TanzcenterRule extends DanceEventProvider {
 			danceEvent.date = date;
 			
 			danceEvent.location = location;
-			danceEvent.line = "Dance Night Rüti";
-			danceEvent.price = BigDecimal.valueOf(10);
-			danceEvent.from = LocalTime.of(20, 30);
+			danceEvent.line = "Dance Night";
+			danceEvent.price = BigDecimal.valueOf(15);
+			danceEvent.from = LocalTime.of(19, 0);
 			danceEvent.until = LocalTime.of(23, 59);
 
 			save(danceEvent, result);
-
-			date = date.plusDays(14);
 		}
 
 		return result;
