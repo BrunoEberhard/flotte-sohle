@@ -35,7 +35,7 @@ public class EventHousekeepingAction extends NewObjectEditor<EventHousekeepingVi
 				return Keys.methodOf(this, "count", $.date);
 			}
 
-			if (InvalidValues.isValid(date)) {
+			if (date != null) {
 				return Backend.count(DanceEvent.class, By.field(DanceEvent.$.date, FieldOperator.lessOrEqual, date));
 			} else {
 				return null;
